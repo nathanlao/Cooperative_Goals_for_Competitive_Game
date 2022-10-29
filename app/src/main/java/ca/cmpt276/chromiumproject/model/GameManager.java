@@ -6,6 +6,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * GameManager class has a list of GameConfigs.
+ * Contains methods to access and update this list
+ * Use the iterator to iterate through the list. Use ByIndex methods to access the list via index values.
+ * Singleton support.
+ */
+
 public class GameManager implements Iterable<GameConfig>{
     List<GameConfig> gameConfigs = new ArrayList<>();
 

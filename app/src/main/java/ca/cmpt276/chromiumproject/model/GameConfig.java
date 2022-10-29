@@ -3,6 +3,13 @@ package ca.cmpt276.chromiumproject.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *  GameConfig contains information about a type of game (e.g. chess, monopoly)
+ *  Fields include name of game, and what constitutes as a PoorScore and GreatScore
+ *  Has a list of GamesPlayed. getGamesPlayedData() returns a String array with data about these games
+ *  Use setConfigValues() to set its fields
+ */
+
 public class GameConfig {
     private String name;
     private int poorScore;

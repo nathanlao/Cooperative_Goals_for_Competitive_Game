@@ -3,6 +3,11 @@ package ca.cmpt276.chromiumproject.model;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * GamePlayed class contains information about a game session.
+ * Fields include number of players, their combined score, what achievement they earned, and the date/time it was created
+ * GamePlayed class does not know *which* specific game was played.
+ */
 public class GamePlayed {
     private static final int MIN_PLAYERS = 1;
     private int numPlayers;
