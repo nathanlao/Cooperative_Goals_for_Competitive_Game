@@ -10,10 +10,10 @@ import java.time.format.DateTimeFormatter;
  */
 public class GameRecord {
     private static final int MIN_PLAYERS = 1;
+
     private int numPlayers;
     private int combinedScore;
-    // TODO: implement actual achievement stuff once it's ready
-    private final String achievement;
+    private final String achievement; // TODO: implement actual achievement stuff once it's ready
 
     private LocalDateTime creationTime;
     private static final DateTimeFormatter DT_FORMAT = DateTimeFormatter.ofPattern("MMM d @ h:mm a");
