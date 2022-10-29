@@ -9,7 +9,14 @@ public class GameConfig {
     private int greatScore;
     private List<GamePlayed> gamesPlayed = new ArrayList<>();
 
+
+    // TODO: might be useful to have empty constructor depending on requirements
     public GameConfig(String name, int poorScore, int greatScore) {
+        setConfigValues(name, poorScore, greatScore);
+    }
+
+    public void setConfigValues(String name, int poorScore, int greatScore) {
+        // TODO: error handling
         this.name = name;
         this.poorScore = poorScore;
         this.greatScore = greatScore;
@@ -19,31 +26,56 @@ public class GameConfig {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getPoorScore() {
         return poorScore;
-    }
-
-    public void setPoorScore(int poorScore) {
-        this.poorScore = poorScore;
     }
 
     public int getGreatScore() {
         return greatScore;
     }
 
-    public void setGreatScore(int greatScore) {
-        this.greatScore = greatScore;
+    public void addGamePlayed(GamePlayed gamePlayed) {
+        gamesPlayed.add(gamePlayed);
     }
 
-    public List<GamePlayed> getGamesPlayed() {
-        return gamesPlayed;
+    public int getNumGamesPlayed() {
+        return gamesPlayed.size();
     }
 
-    public void setGamesPlayed(List<GamePlayed> gamesPlayed) {
-        this.gamesPlayed = gamesPlayed;
+    // TODO: need to ask customer if there is a specific data format he wants, for now just reusing format from As2
+    public String[] getGamesPlayedData() {
+        int numGamesPlayed = getNumGamesPlayed();
+        String[] gamesPlayedData;
+
+        if (numGamesPlayed == 0) {
+            gamesPlayedData = new String[1];
+            gamesPlayedData[0] = "No games";
+            return gamesPlayedData;
+        }
+
+        gamesPlayedData = new String[numGamesPlayed];
+        int itr = 0;
+        for (GamePlayed gamePlayed : gamesPlayed) {
+            StringBuilder gameData = new StringBuilder();
+
+            // append creation time
+            String creationTime = gamePlayed.getCreationTimeString();
+            gameData.append(creationTime);
+
+            gameData.append(" - ");
+
+            // append num players
+            gameData.append(gamePlayed.getNumPlayers()).append(" players scored ");
+
+            //append combined score
+            gameData.append(gamePlayed.getCombinedScore());
+
+            //append achievement
+            gameData.append(". Achievement: ").append(gamePlayed.getAchievement());
+
+            gamesPlayedData[itr] = gameData.toString();
+            itr++;
+        }
+        return gamesPlayedData;
     }
 }
