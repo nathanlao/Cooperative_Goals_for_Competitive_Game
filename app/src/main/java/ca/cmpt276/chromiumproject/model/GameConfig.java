@@ -5,8 +5,8 @@ import java.util.List;
 
 /**
  *  GameConfig contains information about a type of game (e.g. chess, monopoly)
- *  Fields include name of game, and what constitutes as a PoorScore and GreatScore
- *  Has a list of GamesPlayed. getGamesPlayedData() returns a String array with data about these games
+ *  Fields include name of game, and what constitutes as a Poor Score and a Great Score
+ *  Has a list of GameRecords. getGameRecordStrings() returns a String array with data about these games
  *  Use setConfigValues() to set its fields
  */
 
@@ -14,12 +14,13 @@ public class GameConfig {
     private String name;
     private int poorScore;
     private int greatScore;
-    private List<GamePlayed> gamesPlayed = new ArrayList<>();
+    private List<GameRecord> gameRecords;
 
 
     // TODO: might be useful to have empty constructor depending on requirements
     public GameConfig(String name, int poorScore, int greatScore) {
         setConfigValues(name, poorScore, greatScore);
+        gameRecords = new ArrayList<>();
     }
 
     public void setConfigValues(String name, int poorScore, int greatScore) {
@@ -41,48 +42,48 @@ public class GameConfig {
         return greatScore;
     }
 
-    public void addGamePlayed(GamePlayed gamePlayed) {
-        gamesPlayed.add(gamePlayed);
+    public void addGameRecord(GameRecord gameRecord) {
+        gameRecords.add(gameRecord);
     }
 
-    public int getNumGamesPlayed() {
-        return gamesPlayed.size();
+    public int getNumGameRecords() {
+        return gameRecords.size();
     }
 
     // TODO: need to ask customer if there is a specific data format he wants, for now just reusing format from As2
-    public String[] getGamesPlayedData() {
-        int numGamesPlayed = getNumGamesPlayed();
-        String[] gamesPlayedData;
+    public String[] getGameRecordStrings() {
+        int numGamesPlayed = getNumGameRecords();
+        String[] gameStrings;
 
         if (numGamesPlayed == 0) {
-            gamesPlayedData = new String[1];
-            gamesPlayedData[0] = "No games";
-            return gamesPlayedData;
+            gameStrings = new String[1];
+            gameStrings[0] = "No games";
+            return gameStrings;
         }
 
-        gamesPlayedData = new String[numGamesPlayed];
+        gameStrings = new String[numGamesPlayed];
         int itr = 0;
-        for (GamePlayed gamePlayed : gamesPlayed) {
-            StringBuilder gameData = new StringBuilder();
+        for (GameRecord game : gameRecords) {
+            StringBuilder gameStr = new StringBuilder();
 
             // append creation time
-            String creationTime = gamePlayed.getCreationTimeString();
-            gameData.append(creationTime);
+            String creationTime = game.getCreationTimeString();
+            gameStr.append(creationTime);
 
-            gameData.append(" - ");
+            gameStr.append(" - ");
 
             // append num players
-            gameData.append(gamePlayed.getNumPlayers()).append(" players scored ");
+            gameStr.append(game.getNumPlayers()).append(" players scored ");
 
             //append combined score
-            gameData.append(gamePlayed.getCombinedScore());
+            gameStr.append(game.getCombinedScore());
 
             //append achievement
-            gameData.append(". Achievement: ").append(gamePlayed.getAchievement());
+            gameStr.append(". Achievement: ").append(game.getAchievement());
 
-            gamesPlayedData[itr] = gameData.toString();
+            gameStrings[itr] = gameStr.toString();
             itr++;
         }
-        return gamesPlayedData;
+        return gameStrings;
     }
 }
