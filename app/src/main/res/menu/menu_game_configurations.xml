@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- "Add", should appear as action button if possible -->
+    <item
+        android:id="@+id/action_add_game_config"
+        android:icon="@drawable/ic_baseline_add_24"
+        android:title="@string/appbar_add_game_config"
+        app:showAsAction="ifRoom"/>
+</menu>
