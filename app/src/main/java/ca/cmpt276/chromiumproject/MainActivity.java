@@ -34,23 +34,17 @@ public class MainActivity extends AppCompatActivity {
         // Get one instance that GameManager produced
         gameManager = GameManager.getInstance();
 
+        // Setup and display game configuration list
         setupListGameConfigs();
         populateGameConfigList();
     }
-
-    private void setupListGameConfigs() {
-        // Store gameConfigs from gameManager into gameConfigs arraylist
-        gameConfigs = gameManager.getGameConfigs();
-//        gameConfigs.add(new GameConfig("hello", 20, 30));
-    }
-
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        setupListGameConfigs();
-        populateGameConfigList();
+//        setupListGameConfigs();
+//        populateGameConfigList();
     }
 
     @Override
@@ -75,6 +69,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void setupListGameConfigs() {
+        // Store gameConfigs from gameManager into gameConfigs arraylist
+        gameConfigs = gameManager.getGameConfigs();
+    }
+
     private void populateGameConfigList() {
         // Build adapter
         ArrayAdapter<GameConfig> adapter = new gameConfigListAdapter();
@@ -87,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
     private class gameConfigListAdapter extends ArrayAdapter<GameConfig> {
         public gameConfigListAdapter() {
-            super(MainActivity.this, R.layout.game_config_item_view);
+            super(MainActivity.this, R.layout.game_config_item_view, gameConfigs);
         }
 
         @NonNull
@@ -102,9 +101,18 @@ public class MainActivity extends AppCompatActivity {
 
             GameConfig currentGame = gameConfigs.get(position);
 
-            // Fill the view
+            // TODO: Probably fill with game image later
+
+            // Fill the view with gameName, poor score and great score
             TextView gameNameView = gameView.findViewById(R.id.txtGameName);
             gameNameView.setText(currentGame.getName());
+
+            TextView poorScoreView = gameView.findViewById(R.id.txtPoorScore);
+            poorScoreView.setText("" + currentGame.getPoorScore());
+
+            TextView greatScoreView = gameView.findViewById(R.id.txtGreatScore);
+            greatScoreView.setText("" + currentGame.getGreatScore());
+
 
             return gameView;
         }
