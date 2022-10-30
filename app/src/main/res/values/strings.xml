@@ -5,4 +5,6 @@
     <string name="great_score">Great Score</string>
     <string name="poor_score">Poor Score</string>
     <string name="appbar_save_game_config">appbar_save_game_config</string>
+    <string name="title_add_game_configs">Add Game Configs</string>
+    <string name="title_edit_game_configs">Edit Game Configs</string>
 </resources>

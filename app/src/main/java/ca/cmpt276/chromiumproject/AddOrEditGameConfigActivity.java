@@ -17,21 +17,33 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
 
     private GameManager gameManager;
 
+    public static final String EXTRA_EDIT_GAME_POSITION = "Edit Intent Extra - gameConfig position";
+
     // Intent for main activity to add new game config
     public static Intent makeAddIntent(Context context) {
         return new Intent(context, AddOrEditGameConfigActivity.class);
     }
+
+    // Intent for main activity to edit current game config
+    public static Intent makeEditIntent(Context context, int position) {
+            Intent intent =  new Intent(context, AddOrEditGameConfigActivity.class);
+            intent.putExtra(EXTRA_EDIT_GAME_POSITION, position);
+            return intent;
+            }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_or_edit_game_config);
 
-        gameManager = GameManager.getInstance();
-
         // Enable "up" on toolbar
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
+
+        gameManager = GameManager.getInstance();
+
+        // Extract position from makeEditIntent()
+        extractPositionFromIntent();
     }
 
     @Override
@@ -56,6 +68,18 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
 
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void extractPositionFromIntent() {
+        Intent intent = getIntent();
+
+        int gameConfigPosition = intent.getIntExtra(EXTRA_EDIT_GAME_POSITION, -1);
+
+        if (gameConfigPosition == -1) {
+            setTitle(getString(R.string.title_add_game_configs));
+        } else {
+            setTitle(getString(R.string.title_edit_game_configs));
         }
     }
 }
