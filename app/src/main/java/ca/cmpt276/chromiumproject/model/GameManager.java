@@ -40,6 +40,10 @@ public class GameManager implements Iterable<GameConfig>{
         return gameConfigs.get(index);
     }
 
+    public List<GameConfig> getGameConfigs() {
+        return gameConfigs;
+    }
+
     @NonNull
     @Override
     public Iterator<GameConfig> iterator() {
