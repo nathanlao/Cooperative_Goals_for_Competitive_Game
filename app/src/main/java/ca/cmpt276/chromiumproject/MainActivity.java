@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu with ADD icon
-        getMenuInflater().inflate(R.menu.menu_game_configurations, menu);
+        getMenuInflater().inflate(R.menu.menu_add_game_configurations, menu);
         return true;
     }
 
