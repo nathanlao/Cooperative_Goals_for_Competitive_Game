@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
 
             FragmentManager manager = getSupportFragmentManager();
             EmptyListFragment dialog = new EmptyListFragment();
-            //TODO: add string to xml
             dialog.show(manager, "EmptyListFragment");
 
             TextView emptyText = findViewById(R.id.emptyText);
