@@ -28,6 +28,7 @@ public class GameConfig {
 
     public void setConfigValues(String name, int poorScore, int greatScore) {
         // TODO: add more error handling depending on customer requirements
+        // TODO: comment out throw exception for now
 //        if (name.isEmpty()) {
 //            throw new IllegalArgumentException("Game Config name is empty");
 //        }
