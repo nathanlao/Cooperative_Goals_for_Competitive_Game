@@ -17,14 +17,24 @@ import android.widget.Toast;
 import ca.cmpt276.chromiumproject.model.GameConfig;
 import ca.cmpt276.chromiumproject.model.GameManager;
 
+/**
+ * AddOrEditGameConfigActivity class allows user to add a new game config or edit current game config
+ * Activity displays name, poor score and great score
+ * Up button return to MainActivity and not save the game config
+ * Save button save a new game config or current edited game config
+ */
+
 public class AddOrEditGameConfigActivity extends AppCompatActivity {
 
     public static final String EXTRA_EDIT_GAME_POSITION = "Edit Intent Extra - gameConfig position";
 
+    public static final String TAG_NUMBER_FORMAT_EXCEPTION = "Catch NumberFormatException";
+    public static final String TAG_ILLEGAL_ARGUMENT_EXCEPTION = "Catch NumberFormatException";
+
     private GameManager gameManager;
 
-    private GameConfig newGameConfig = new GameConfig();
-    private GameConfig editedGameConfig = new GameConfig();
+    private GameConfig newGameConfig;
+    private GameConfig editedGameConfig;
 
     private EditText gameConfigName;
     private EditText poorScore;
@@ -81,6 +91,11 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
                 // Take in user input
                 setupGameConfigFieldsInput(gameConfigStr, poorScoreNum, greatScoreNum);
 
+                // Validate empty input and display Toast message accordingly
+                if (checkEmptyInput()) {
+                    return false;
+                }
+
                 if (isNewGame) {
                     gameManager.addNewGameConfig(newGameConfig);
                 } else {
@@ -130,11 +145,11 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
     private void setupGameConfigFieldsInput(String gameConfigStr, int poorScoreNum, int greatScoreNum) {
 
         // Get the name from user input
-        // TODO: Validate string input
         try {
             gameConfigStr = gameConfigName.getText().toString();
-        } catch (IllegalArgumentException ex) {
-            //TODO: Empty catch for now, double check with team later
+        } catch (NumberFormatException ex) {
+            // Debugging purpose
+            Log.d(TAG_NUMBER_FORMAT_EXCEPTION, "NumberFormatException caught: Game Config name must not be empty.");
         }
 
         // Get the poor score from user input
@@ -142,7 +157,7 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
         try {
             poorScoreNum = Integer.parseInt(poorScoreStr);
         } catch (NumberFormatException ex) {
-            //TODO: Empty catch for now, double check with team later
+            Log.d(TAG_NUMBER_FORMAT_EXCEPTION, "NumberFormatException caught: Game Config poor score must not be empty.");
         }
 
         // Get the great score from user input
@@ -150,16 +165,47 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
         try {
             greatScoreNum = Integer.parseInt(greatScoreStr);
         } catch (NumberFormatException ex) {
-            //TODO: Empty catch for now, double check with team later
+            Log.d(TAG_NUMBER_FORMAT_EXCEPTION, "NumberFormatException caught: Game Config great score must not be empty.");
         }
 
         // New Game! Set gamConfig object with user input values
         if (isNewGame) {
-            newGameConfig.setConfigValues(gameConfigStr, poorScoreNum, greatScoreNum);
+            try {
+                newGameConfig = new GameConfig(gameConfigStr, poorScoreNum, greatScoreNum);
+                newGameConfig.setConfigValues(gameConfigStr, poorScoreNum, greatScoreNum);
+            } catch (IllegalArgumentException ex) {
+                Log.d(TAG_ILLEGAL_ARGUMENT_EXCEPTION, "IllegalArgumentException caught: Game Config name must not be empty.");
+            }
+
         } else {
-            // Not a new Game!
-            editedGameConfig.setConfigValues(gameConfigStr, poorScoreNum, greatScoreNum);
+            try {
+                // Not a new Game!
+                editedGameConfig = new GameConfig(gameConfigStr, poorScoreNum, greatScoreNum);
+                editedGameConfig.setConfigValues(gameConfigStr, poorScoreNum, greatScoreNum);
+            } catch (IllegalArgumentException ex) {
+                Log.d(TAG_ILLEGAL_ARGUMENT_EXCEPTION, "IllegalArgumentException caught: Game Config name must not be empty.");
+            }
         }
+    }
+
+    private boolean checkEmptyInput() {
+        String gameConfigStr = gameConfigName.getText().toString();
+        String poorScoreStr = poorScore.getText().toString();
+        String greatScoreStr = greatScore.getText().toString();
+
+        // TODO: Probably Validate String input for name field
+
+        if (gameConfigStr.matches("")) {
+            Toast.makeText(this, "Enter the Game Name", Toast.LENGTH_LONG).show();
+            return true;
+        } else if (poorScoreStr.matches("")) {
+            Toast.makeText(this, "Enter the Poor Score", Toast.LENGTH_LONG).show();
+            return true;
+        } else if (greatScoreStr.matches("")) {
+            Toast.makeText(this, "Enter the Great Score", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        return false;
     }
 
     private void displayCurrentGameConfig() {

@@ -20,6 +20,13 @@ import java.util.List;
 import ca.cmpt276.chromiumproject.model.GameConfig;
 import ca.cmpt276.chromiumproject.model.GameManager;
 
+/**
+ * MainActivity class allows user to start by adding a new game config
+ * Use ArrayAdapter displays the listView of GameConfig list handle by GameManager
+ * Each GameConfig view displays name on top, followed by poor score and great score on bottom
+ * Add button on toolbar directs users to AddOrEditGameConfigActivity by using intent
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     private GameManager gameManager;
