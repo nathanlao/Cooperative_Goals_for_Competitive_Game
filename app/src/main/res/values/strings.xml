@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">chromiumproject</string>
+    <string name="emptyListView">You have no games! Click add (+) to add a new game!</string>
+    <string name="welcome_message">Welcome! To add a game, simply click the plus (+) button and fill out your game details.\n You can later edit a game by clicking on the game and changing the game\'s details.\n We hope you enjoy playing and keeping track of your games!\n</string>
 </resources>
