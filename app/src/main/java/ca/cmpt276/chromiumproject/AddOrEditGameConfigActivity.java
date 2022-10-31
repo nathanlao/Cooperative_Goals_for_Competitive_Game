@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import ca.cmpt276.chromiumproject.model.GameConfig;
@@ -22,11 +23,15 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
 
     private GameManager gameManager;
 
-    private GameConfig gameConfig = new GameConfig();
+    private GameConfig newGameConfig = new GameConfig();
+    private GameConfig editedGameConfig = new GameConfig();
 
     private EditText gameConfigName;
     private EditText poorScore;
     private EditText greatScore;
+
+    private int gameConfigPosition;
+    private boolean isNewGame;
 
     // Intent for main activity to add new game config
     public static Intent makeAddIntent(Context context) {
@@ -69,7 +74,19 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
         switch(item.getItemId()) {
             case R.id.action_save_game_config:
 
-                setupGameConfigFieldsInput();
+                String gameConfigStr = "";
+                int poorScoreNum = 0;
+                int greatScoreNum = 0;
+
+                // Take in user input
+                setupGameConfigFieldsInput(gameConfigStr, poorScoreNum, greatScoreNum);
+
+                if (isNewGame) {
+                    gameManager.addNewGameConfig(newGameConfig);
+                } else {
+                    // Replace the current game config by an edited game
+                    gameManager.setGameConfigByIndex(gameConfigPosition, editedGameConfig);
+                }
 
                 Toast.makeText(this, R.string.toast_game_config_saved, Toast.LENGTH_SHORT).show();
                 finish();
@@ -94,21 +111,23 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
     private void extractPositionFromIntent() {
         Intent intent = getIntent();
 
-        int gameConfigPosition = intent.getIntExtra(EXTRA_EDIT_GAME_POSITION, -1);
+        gameConfigPosition = intent.getIntExtra(EXTRA_EDIT_GAME_POSITION, -1);
 
         if (gameConfigPosition == -1) {
             setTitle(getString(R.string.title_add_game_configs));
 
+            isNewGame = true;
 
         } else {
             setTitle(getString(R.string.title_edit_game_configs));
+
+            isNewGame = false;
+
+            displayCurrentGameConfig();
         }
     }
 
-    private void setupGameConfigFieldsInput() {
-        String gameConfigStr = "";
-        int poorScoreNum = 0;
-        int greatScoreNum = 0;
+    private void setupGameConfigFieldsInput(String gameConfigStr, int poorScoreNum, int greatScoreNum) {
 
         // Get the name from user input
         // TODO: Validate string input
@@ -134,8 +153,20 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
             //TODO: Empty catch for now, double check with team later
         }
 
-        // Set gamConfig object with user input values and add to gameConfigs list
-        gameConfig.setConfigValues(gameConfigStr, poorScoreNum, greatScoreNum);
-        gameManager.addNewGameConfig(gameConfig);
+        // New Game! Set gamConfig object with user input values
+        if (isNewGame) {
+            newGameConfig.setConfigValues(gameConfigStr, poorScoreNum, greatScoreNum);
+        } else {
+            // Not a new Game!
+            editedGameConfig.setConfigValues(gameConfigStr, poorScoreNum, greatScoreNum);
+        }
+    }
+
+    private void displayCurrentGameConfig() {
+        GameConfig currentGame = gameManager.getGameConfigByIndex(gameConfigPosition);
+
+        gameConfigName.setText(currentGame.getName());
+        poorScore.setText(String.valueOf(currentGame.getPoorScore()));
+        greatScore.setText(String.valueOf(currentGame.getGreatScore()));
     }
 }
