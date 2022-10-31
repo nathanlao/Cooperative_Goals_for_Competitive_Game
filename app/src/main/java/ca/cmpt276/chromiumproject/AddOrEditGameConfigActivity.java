@@ -196,13 +196,13 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
         // TODO: Probably Validate String input for name field
 
         if (gameConfigStr.matches("")) {
-            Toast.makeText(this, "Enter the Game Name", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "All fields cannot be empty, please enter the Game Name", Toast.LENGTH_LONG).show();
             return true;
         } else if (poorScoreStr.matches("")) {
-            Toast.makeText(this, "Enter the Poor Score", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "All fields cannot be empty, please enter the Poor Score", Toast.LENGTH_LONG).show();
             return true;
         } else if (greatScoreStr.matches("")) {
-            Toast.makeText(this, "Enter the Great Score", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "All fields cannot be empty, please enter the Great Score", Toast.LENGTH_LONG).show();
             return true;
         }
         return false;
