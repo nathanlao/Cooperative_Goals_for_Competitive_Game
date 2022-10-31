@@ -13,7 +13,10 @@ public class GameRecord {
 
     private int numPlayers;
     private int combinedScore;
-    private final String achievement; // TODO: implement actual achievement stuff once it's ready
+
+    private Achievement theAchivement;
+    private final String achievement = theAchivement.getCurAchievement();
+
 
     private LocalDateTime creationTime;
     private static final DateTimeFormatter DT_FORMAT = DateTimeFormatter.ofPattern("MMM d @ h:mm a");
@@ -23,7 +26,7 @@ public class GameRecord {
             throw new IllegalArgumentException("Number of players cannot be less than " + MIN_PLAYERS +".");
         }
 
-        achievement = "Testing Turtles";
+        //achievement = "Testing Turtles";
 
         this.numPlayers = numPlayers;
         this.combinedScore = combinedScore;
@@ -44,5 +47,9 @@ public class GameRecord {
 
     public String getAchievement() {
         return achievement;
+    }
+
+    public void calcAchivement() {
+        theAchivement.setCurAchievement(numPlayers, combinedScore);
     }
 }
