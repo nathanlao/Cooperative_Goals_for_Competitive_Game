@@ -7,4 +7,6 @@
     <string name="appbar_save_game_config">appbar_save_game_config</string>
     <string name="title_add_game_configs">Add Game Configs</string>
     <string name="title_edit_game_configs">Edit Game Configs</string>
+    <string name="toast_game_config_saved">Game Config Saved!</string>
+    <string name="toast_game_config_not_saved">Game Config Not Saved!</string>
 </resources>

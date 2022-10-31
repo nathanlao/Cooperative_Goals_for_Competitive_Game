@@ -45,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-//        setupListGameConfigs();
-//        populateGameConfigList();
+        setupListGameConfigs();
+        populateGameConfigList();
     }
 
     @Override
@@ -120,10 +120,10 @@ public class MainActivity extends AppCompatActivity {
             gameNameView.setText(currentGame.getName());
 
             TextView poorScoreView = gameView.findViewById(R.id.txtPoorScore);
-            poorScoreView.setText("" + currentGame.getPoorScore());
+            poorScoreView.setText("Poor Score: " + currentGame.getPoorScore());
 
             TextView greatScoreView = gameView.findViewById(R.id.txtGreatScore);
-            greatScoreView.setText("" + currentGame.getGreatScore());
+            greatScoreView.setText("Great Score: " + currentGame.getGreatScore());
 
 
             return gameView;

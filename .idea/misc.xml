@@ -7,6 +7,7 @@
         <entry key="app/src/main/res/layout/activity_add_or_edit_game_config.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="app/src/main/res/layout/game_config_item_view.xml" value="0.33" />
+        <entry key="app/src/main/res/menu/menu_add_game_configurations.xml" value="0.42339121552604697" />
         <entry key="app/src/main/res/menu/menu_game_configurations.xml" value="0.23703703703703705" />
         <entry key="app/src/main/res/menu/menu_save_game_configurations.xml" value="0.4083333333333333" />
       </map>
