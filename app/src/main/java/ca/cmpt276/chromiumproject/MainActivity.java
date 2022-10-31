@@ -115,16 +115,22 @@ public class MainActivity extends AppCompatActivity {
 
             // TODO: Probably fill with game image later
 
+            // Extract string and concatenate with poor score/great score in GameConfig
+            String poorScoreMsg = getString(R.string.string_poor_score);
+            poorScoreMsg += " " + currentGame.getPoorScore();
+
+            String greatScoreMsg = getString(R.string.string_great_score);
+            greatScoreMsg += " " + currentGame.getGreatScore();
+
             // Fill the view with gameName, poor score and great score
             TextView gameNameView = gameView.findViewById(R.id.txtGameName);
             gameNameView.setText(currentGame.getName());
 
             TextView poorScoreView = gameView.findViewById(R.id.txtPoorScore);
-            poorScoreView.setText("Poor Score: " + currentGame.getPoorScore());
+            poorScoreView.setText(poorScoreMsg);
 
             TextView greatScoreView = gameView.findViewById(R.id.txtGreatScore);
-            greatScoreView.setText("Great Score: " + currentGame.getGreatScore());
-
+            greatScoreView.setText(greatScoreMsg);
 
             return gameView;
         }

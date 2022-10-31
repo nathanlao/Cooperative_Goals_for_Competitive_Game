@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Game configurations</string>
     <string name="appbar_add_game_config">appbar_add_game_config</string>
+    <string name="string_poor_score">Poor Score:</string>
+    <string name="string_great_score">Great Score:</string>
     <string name="name">Name</string>
     <string name="great_score">Great Score</string>
     <string name="poor_score">Poor Score</string>
