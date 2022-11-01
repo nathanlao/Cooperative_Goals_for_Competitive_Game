@@ -8,6 +8,7 @@ public class Achievement {
             "Achievement #3", "Achievement #4", "Achievement #5", "Achievement #6",
             "Achievement #7", "Achievement #8"};
     private int[] potentialAchievePoints = {};
+    private int partitionNum = 0;
 
     //Singleton connection to GameConfig
     private GameConfig curGameConfig = GameConfig.getInstance();
@@ -17,35 +18,20 @@ public class Achievement {
     }
 
     public void setCurAchievement(int playerCount, int theScore) {
-        int lowestAchieve = playerCount * curGameConfig.getPoorScore();
-        int highestAchieve = playerCount * curGameConfig.getGreatScore();
-
-        int middleGround = highestAchieve - lowestAchieve;
-
-        int partitionNum = middleGround / NUM_ACHIEVEMENTS;
-
-        //Set initial location for loop
-        int partitionMultiplier = 0;
-        int curAchieveLocation = 0;
+        setPotentialAchievePoint(playerCount);
         int curAchieveEndBoundary = 0;
-        for (int i = 0; i < NUM_ACHIEVEMENTS; i++) {
-
-
-            partitionMultiplier = i * partitionNum;
-
-            //Set the Boundary for calculation purpose
-            curAchieveLocation = lowestAchieve + partitionMultiplier;
-            curAchieveEndBoundary = curAchieveLocation + partitionMultiplier;
+        for (int i = 0; i < potentialAchievePoints.length; i++) {
 
             //check on first loop, for Special worst achievement
             if (i == 0) {
-                if (theScore < curAchieveLocation) {
+                if (theScore < potentialAchievePoints[0]) {
                     curAchievement = "Achievement #0 Failure";
                 }
             }
 
+            curAchieveEndBoundary = potentialAchievePoints[i] + partitionNum;
             //If score is in the Boundary, choose from achievement Collection
-            if (theScore >= curAchieveLocation &&
+            if (theScore >= potentialAchievePoints[i] &&
             theScore < curAchieveEndBoundary) {
                 chooseFromAchieveCollection(i);
             }
@@ -68,7 +54,7 @@ public class Achievement {
 
         int middleGround = highestAchieve - lowestAchieve;
 
-        int partitionNum = middleGround / NUM_ACHIEVEMENTS;
+        partitionNum = middleGround / NUM_ACHIEVEMENTS;
 
         //Set initial location for loop
         int partitionMultiplier = 0;
