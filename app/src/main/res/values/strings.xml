@@ -1,3 +1,14 @@
 <resources>
-    <string name="app_name">chromiumproject</string>
+    <string name="app_name">Game configurations</string>
+    <string name="appbar_add_game_config">appbar_add_game_config</string>
+    <string name="string_poor_score">Poor Score:</string>
+    <string name="string_great_score">Great Score:</string>
+    <string name="name">Name</string>
+    <string name="great_score">Great Score</string>
+    <string name="poor_score">Poor Score</string>
+    <string name="appbar_save_game_config">appbar_save_game_config</string>
+    <string name="title_add_game_configs">Add Game Configs</string>
+    <string name="title_edit_game_configs">Edit Game Configs</string>
+    <string name="toast_game_config_saved">Game Config Saved!</string>
+    <string name="toast_game_config_not_saved">Game Config Not Saved!</string>
 </resources>
