@@ -1,3 +1,11 @@
+/**
+ * MainActivity class allows user to start by adding a new game config
+ * Use ArrayAdapter displays the listView of GameConfig list handle by GameManager
+ * Each GameConfig view displays name on top, followed by poor score and great score on bottom
+ * Add button on toolbar directs users to AddOrEditGameConfigActivity by using intent
+ * On start and when there are no game configurations a text will appear telling the user how to start adding games.
+ */
+
 package ca.cmpt276.chromiumproject;
 
 import androidx.annotation.NonNull;
@@ -20,22 +28,23 @@ import java.util.List;
 import ca.cmpt276.chromiumproject.model.GameConfig;
 import ca.cmpt276.chromiumproject.model.GameManager;
 
-/**
- * MainActivity class allows user to start by adding a new game config
- * Use ArrayAdapter displays the listView of GameConfig list handle by GameManager
- * Each GameConfig view displays name on top, followed by poor score and great score on bottom
- * Add button on toolbar directs users to AddOrEditGameConfigActivity by using intent
- */
+
 
 public class MainActivity extends AppCompatActivity {
 
     private GameManager gameManager;
     private List<GameConfig> gameConfigs = new ArrayList<>();
 
+    private boolean isEmpty = true;
+    private boolean firstOpenedApp = true;
+    ArrayAdapter<GameConfig> adapter;
+    TextView emptyText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        emptyText = findViewById(R.id.emptyText);
 
         // Get one instance that GameManager produced
         gameManager = GameManager.getInstance();
@@ -46,6 +55,21 @@ public class MainActivity extends AppCompatActivity {
 
         // Click on one game config to edit
         gameConfigCLickCallBack();
+        firstOpenedApp = false;
+        checkIsEmpty();
+    }
+
+    private void checkIsEmpty() {
+        //show empty state text if empty or if it's the first time the user opens the app
+        if (adapter.getCount() == 0 || firstOpenedApp) {
+            isEmpty = true;
+            emptyText.setVisibility(View.VISIBLE);
+        }
+
+        else if (adapter.getCount() > 0){
+            isEmpty = false;
+            emptyText.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -54,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
         setupListGameConfigs();
         populateGameConfigList();
+        checkIsEmpty();
     }
 
     @Override
@@ -85,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void populateGameConfigList() {
         // Build adapter
-        ArrayAdapter<GameConfig> adapter = new gameConfigListAdapter();
+        adapter = new gameConfigListAdapter();
 
         // Configure the list view
         ListView list = findViewById(R.id.gameConfigListView);
