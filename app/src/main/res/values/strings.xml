@@ -1,3 +1,18 @@
 <resources>
-    <string name="app_name">chromiumproject</string>
+    <string name="app_name">Game configurations</string>
+    <string name="appbar_add_game_config">appbar_add_game_config</string>
+    <string name="string_poor_score">Poor Score:</string>
+    <string name="string_great_score">Great Score:</string>
+    <string name="name">Name</string>
+    <string name="great_score">Great Score</string>
+    <string name="poor_score">Poor Score</string>
+    <string name="appbar_save_game_config">appbar_save_game_config</string>
+    <string name="title_add_game_configs">Add Game Configs</string>
+    <string name="title_edit_game_configs">Edit Game Configs</string>
+    <string name="toast_game_config_saved">Game Config Saved!</string>
+    <string name="toast_game_config_not_saved">Game Config Not Saved!</string>
+    <string name="empty_list_view">You have no games! Click add (+) to add a new game!</string>
+    <string name="dialog_welcome">Welcome!</string>
+    <string name="welcome_message">You have no games! \n\n 1. To add a game, simply click the plus (+) button and fill out your game details.\n 2. You can later edit a game by clicking on the game and changing the game\'s details.\n 3. We hope you enjoy playing and keeping track of your games!\n</string>
+    <string name="test">Welcome! Good to meet you and get to know you here. I am very happy you are playing our game today!</string>
 </resources>
