@@ -3,6 +3,7 @@
  * Use ArrayAdapter displays the listView of GameConfig list handle by GameManager
  * Each GameConfig view displays name on top, followed by poor score and great score on bottom
  * Add button on toolbar directs users to AddOrEditGameConfigActivity by using intent
+ * On start and when there are no game configurations a text will appear telling the user how to start adding games.
  */
 
 package ca.cmpt276.chromiumproject;
@@ -44,14 +45,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         emptyText = findViewById(R.id.emptyText);
-//
-//        if (firstOpenedApp || isEmpty) {
-//            emptyText.setVisibility(View.VISIBLE);
-//        }
-//        else if (!isEmpty) {
-//            emptyText.setVisibility(View.INVISIBLE);
-//        }
-
 
         // Get one instance that GameManager produced
         gameManager = GameManager.getInstance();
@@ -67,10 +60,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkIsEmpty() {
+        //show empty state text if empty or if it's the first time the user opens the app
         if (adapter.getCount() == 0 || firstOpenedApp) {
             isEmpty = true;
             emptyText.setVisibility(View.VISIBLE);
         }
+
         else if (adapter.getCount() > 0){
             isEmpty = false;
             emptyText.setVisibility(View.INVISIBLE);
