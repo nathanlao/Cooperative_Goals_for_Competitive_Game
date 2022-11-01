@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         populateGameConfigList();
 
         // Click on one game config to edit
-        gameConfigCLickCallBack();
+        gameConfigClickCallBack();
         firstOpenedApp = false;
         checkIsEmpty();
     }
@@ -118,14 +118,20 @@ public class MainActivity extends AppCompatActivity {
         list.setAdapter(adapter);
     }
 
-    private void gameConfigCLickCallBack() {
+    private void gameConfigClickCallBack() {
         ListView list = findViewById(R.id.gameConfigListView);
-        list.setOnItemClickListener((parent, viewClicked, position, id) -> {
+//        list.setOnItemClickListener((parent, viewClicked, position, id) -> {
+//
+//            // Send position to AddOrEditGameConfigActivity
+//            Intent i = AddOrEditGameConfigActivity.makeEditIntent(MainActivity.this, position);
+//            startActivity(i);
+//        });
 
-            // Send position to AddOrEditGameConfigActivity
-            Intent i = AddOrEditGameConfigActivity.makeEditIntent(MainActivity.this, position);
+        list.setOnItemClickListener((parent, viewClicked, position, id) -> {
+            Intent i = ViewGameActivity.makeViewIntent(MainActivity.this, position);
             startActivity(i);
         });
+
     }
 
     private class gameConfigListAdapter extends ArrayAdapter<GameConfig> {

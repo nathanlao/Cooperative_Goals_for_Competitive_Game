@@ -2,6 +2,7 @@ package ca.cmpt276.chromiumproject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -16,13 +17,25 @@ import ca.cmpt276.chromiumproject.model.GameRecord;
 
 public class ViewGameActivity extends AppCompatActivity {
 
+    public static final String POSITION = "POSITION";
+    private int position;
 
+    public static Intent makeViewIntent(Context context, int position) {
+        Intent intent = new Intent(context, ViewGameActivity.class);
+        intent.putExtra(POSITION, position);
+        return intent;
+    }
+
+    private void extractDataFromIntent() {
+        Intent intent = getIntent();
+        position = intent.getIntExtra(POSITION, 0);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_game);
-
+        extractDataFromIntent();
         setUpEditConfig();
     }
 
@@ -32,7 +45,7 @@ public class ViewGameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //TODO: send edit intent to edit screen
-                Intent editIntent = new Intent(ViewGameActivity.this, MainActivity.class);
+                Intent editIntent = AddOrEditGameConfigActivity.makeEditIntent(ViewGameActivity.this, position);
                 startActivity(editIntent);
             }
         });
