@@ -40,6 +40,14 @@ public class GameManager implements Iterable<GameConfig>{
         return gameConfigs.get(index);
     }
 
+    public List<GameConfig> getGameConfigs() {
+        return gameConfigs;
+    }
+
+    public void setGameConfigByIndex(int indexOfGame, GameConfig editedGame) {
+        gameConfigs.set(indexOfGame, editedGame);
+    }
+
     @NonNull
     @Override
     public Iterator<GameConfig> iterator() {
