@@ -21,11 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
         //TODO: initialize array adapter before calling checkIsEmpty()
         if (isEmpty) {
-
-            FragmentManager manager = getSupportFragmentManager();
-            EmptyListFragment dialog = new EmptyListFragment();
-            dialog.show(manager, "EmptyListFragment");
-
+            //if no games yet, empty state screen appears
             TextView emptyText = findViewById(R.id.emptyText);
             emptyText.setVisibility(View.VISIBLE);
         }
