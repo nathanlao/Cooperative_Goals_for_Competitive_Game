@@ -1,19 +1,170 @@
+/**
+ * MainActivity class allows user to start by adding a new game config
+ * Use ArrayAdapter displays the listView of GameConfig list handle by GameManager
+ * Each GameConfig view displays name on top, followed by poor score and great score on bottom
+ * Add button on toolbar directs users to AddOrEditGameConfigActivity by using intent
+ * On start and when there are no game configurations a text will appear telling the user how to start adding games.
+ */
+
 package ca.cmpt276.chromiumproject;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import ca.cmpt276.chromiumproject.model.GameConfig;
+import ca.cmpt276.chromiumproject.model.GameManager;
+
+
 
 public class MainActivity extends AppCompatActivity {
+
+    private GameManager gameManager;
+    private List<GameConfig> gameConfigs = new ArrayList<>();
+
+    private boolean isEmpty = true;
+    private boolean firstOpenedApp = true;
+    ArrayAdapter<GameConfig> adapter;
+    TextView emptyText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        emptyText = findViewById(R.id.emptyText);
 
-        //create new gameRecord
+        // Get one instance that GameManager produced
+        gameManager = GameManager.getInstance();
 
+        // Setup and display game configuration list
+        setupListGameConfigs();
+        populateGameConfigList();
 
-        //add gameRecord to GameConfig
+        // Click on one game config to edit
+        gameConfigCLickCallBack();
+        firstOpenedApp = false;
+        checkIsEmpty();
+    }
+
+    private void checkIsEmpty() {
+        //show empty state text if empty or if it's the first time the user opens the app
+        if (adapter.getCount() == 0 || firstOpenedApp) {
+            isEmpty = true;
+            emptyText.setVisibility(View.VISIBLE);
+        }
+
+        else if (adapter.getCount() > 0){
+            isEmpty = false;
+            emptyText.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        setupListGameConfigs();
+        populateGameConfigList();
+        checkIsEmpty();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu with ADD icon
+        getMenuInflater().inflate(R.menu.menu_add_game_configurations, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.action_add_game_config:
+                // Click ADD icon directs to ADD or EDIT game config
+                Intent i = AddOrEditGameConfigActivity.makeAddIntent(MainActivity.this);
+                startActivity(i);
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void setupListGameConfigs() {
+        // Store gameConfigs from gameManager into gameConfigs arraylist
+        gameConfigs = gameManager.getGameConfigs();
+    }
+
+    private void populateGameConfigList() {
+        // Build adapter
+        adapter = new gameConfigListAdapter();
+
+        // Configure the list view
+        ListView list = findViewById(R.id.gameConfigListView);
+
+        list.setAdapter(adapter);
+    }
+
+    private void gameConfigCLickCallBack() {
+        ListView list = findViewById(R.id.gameConfigListView);
+        list.setOnItemClickListener((parent, viewClicked, position, id) -> {
+
+            // Send position to AddOrEditGameConfigActivity
+            Intent i = AddOrEditGameConfigActivity.makeEditIntent(MainActivity.this, position);
+            startActivity(i);
+        });
+    }
+
+    private class gameConfigListAdapter extends ArrayAdapter<GameConfig> {
+        public gameConfigListAdapter() {
+            super(MainActivity.this, R.layout.game_config_item_view, gameConfigs);
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+
+            // Reuse game view (inflate one if null)
+            View gameView = convertView;
+            if (gameView == null) {
+                gameView = getLayoutInflater().inflate(R.layout.game_config_item_view, parent, false);
+            }
+
+            GameConfig currentGame = gameConfigs.get(position);
+
+            // TODO: Probably fill with game image later
+
+            // Extract string and concatenate with poor score/great score in GameConfig
+            String poorScoreMsg = getString(R.string.string_poor_score);
+            poorScoreMsg += " " + currentGame.getPoorScore();
+
+            String greatScoreMsg = getString(R.string.string_great_score);
+            greatScoreMsg += " " + currentGame.getGreatScore();
+
+            // Fill the view with gameName, poor score and great score
+            TextView gameNameView = gameView.findViewById(R.id.txtGameName);
+            gameNameView.setText(currentGame.getName());
+
+            TextView poorScoreView = gameView.findViewById(R.id.txtPoorScore);
+            poorScoreView.setText(poorScoreMsg);
+
+            TextView greatScoreView = gameView.findViewById(R.id.txtGreatScore);
+            greatScoreView.setText(greatScoreMsg);
+
+            return gameView;
+        }
     }
 }
