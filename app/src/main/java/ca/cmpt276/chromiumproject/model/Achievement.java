@@ -10,15 +10,14 @@ public class Achievement {
     private int[] potentialAchievePoints = {};
     private int partitionNum = 0;
 
-    //Singleton connection to GameConfig
-    private GameConfig curGameConfig = GameConfig.getInstance();
+    private GameConfig curGameConfig;
 
     public Achievement() {
         this.curAchievement = "Initial Empty";
     }
 
-    public void setCurAchievement(int playerCount, int theScore) {
-        setPotentialAchievePoint(playerCount);
+    public void setCurAchievement(int playerCount, int theScore, GameConfig gameConfig) {
+        setPotentialAchievePoint(playerCount, gameConfig);
         int curAchieveEndBoundary = 0;
         for (int i = 0; i < potentialAchievePoints.length; i++) {
 
@@ -55,7 +54,8 @@ public class Achievement {
         curAchievement = theResult;
     }
 
-    public void setPotentialAchievePoint(int playerCount) {
+    public void setPotentialAchievePoint(int playerCount, GameConfig gameConfig) {
+        curGameConfig = gameConfig;
         int lowestAchieve = playerCount * curGameConfig.getPoorScore();
         int highestAchieve = playerCount * curGameConfig.getGreatScore();
 

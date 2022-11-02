@@ -16,17 +16,6 @@ public class GameConfig {
     private int greatScore;
     private List<GameRecord> gameRecords;
 
-    //Singleton support for GameRecord for Achievement
-    private static GameConfig instance;
-    private GameConfig() {
-    }
-    public static GameConfig getInstance() {
-        if (instance == null) {
-            instance = new GameConfig();
-        }
-        return instance;
-    }
-
     // TODO: might be useful to have empty constructor depending on requirements
     public GameConfig(String name, int poorScore, int greatScore) {
         setConfigValues(name, poorScore, greatScore);

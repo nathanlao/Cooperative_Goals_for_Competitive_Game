@@ -18,7 +18,7 @@ public class GameRecord {
     private final String achievement = theAchivement.getCurAchievement();
 
 
-    private GameConfig gameConfig; // TODO: may not need this as an instance variable if Achievement can be calculated in the constructor
+    private GameConfig gameConfig;
     private LocalDateTime creationTime;
     private static final DateTimeFormatter DT_FORMAT = DateTimeFormatter.ofPattern("MMM d @ h:mm a");
 
@@ -50,6 +50,6 @@ public class GameRecord {
     }
 
     public void calcAchivement() {
-        theAchivement.setCurAchievement(numPlayers, combinedScore);
+        theAchivement.setCurAchievement(numPlayers, combinedScore, gameConfig);
     }
 }
