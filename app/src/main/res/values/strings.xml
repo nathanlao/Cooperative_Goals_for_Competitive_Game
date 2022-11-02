@@ -28,6 +28,7 @@
     <string name="record_a_new_game_play">Record a New Game Play</string>
     <string name="past_games">Past Games</string>
     <string name="record_a_new_game_play_label">Record a New Game Play</string>
+    <string name="delete_game_configuration">Delete Game Configuration</string>
 
     <!-- Strings used for Record Game Screen -->
     <string name="number_of_players">Number of Players:</string>
