@@ -9,16 +9,20 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
 
 import ca.cmpt276.chromiumproject.model.GameConfig;
+import ca.cmpt276.chromiumproject.model.GameManager;
 import ca.cmpt276.chromiumproject.model.GameRecord;
 
 public class ViewGameActivity extends AppCompatActivity {
 
     public static final String POSITION = "POSITION";
     private int position;
+
+    private GameManager gameManager;
 
     public static Intent makeViewIntent(Context context, int position) {
         Intent intent = new Intent(context, ViewGameActivity.class);
@@ -34,10 +38,29 @@ public class ViewGameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        gameManager = GameManager.getInstance();
+
         setContentView(R.layout.activity_view_game);
         extractDataFromIntent();
+
+        // setup buttons
         setUpEditConfig();
         setUpRecordNewGame();
+        setUpDeleteConfig();
+    }
+
+    private void setUpDeleteConfig() {
+        Button deleteBtn = findViewById(R.id.deleteConfigBtn);
+        deleteBtn.setOnClickListener( v -> registerDeleteBtnClick());
+    }
+
+    private void registerDeleteBtnClick() {
+        GameConfig targetConfig = gameManager.getGameConfigByIndex(position);
+        String deleteMessage = getString(R.string.delete_msg, targetConfig.getName());
+        Toast.makeText(this, deleteMessage, Toast.LENGTH_SHORT).show();
+
+        gameManager.deleteGameConfig(targetConfig);
+        finish();
     }
 
     private void setUpEditConfig() {
@@ -66,8 +89,4 @@ public class ViewGameActivity extends AppCompatActivity {
         gamesPlayedList.setAdapter(adapter);
         return adapter;
     }
-
-
-
-
 }

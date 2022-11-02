@@ -45,6 +45,7 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
 
     private int gameConfigPosition;
     private boolean isNewGame;
+    private boolean isDeleted;
 
     // Intent for main activity to add new game config
     public static Intent makeAddIntent(Context context) {
@@ -78,6 +79,7 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
     }
 
     private void setupDeleteButton() {
+        isDeleted = false;
         Button deleteBtn = findViewById(R.id.btnDelete);
         if (isNewGame) {
             deleteBtn.setVisibility(View.GONE);
