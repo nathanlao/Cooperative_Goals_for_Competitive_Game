@@ -3,15 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/kayla/OneDrive/Desktop/Fall 2022/chromiumproject/app/src/main/res/layout/activity_view_game.xml" value="0.24635416666666668" />
         <entry key="app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.1755" />
-        <entry key="app/src/main/res/layout/activity_add_or_edit_game_config.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_add_or_edit_game_config.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/activity_record_new_game_play.xml" value="0.18796296296296297" />
-        <entry key="app/src/main/res/layout/activity_view_game.xml" value="0.27151704011140043" />
+        <entry key="app/src/main/res/layout/activity_view_game.xml" value="0.33" />
         <entry key="app/src/main/res/layout/game_config_item_view.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/games_played.xml" value="0.22023208879919273" />
+        <entry key="app/src/main/res/layout/games_played_item_view.xml" value="0.5" />
         <entry key="app/src/main/res/menu/menu_add_game_configurations.xml" value="0.42339121552604697" />
         <entry key="app/src/main/res/menu/menu_game_configurations.xml" value="0.23703703703703705" />
-        <entry key="app/src/main/res/menu/menu_record_new_game_played.xml" value="0.18796296296296297" />
+        <entry key="app/src/main/res/menu/menu_record_new_game_played.xml" value="0.4458631256384065" />
         <entry key="app/src/main/res/menu/menu_save_game_configurations.xml" value="0.4083333333333333" />
       </map>
     </option>
