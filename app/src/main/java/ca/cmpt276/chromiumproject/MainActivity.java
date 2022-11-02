@@ -120,12 +120,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void gameConfigClickCallBack() {
         ListView list = findViewById(R.id.gameConfigListView);
-//        list.setOnItemClickListener((parent, viewClicked, position, id) -> {
-//
-//            // Send position to AddOrEditGameConfigActivity
-//            Intent i = AddOrEditGameConfigActivity.makeEditIntent(MainActivity.this, position);
-//            startActivity(i);
-//        });
 
         list.setOnItemClickListener((parent, viewClicked, position, id) -> {
             Intent i = ViewGameActivity.makeViewIntent(MainActivity.this, position);

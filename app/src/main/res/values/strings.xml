@@ -18,4 +18,7 @@
     <string name="welcome_message">You have no games! \n\n 1. To add a game, simply click the plus (+) button and fill out your game details.\n 2. You can later edit a game by clicking on the game and changing the game\'s details.\n 3. We hope you enjoy playing and keeping track of your games!\n</string>
     <string name="test">Welcome! Good to meet you and get to know you here. I am very happy you are playing our game today!</string>
     <string name="past_games">Past Games</string>
+    <string name="record_a_new_game_play_label">Record a New Game Play</string>
+    <string name="number_of_players">Number of Players:</string>
+    <string name="combined_score">Combined Score:</string>
 </resources>

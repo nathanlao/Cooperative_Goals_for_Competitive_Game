@@ -3,6 +3,8 @@ package ca.cmpt276.chromiumproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +16,11 @@ public class RecordNewGamePlay extends AppCompatActivity {
 
     TextView numPlayers;
     TextView combinedScore;
+
+    public static Intent makeRecordIntent(Context context) {
+        return new Intent(context, RecordNewGamePlay.class);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

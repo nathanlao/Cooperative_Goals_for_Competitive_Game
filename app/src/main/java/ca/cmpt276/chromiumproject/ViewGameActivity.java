@@ -37,29 +37,22 @@ public class ViewGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_game);
         extractDataFromIntent();
         setUpEditConfig();
+        setUpRecordNewGame();
     }
 
     private void setUpEditConfig() {
-        Button editBtn = (Button) findViewById(R.id.editConfigBtn);
-        editBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO: send edit intent to edit screen
+        Button editBtn = findViewById(R.id.editConfigBtn);
+        editBtn.setOnClickListener(view -> {
                 Intent editIntent = AddOrEditGameConfigActivity.makeEditIntent(ViewGameActivity.this, position);
                 startActivity(editIntent);
-            }
-        });
+                });
     }
 
     private void setUpRecordNewGame() {
-        Button recordBtn = (Button) findViewById(R.id.recordGameBtn);
-        recordBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO: send edit intent to record game screen
-                Intent recordGameIntent = new Intent(ViewGameActivity.this, RecordNewGamePlay.class);
-                startActivity(recordGameIntent);
-            }
+        Button recordBtn = findViewById(R.id.recordGameBtn);
+        recordBtn.setOnClickListener(view -> {
+            Intent recordIntent = RecordNewGamePlay.makeRecordIntent(ViewGameActivity.this);
+            startActivity(recordIntent);
         });
     }
 
