@@ -35,6 +35,13 @@ public class Achievement {
             theScore < curAchieveEndBoundary) {
                 chooseFromAchieveCollection(i);
             }
+
+            //check on last loop, case far larger than expected
+            if (i == potentialAchievePoints.length) {
+                if (theScore > potentialAchievePoints[i]) {
+                    chooseFromAchieveCollection(i);
+                }
+            }
         }
 
     }
