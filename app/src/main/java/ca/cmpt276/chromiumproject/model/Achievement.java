@@ -37,7 +37,7 @@ public class Achievement {
             }
 
             //check on last loop, case far larger than expected
-            if (i == potentialAchievePoints.length) {
+            if (i == potentialAchievePoints.length - 1) {
                 if (theScore > potentialAchievePoints[i]) {
                     chooseFromAchieveCollection(i);
                 }
