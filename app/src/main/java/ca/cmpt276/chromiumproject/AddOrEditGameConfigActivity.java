@@ -4,12 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,6 +73,26 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
 
         // Extract position from makeEditIntent()
         extractPositionFromIntent();
+        setupDeleteButton();
+
+    }
+
+    private void setupDeleteButton() {
+        Button deleteBtn = findViewById(R.id.btnDelete);
+        if (isNewGame) {
+            deleteBtn.setVisibility(View.GONE);
+        } else {
+            deleteBtn.setOnClickListener( v -> registerDeleteBtnClick());
+        }
+    }
+
+    private void registerDeleteBtnClick() {
+        GameConfig targetConfig = gameManager.getGameConfigByIndex(gameConfigPosition);
+        String deleteMessage = getString(R.string.delete_msg, targetConfig.getName());
+        Toast.makeText(this, deleteMessage, Toast.LENGTH_SHORT).show();
+
+        gameManager.deleteGameConfig(targetConfig);
+        finish();
     }
 
     @Override
@@ -79,6 +102,7 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
         return true;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {

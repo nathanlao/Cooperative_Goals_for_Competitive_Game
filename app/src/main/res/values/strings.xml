@@ -21,6 +21,7 @@
     <string name="toast_game_config_saved">Game Config Saved!</string>
     <string name="toast_game_config_not_saved">Game Config Not Saved!</string>
     <string name="delete">Delete</string>
+    <string name="delete_msg">Game Config: \"%s\" has been deleted!</string>
 
     <!-- Strings used for View Game Screen-->
     <string name="edit_game_configuration">Edit Game Configuration</string>
