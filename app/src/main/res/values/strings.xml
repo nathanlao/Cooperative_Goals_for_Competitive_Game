@@ -20,8 +20,6 @@
     <string name="poor_score">Poor Score</string>
     <string name="toast_game_config_saved">Game Config Saved!</string>
     <string name="toast_game_config_not_saved">Game Config Not Saved!</string>
-    <string name="delete">Delete</string>
-    <string name="delete_msg">Game Config: \"%s\" has been deleted!</string>
 
     <!-- Strings used for View Game Screen-->
     <string name="edit_game_configuration">Edit Game Configuration</string>
@@ -29,6 +27,7 @@
     <string name="past_games">Past Games</string>
     <string name="record_a_new_game_play_label">Record a New Game Play</string>
     <string name="delete_game_configuration">Delete Game Configuration</string>
+    <string name="delete_msg">Game Config: \"%s\" has been deleted!</string>
 
     <!-- Strings used for Record Game Screen -->
     <string name="number_of_players">Number of Players:</string>

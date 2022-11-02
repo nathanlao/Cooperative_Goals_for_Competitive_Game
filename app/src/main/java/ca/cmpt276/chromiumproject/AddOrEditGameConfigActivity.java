@@ -45,7 +45,6 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
 
     private int gameConfigPosition;
     private boolean isNewGame;
-    private boolean isDeleted;
 
     // Intent for main activity to add new game config
     public static Intent makeAddIntent(Context context) {
@@ -74,27 +73,7 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
 
         // Extract position from makeEditIntent()
         extractPositionFromIntent();
-        setupDeleteButton();
 
-    }
-
-    private void setupDeleteButton() {
-        isDeleted = false;
-        Button deleteBtn = findViewById(R.id.btnDelete);
-        if (isNewGame) {
-            deleteBtn.setVisibility(View.GONE);
-        } else {
-            deleteBtn.setOnClickListener( v -> registerDeleteBtnClick());
-        }
-    }
-
-    private void registerDeleteBtnClick() {
-        GameConfig targetConfig = gameManager.getGameConfigByIndex(gameConfigPosition);
-        String deleteMessage = getString(R.string.delete_msg, targetConfig.getName());
-        Toast.makeText(this, deleteMessage, Toast.LENGTH_SHORT).show();
-
-        gameManager.deleteGameConfig(targetConfig);
-        finish();
     }
 
     @Override
