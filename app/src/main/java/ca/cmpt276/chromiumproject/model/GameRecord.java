@@ -13,9 +13,12 @@ public class GameRecord {
 
     private int numPlayers;
     private int combinedScore;
-    private final String achievement; // TODO: implement actual achievement stuff once it's ready
 
-    private GameConfig gameConfig; // TODO: may not need this as an instance variable if Achievement can be calculated in the constructor
+    private Achievement theAchivement;
+    private final String achievement = theAchivement.getCurAchievement();
+
+
+    private GameConfig gameConfig;
     private LocalDateTime creationTime;
     private static final DateTimeFormatter DT_FORMAT = DateTimeFormatter.ofPattern("MMM d @ h:mm a");
 
@@ -26,11 +29,7 @@ public class GameRecord {
 
         this.numPlayers = numPlayers;
         this.combinedScore = combinedScore;
-
         this.gameConfig = gameConfig;
-        // TODO: here, you should pass gameConfig's poorScore and greatScore to Achievement, so that it can calculate the Achievement
-        achievement = "Testing Turtles";
-
         this.creationTime = LocalDateTime.now();
     }
 
@@ -48,5 +47,9 @@ public class GameRecord {
 
     public String getAchievement() {
         return achievement;
+    }
+
+    public void calcAchivement() {
+        theAchivement.setCurAchievement(numPlayers, combinedScore, gameConfig);
     }
 }
