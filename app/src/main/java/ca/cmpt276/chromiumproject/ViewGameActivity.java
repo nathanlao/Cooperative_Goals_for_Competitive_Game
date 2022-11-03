@@ -135,6 +135,9 @@ public class ViewGameActivity extends AppCompatActivity {
             String combinedScoreMsg = getString(R.string.combined_score_view);
             combinedScoreMsg += " " + currentRecord.getCombinedScore();
 
+            String achievementMsg = getString(R.string.achievement_level_view);
+            achievementMsg += " " + currentRecord.getAchievement();
+
             // Fill the view creationTime, number players, combined score and achievement level
             TextView creationTimeView = gamePlayedView.findViewById(R.id.txtGameCreationTime);
             creationTimeView.setText(currentRecord.getCreationTimeString());
@@ -146,7 +149,7 @@ public class ViewGameActivity extends AppCompatActivity {
             combinedScoreView.setText(combinedScoreMsg);
 
             TextView achievementView = gamePlayedView.findViewById(R.id.txtAchievementLevel);
-            achievementView.setText(currentRecord.getAchievement());
+            achievementView.setText(achievementMsg);
 
            return gamePlayedView;
         }
