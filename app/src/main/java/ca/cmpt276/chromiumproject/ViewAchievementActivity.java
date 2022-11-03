@@ -13,6 +13,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+/**
+ * ViewAchievementActivity gets list of possible achievements you can achieve,
+ * as well as potential achievable point list passed down from intent,
+ * and uses these passed down lists to show up as view in the screen.
+ */
 public class ViewAchievementActivity extends AppCompatActivity {
     private static final String ACHIEVEMENT_COLLECTION_LIST =
             "ca.cmpt276.chromiumproject - List of collections of available Achievements";
@@ -44,8 +49,6 @@ public class ViewAchievementActivity extends AppCompatActivity {
     }
     private void extractDataFromIntent() {
         Intent intent = getIntent();
-        //String[] tempStrArr = {""};
-        //int[] tempIntArr = {0};
 
         achievementCollections = intent.getStringArrayExtra(ACHIEVEMENT_COLLECTION_LIST);
         potentialScoreCollections = intent.getIntArrayExtra(POTENTIAL_SCORE_LIST);
