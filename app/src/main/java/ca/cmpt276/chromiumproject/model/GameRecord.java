@@ -14,15 +14,15 @@ public class GameRecord {
     private int numPlayers;
     private int combinedScore;
 
-    private Achievement theAchivement;
-    private final String achievement = theAchivement.getCurAchievement();
-
+    private Achievement theAchievement;
+    private String achievement;
 
     private GameConfig gameConfig;
     private LocalDateTime creationTime;
     private static final DateTimeFormatter DT_FORMAT = DateTimeFormatter.ofPattern("MMM d @ h:mm a");
 
-    public GameRecord(int numPlayers, int combinedScore, GameConfig gameConfig) {
+    // TODO: Could handle achievement object in a cleaner way (Pass in achievement object for now to avoid NULL OBJECT ERROR)
+    public GameRecord(int numPlayers, int combinedScore, GameConfig gameConfig, Achievement achievement) {
         if (numPlayers < MIN_PLAYERS) {
             throw new IllegalArgumentException("Number of players cannot be less than " + MIN_PLAYERS +".");
         }
@@ -31,6 +31,7 @@ public class GameRecord {
         this.combinedScore = combinedScore;
         this.gameConfig = gameConfig;
         this.creationTime = LocalDateTime.now();
+        this.theAchievement = achievement;
     }
 
     public int getNumPlayers() {
@@ -46,10 +47,10 @@ public class GameRecord {
     }
 
     public String getAchievement() {
-        return achievement;
+        return theAchievement.getCurAchievement();
     }
 
-    public void calcAchivement() {
-        theAchivement.setCurAchievement(numPlayers, combinedScore, gameConfig);
+    public void calcAchievement(int numPlayers, int combinedScore, GameConfig gameConfig) {
+        theAchievement.setCurAchievement(numPlayers, combinedScore, gameConfig);
     }
 }
