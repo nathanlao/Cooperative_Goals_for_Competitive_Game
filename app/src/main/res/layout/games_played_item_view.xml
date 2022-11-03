@@ -6,8 +6,8 @@
 
     <TextView
         android:id="@+id/txtGameCreationTime"
-        android:layout_width="159dp"
-        android:layout_height="38dp"
+        android:layout_width="180dp"
+        android:layout_height="39dp"
         android:layout_row="0"
         android:layout_column="1"
         android:layout_columnWeight="1"
@@ -17,8 +17,8 @@
 
     <TextView
         android:id="@+id/txtNumOfPlayers"
-        android:layout_width="174dp"
-        android:layout_height="37dp"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
         android:layout_row="0"
         android:layout_column="2"
         android:layout_columnWeight="1"
@@ -29,8 +29,8 @@
 
     <TextView
         android:id="@+id/txtCombinedScore"
-        android:layout_width="143dp"
-        android:layout_height="39dp"
+        android:layout_width="185dp"
+        android:layout_height="wrap_content"
         android:layout_row="1"
         android:layout_column="1"
         android:layout_columnWeight="1"
@@ -41,14 +41,15 @@
 
     <TextView
         android:id="@+id/txtAchievementLevel"
-        android:layout_width="148dp"
-        android:layout_height="39dp"
+        android:layout_width="195dp"
+        android:layout_height="34dp"
         android:layout_row="1"
         android:layout_column="2"
         android:layout_columnWeight="1"
         android:layout_marginStart="0dp"
         android:text=""
         android:textColor="#4B0082"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        tools:text="@string/achievement_level_view" />
 
 </GridLayout>

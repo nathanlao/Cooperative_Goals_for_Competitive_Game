@@ -30,6 +30,7 @@
     <string name="delete_msg">Game Config: \"%s\" has been deleted!</string>
     <string name="number_players_view">Number of Players:</string>
     <string name="combined_score_view">Combined Score:</string>
+    <string name="achievement_level_view">Level:</string>
 
     <!-- Strings used for Record Game Screen -->
     <string name="number_of_players">Number of Players:</string>
