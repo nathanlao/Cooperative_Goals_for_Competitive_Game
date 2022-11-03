@@ -53,4 +53,8 @@ public class GameManager implements Iterable<GameConfig>{
     public Iterator<GameConfig> iterator() {
         return gameConfigs.iterator();
     }
+
+    public void deleteGameConfig(GameConfig targetConfig) {
+        gameConfigs.remove(targetConfig);
+    }
 }
