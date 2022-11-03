@@ -16,7 +16,6 @@ public class GameConfig {
     private int greatScore;
     private List<GameRecord> gameRecords;
 
-
     // TODO: might be useful to have empty constructor depending on requirements
     public GameConfig(String name, int poorScore, int greatScore) {
         setConfigValues(name, poorScore, greatScore);
