@@ -61,6 +61,7 @@ public class Achievement {
     }
 
     public void setPotentialAchievePoint(int playerCount, GameConfig gameConfig) {
+        potentialAchievePoints = new int[NUM_ACHIEVEMENTS];
         curGameConfig = gameConfig;
         int lowestAchieve = playerCount * curGameConfig.getPoorScore();
         int highestAchieve = playerCount * curGameConfig.getGreatScore();
