@@ -47,9 +47,10 @@ public class ViewGameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_view_game);
+
         gameManager = GameManager.getInstance();
 
-        setContentView(R.layout.activity_view_game);
         extractDataFromIntent();
 
         // setup buttons
@@ -58,6 +59,14 @@ public class ViewGameActivity extends AppCompatActivity {
         setUpDeleteConfig();
 
         // populate list of game records
+        setupGamesRecordList();
+        populateGamesRecordListView();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         setupGamesRecordList();
         populateGamesRecordListView();
     }
@@ -93,14 +102,15 @@ public class ViewGameActivity extends AppCompatActivity {
     private void setUpRecordNewGame() {
         Button recordBtn = findViewById(R.id.recordGameBtn);
         recordBtn.setOnClickListener(view -> {
-            Intent recordIntent = RecordNewGamePlay.makeRecordIntent(ViewGameActivity.this);
+            Intent recordIntent = RecordNewGamePlay.makeRecordIntent(ViewGameActivity.this, position);
             startActivity(recordIntent);
         });
     }
 
     private void setupGamesRecordList() {
-        // Get current game configuration
+        // Get current game configuration and retrieve its associated game records
         gameConfigs = gameManager.getGameConfigByIndex(position);
+        gameRecords = gameConfigs.getGameRecords();
     }
 
     private class gameRecordsListAdapter extends ArrayAdapter<GameRecord> {
