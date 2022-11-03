@@ -10,20 +10,30 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import ca.cmpt276.chromiumproject.model.Achievement;
 import ca.cmpt276.chromiumproject.model.GameConfig;
+import ca.cmpt276.chromiumproject.model.GameManager;
 import ca.cmpt276.chromiumproject.model.GameRecord;
 
 public class RecordNewGamePlay extends AppCompatActivity {
 
-    GameRecord gameRecord;
-    GameConfig gameConfigs;
+    public static final String EXTRA_RECORD_GAME_POSITION = "Record Intent Extra - gameConfig position";
 
-    TextView numPlayers;
-    TextView combinedScore;
+    private GameManager gameManager;
+    private GameRecord gameRecord;
+    private GameConfig gameConfigs;
 
-    public static Intent makeRecordIntent(Context context) {
-        return new Intent(context, RecordNewGamePlay.class);
+    private int gameConfigPosition;
+
+    private TextView numPlayers;
+    private TextView combinedScore;
+
+    public static Intent makeRecordIntent(Context context, int position) {
+        Intent intent =  new Intent(context, RecordNewGamePlay.class);
+        intent.putExtra(EXTRA_RECORD_GAME_POSITION, position);
+        return intent;
     }
 
 
@@ -33,11 +43,20 @@ public class RecordNewGamePlay extends AppCompatActivity {
         setContentView(R.layout.activity_record_new_game_play);
 //        setTitle("Record New Game Play");
 
+        gameManager = GameManager.getInstance();
+
         numPlayers = findViewById(R.id.numPlayersInput);
         combinedScore = findViewById(R.id.combinedScoreInput);
 
+        extractPositionFromIntent();
+
     }
-    
+
+    private void extractPositionFromIntent() {
+        Intent intent = getIntent();
+        gameConfigPosition = intent.getIntExtra(EXTRA_RECORD_GAME_POSITION, 0);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //Inflate the menu
@@ -49,9 +68,11 @@ public class RecordNewGamePlay extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case R.id.action_save:
-                //GameRecord gameRecord = new GameRecord();
 
                 setupGameRecordInput();
+
+                Toast.makeText(this, "Game Record Saved!", Toast.LENGTH_SHORT).show();
+                finish();
 
                 return true;
 
@@ -64,6 +85,7 @@ public class RecordNewGamePlay extends AppCompatActivity {
 
         int numberOfPlayersNum = 0;
         int combinedScoreNum = 0;
+        gameConfigs = gameManager.getGameConfigByIndex(gameConfigPosition);
 
         String  numberOfPlayersStr = numPlayers.getText().toString();
         try {
@@ -79,6 +101,11 @@ public class RecordNewGamePlay extends AppCompatActivity {
             Log.d("Combined Score: ", "NumberFormatException caught: ");
         }
 
-        gameRecord = new GameRecord(numberOfPlayersNum, combinedScoreNum, gameConfigs);
+        Achievement achievement = new Achievement();
+        achievement.setCurAchievement(numberOfPlayersNum, combinedScoreNum, gameConfigs);
+
+        gameRecord = new GameRecord(numberOfPlayersNum, combinedScoreNum, gameConfigs, achievement);
+
+        gameConfigs.addGameRecord(gameRecord);
     }
 }
