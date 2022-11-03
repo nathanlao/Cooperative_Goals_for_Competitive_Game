@@ -4,54 +4,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <ImageView
-
-        android:id="@+id/gamePlayedIcon"
-        android:layout_width="61dp"
-        android:layout_height="72dp"
-        android:layout_row="0"
-        android:layout_rowSpan="2"
-        android:layout_column="0"
-        android:scaleType="fitXY" />
-
     <TextView
         android:id="@+id/txtGameCreationTime"
-        android:layout_width="158dp"
-        android:layout_height="42dp"
+        android:layout_width="159dp"
+        android:layout_height="38dp"
         android:layout_row="0"
         android:layout_column="1"
         android:layout_columnWeight="1"
-        android:layout_marginStart="0dp"
+        android:layout_marginStart="20dp"
         android:textColor="#1E90FF"
-        android:textSize="24sp" />
+        android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/txtCombinedScore"
-        android:layout_width="158dp"
-        android:layout_height="34dp"
+        android:id="@+id/txtNumOfPlayers"
+        android:layout_width="174dp"
+        android:layout_height="37dp"
         android:layout_row="0"
         android:layout_column="2"
         android:layout_columnWeight="1"
         android:layout_marginStart="0dp"
         android:textColor="#4B0082"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        tools:text="@string/number_players_view" />
 
     <TextView
-        android:id="@+id/txtNumOfPlayers"
-        android:layout_width="130dp"
-        android:layout_height="34dp"
+        android:id="@+id/txtCombinedScore"
+        android:layout_width="143dp"
+        android:layout_height="39dp"
         android:layout_row="1"
         android:layout_column="1"
         android:layout_columnWeight="1"
-        android:layout_marginStart="0dp"
+        android:layout_marginStart="20dp"
         android:textColor="#4B0082"
         android:textSize="16sp"
-        tools:text="" />
+        tools:text="@string/combined_score_view" />
 
     <TextView
         android:id="@+id/txtAchievementLevel"
-        android:layout_width="177dp"
-        android:layout_height="34dp"
+        android:layout_width="148dp"
+        android:layout_height="39dp"
         android:layout_row="1"
         android:layout_column="2"
         android:layout_columnWeight="1"

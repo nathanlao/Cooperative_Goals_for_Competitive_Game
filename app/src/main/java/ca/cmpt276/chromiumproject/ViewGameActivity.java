@@ -101,7 +101,6 @@ public class ViewGameActivity extends AppCompatActivity {
     private void setupGamesRecordList() {
         // Get current game configuration
         gameConfigs = gameManager.getGameConfigByIndex(position);
-        Log.d("Current game config", gameConfigs.getName());
     }
 
     private class gameRecordsListAdapter extends ArrayAdapter<GameRecord> {
@@ -119,15 +118,22 @@ public class ViewGameActivity extends AppCompatActivity {
 
            GameRecord currentRecord = gameRecords.get(position);
 
-            // Fill the view with gameName, poor score and great score
+            // String msg with associated retrieved values
+            String numOfPlayersMsg = getString(R.string.number_players_view);
+            numOfPlayersMsg += " " + currentRecord.getNumPlayers();
+
+            String combinedScoreMsg = getString(R.string.combined_score_view);
+            combinedScoreMsg += " " + currentRecord.getCombinedScore();
+
+            // Fill the view creationTime, number players, combined score and achievement level
             TextView creationTimeView = gamePlayedView.findViewById(R.id.txtGameCreationTime);
             creationTimeView.setText(currentRecord.getCreationTimeString());
 
             TextView numberOfPlayersView = gamePlayedView.findViewById(R.id.txtNumOfPlayers);
-            numberOfPlayersView.setText(currentRecord.getNumPlayers());
+            numberOfPlayersView.setText(numOfPlayersMsg);
 
             TextView combinedScoreView = gamePlayedView.findViewById(R.id.txtCombinedScore);
-            combinedScoreView.setText(currentRecord.getCombinedScore());
+            combinedScoreView.setText(combinedScoreMsg);
 
             TextView achievementView = gamePlayedView.findViewById(R.id.txtAchievementLevel);
             achievementView.setText(currentRecord.getAchievement());
