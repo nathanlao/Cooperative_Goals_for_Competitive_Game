@@ -10,7 +10,7 @@
         <entry key="app/src/main/res/layout/activity_view_game.xml" value="0.33" />
         <entry key="app/src/main/res/layout/game_config_item_view.xml" value="0.33" />
         <entry key="app/src/main/res/layout/games_played.xml" value="0.22023208879919273" />
-        <entry key="app/src/main/res/layout/games_played_item_view.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/games_played_item_view.xml" value="0.33" />
         <entry key="app/src/main/res/menu/menu_add_game_configurations.xml" value="0.42339121552604697" />
         <entry key="app/src/main/res/menu/menu_game_configurations.xml" value="0.23703703703703705" />
         <entry key="app/src/main/res/menu/menu_record_new_game_played.xml" value="0.4458631256384065" />
