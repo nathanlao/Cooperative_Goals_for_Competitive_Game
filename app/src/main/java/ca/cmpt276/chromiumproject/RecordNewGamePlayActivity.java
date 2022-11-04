@@ -10,15 +10,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import ca.cmpt276.chromiumproject.model.GameRecord;
-
-public class RecordNewGamePlay extends AppCompatActivity {
+public class RecordNewGamePlayActivity extends AppCompatActivity {
 
     TextView numPlayers;
     TextView combinedScore;
 
     public static Intent makeRecordIntent(Context context) {
-        return new Intent(context, RecordNewGamePlay.class);
+        return new Intent(context, RecordNewGamePlayActivity.class);
     }
 
 

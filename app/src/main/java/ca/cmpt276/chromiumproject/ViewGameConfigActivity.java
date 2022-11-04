@@ -5,19 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.List;
-
 import ca.cmpt276.chromiumproject.model.GameConfig;
 import ca.cmpt276.chromiumproject.model.GameManager;
-import ca.cmpt276.chromiumproject.model.GameRecord;
 
-public class ViewGameActivity extends AppCompatActivity {
+public class ViewGameConfigActivity extends AppCompatActivity {
 
     public static final String POSITION = "POSITION";
     private int position;
@@ -25,7 +21,7 @@ public class ViewGameActivity extends AppCompatActivity {
     private GameManager gameManager;
 
     public static Intent makeViewIntent(Context context, int position) {
-        Intent intent = new Intent(context, ViewGameActivity.class);
+        Intent intent = new Intent(context, ViewGameConfigActivity.class);
         intent.putExtra(POSITION, position);
         return intent;
     }
@@ -66,7 +62,7 @@ public class ViewGameActivity extends AppCompatActivity {
     private void setUpEditConfig() {
         Button editBtn = findViewById(R.id.editConfigBtn);
         editBtn.setOnClickListener(view -> {
-                Intent editIntent = AddOrEditGameConfigActivity.makeEditIntent(ViewGameActivity.this, position);
+                Intent editIntent = AddOrEditGameConfigActivity.makeEditIntent(ViewGameConfigActivity.this, position);
                 startActivity(editIntent);
                 });
     }
@@ -74,7 +70,7 @@ public class ViewGameActivity extends AppCompatActivity {
     private void setUpRecordNewGame() {
         Button recordBtn = findViewById(R.id.recordGameBtn);
         recordBtn.setOnClickListener(view -> {
-            Intent recordIntent = RecordNewGamePlay.makeRecordIntent(ViewGameActivity.this);
+            Intent recordIntent = RecordNewGamePlayActivity.makeRecordIntent(ViewGameConfigActivity.this);
             startActivity(recordIntent);
         });
     }
