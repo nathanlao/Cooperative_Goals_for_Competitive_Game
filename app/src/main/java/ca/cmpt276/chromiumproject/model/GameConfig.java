@@ -52,6 +52,10 @@ public class GameConfig {
         return gameRecords.size();
     }
 
+    public List<GameRecord> getGameRecords() {
+        return gameRecords;
+    }
+
     // TODO: need to ask customer if there is a specific data format he wants, for now just reusing format from As2
     public String[] getGameRecordStrings() {
         int numGamesPlayed = getNumGameRecords();
