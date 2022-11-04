@@ -8,12 +8,12 @@
         android:id="@+id/item_achieveScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/textView"
+        android:layout_alignTop="@+id/item_req"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="20dp"
         android:layout_marginTop="0dp"
         android:layout_marginEnd="16dp"
-        android:layout_toEndOf="@+id/textView"
+        android:layout_toEndOf="@+id/item_req"
         android:text="Score here"
         android:textSize="20sp" />
 
@@ -23,9 +23,9 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/imageView"
         android:layout_alignEnd="@+id/item_achieveScore"
-        android:layout_marginStart="84dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="4dp"
-        android:layout_marginEnd="84dp"
+        android:layout_marginEnd="0dp"
         android:layout_toEndOf="@+id/imageView"
         android:text="Achieve here"
         android:textSize="20sp" />
@@ -44,7 +44,7 @@
         app:srcCompat="?android:attr/fingerprintAuthDrawable" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/item_req"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/item_achievement"
