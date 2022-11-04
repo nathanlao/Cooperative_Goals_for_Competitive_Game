@@ -31,11 +31,10 @@ public class ViewAchievementActivity extends AppCompatActivity {
     private static final String SPECIAL_ACHIEVEMENT =
             "Toddler's Baby Step";
 
-    private String[] achievementCollections = {"One", "Two", "Three", "Four",
-            "Five", "Six", "Seven", "Eight"};
-    private List<String> actualAchievementList = new ArrayList<>();
+    private String[] achievementCollections = {};
+    private List<String> actualAchievementList;
 
-    private int[] potentialScoreCollections = {1,2,3,4,5,6,7,8};
+    private int[] potentialScoreCollections = {};
     private List<Integer> actualScoreList;
 
     @Override
@@ -45,7 +44,7 @@ public class ViewAchievementActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
-        //extractDataFromIntent();
+        extractDataFromIntent();
         includeSpecialAchievement();
 
         populateAchievements();
