@@ -79,7 +79,7 @@ public class RecordNewGamePlay extends AppCompatActivity {
                     return false;
                 }
 
-                Toast.makeText(this, "Game Record Saved!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.toast_save_game_record, Toast.LENGTH_SHORT).show();
                 finish();
 
                 return true;
@@ -124,10 +124,10 @@ public class RecordNewGamePlay extends AppCompatActivity {
         String combinedScoreStr = combinedScore.getText().toString();
 
         if (numOfPlayersStr.matches("")) {
-            Toast.makeText(this, "All fields cannot be empty, please enter the number of players", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.toast_check_empty_num_players, Toast.LENGTH_LONG).show();
             return true;
         } else if (combinedScoreStr.matches("")){
-            Toast.makeText(this, "All fields cannot be empty, please enter the combined score", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.toast_check_empty_combine_score, Toast.LENGTH_LONG).show();
             return true;
         }
         return false;

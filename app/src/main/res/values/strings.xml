@@ -31,6 +31,9 @@
     <string name="number_players_view">Number of Players:</string>
     <string name="combined_score_view">Combined Score:</string>
     <string name="achievement_level_view">Level:</string>
+    <string name="toast_save_game_record">Game Record Saved!</string>
+    <string name="toast_check_empty_num_players">All fields cannot be empty, please enter the number of players</string>
+    <string name="toast_check_empty_combine_score">All fields cannot be empty, please enter the combined score</string>
 
     <!-- Strings used for Record Game Screen -->
     <string name="number_of_players">Number of Players:</string>
