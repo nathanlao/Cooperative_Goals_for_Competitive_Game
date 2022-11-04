@@ -6,19 +6,37 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import ca.cmpt276.chromiumproject.model.Achievement;
+import ca.cmpt276.chromiumproject.model.GameConfig;
+import ca.cmpt276.chromiumproject.model.GameManager;
 import ca.cmpt276.chromiumproject.model.GameRecord;
 
 public class RecordNewGamePlay extends AppCompatActivity {
 
-    TextView numPlayers;
-    TextView combinedScore;
+    public static final String EXTRA_RECORD_GAME_POSITION = "Record Intent Extra - gameConfig position";
 
-    public static Intent makeRecordIntent(Context context) {
-        return new Intent(context, RecordNewGamePlay.class);
+    public static final String TAG_NUMBER_FORMAT_EXCEPTION = "Catch NumberFormatException";
+    public static final String TAG_ILLEGAL_ARGUMENT_EXCEPTION = "Catch IllegalArgumentException";
+
+    private GameManager gameManager;
+    private GameRecord gameRecord;
+    private GameConfig gameConfigs;
+
+    private int gameConfigPosition;
+
+    private TextView numPlayers;
+    private TextView combinedScore;
+
+    public static Intent makeRecordIntent(Context context, int position) {
+        Intent intent =  new Intent(context, RecordNewGamePlay.class);
+        intent.putExtra(EXTRA_RECORD_GAME_POSITION, position);
+        return intent;
     }
 
 
@@ -26,13 +44,21 @@ public class RecordNewGamePlay extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_new_game_play);
-//        setTitle("Record New Game Play");
+
+        gameManager = GameManager.getInstance();
 
         numPlayers = findViewById(R.id.numPlayersInput);
         combinedScore = findViewById(R.id.combinedScoreInput);
 
+        extractPositionFromIntent();
+
     }
-    
+
+    private void extractPositionFromIntent() {
+        Intent intent = getIntent();
+        gameConfigPosition = intent.getIntExtra(EXTRA_RECORD_GAME_POSITION, 0);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //Inflate the menu
@@ -44,11 +70,66 @@ public class RecordNewGamePlay extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case R.id.action_save:
-                //GameRecord gameRecord = new GameRecord();
+
+                // Take user input
+                setupGameRecordInput();
+
+                // Validate empty input and display Toast message accordingly
+                if (checkEmptyInput()) {
+                    return false;
+                }
+
+                Toast.makeText(this, R.string.toast_save_game_record, Toast.LENGTH_SHORT).show();
+                finish();
+
                 return true;
 
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void setupGameRecordInput() {
+
+        // Take user input and get current gameConfig
+        int numberOfPlayersNum = 0;
+        int combinedScoreNum = 0;
+        gameConfigs = gameManager.getGameConfigByIndex(gameConfigPosition);
+
+        String  numberOfPlayersStr = numPlayers.getText().toString();
+        try {
+            numberOfPlayersNum = Integer.parseInt(numberOfPlayersStr);
+        } catch (NumberFormatException ex) {
+            Log.d(TAG_NUMBER_FORMAT_EXCEPTION, "NumberFormatException caught: number of players can not be empty");
+        }
+
+        String combinedScoreStr = combinedScore.getText().toString();
+        try {
+            combinedScoreNum = Integer.parseInt(combinedScoreStr);
+        } catch (NumberFormatException ex) {
+            Log.d(TAG_NUMBER_FORMAT_EXCEPTION, "NumberFormatException caught: combined score can not be empty");
+        }
+
+        // Add game record to the record list in gameConfig
+        try {
+            gameRecord = new GameRecord(numberOfPlayersNum, combinedScoreNum, gameConfigs);
+            gameConfigs.addGameRecord(gameRecord);
+        } catch (IllegalArgumentException ex) {
+            Log.d(TAG_ILLEGAL_ARGUMENT_EXCEPTION, "IllegalArgumentException caught: number of players must be greater than 0");
+        }
+    }
+
+    private boolean checkEmptyInput() {
+        String numOfPlayersStr = numPlayers.getText().toString();
+        String combinedScoreStr = combinedScore.getText().toString();
+
+        if (numOfPlayersStr.matches("")) {
+            Toast.makeText(this, R.string.toast_check_empty_num_players, Toast.LENGTH_LONG).show();
+            return true;
+        } else if (combinedScoreStr.matches("")){
+            Toast.makeText(this, R.string.toast_check_empty_combine_score, Toast.LENGTH_LONG).show();
+            return true;
+        }
+        return false;
     }
 }

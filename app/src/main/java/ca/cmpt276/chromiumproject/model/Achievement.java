@@ -29,7 +29,7 @@ public class Achievement {
 
             //check on first loop, for Special worst achievement
             if (i == 0) {
-                if (theScore < potentialAchievePoints[0]) {
+                if (theScore <= potentialAchievePoints[0]) {
                     curAchievement = "Toddler's Baby Step";
                 }
             }
@@ -61,6 +61,7 @@ public class Achievement {
     }
 
     public void setPotentialAchievePoint(int playerCount, GameConfig gameConfig) {
+        potentialAchievePoints = new int[NUM_ACHIEVEMENTS];
         curGameConfig = gameConfig;
         int lowestAchieve = playerCount * curGameConfig.getPoorScore();
         int highestAchieve = playerCount * curGameConfig.getGreatScore();
@@ -84,6 +85,12 @@ public class Achievement {
     }
     public int[] getPotentialAchievePoint() {
         return potentialAchievePoints;
+    }
+
+    public static Achievement makeAchievement(int playerCount, int theScore, GameConfig gameConfig) {
+        Achievement achievement = new Achievement();
+        achievement.setCurAchievement(playerCount, theScore, gameConfig);
+        return achievement;
     }
 
 }
