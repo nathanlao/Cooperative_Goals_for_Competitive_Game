@@ -95,6 +95,13 @@ public class Achievement {
         return ACHIEVEMENT_COLLECTION;
     }
 
+    public static int[] getStaticPotentialAchievePoint(int playerCount, GameConfig gameConfig) {
+        int potentialScore = 0;
+        Achievement potentialAchievement = makeAchievement(playerCount, potentialScore, gameConfig);
+        potentialAchievement.setPotentialAchievePoint(playerCount, gameConfig);
+        return potentialAchievement.getPotentialAchievePoint();
+    }
+
     public int[] getPotentialAchievePoint() {
         return potentialAchievePoints;
     }
