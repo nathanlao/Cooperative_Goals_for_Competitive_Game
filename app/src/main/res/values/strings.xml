@@ -39,4 +39,9 @@
     <string name="number_of_players">Number of Players:</string>
     <string name="combined_score">Combined Score:</string>
 
+    <!-- Strings used for View Achievement Screen -->
+    <string name="special_achievement">Toddler\'s Baby Step</string>
+    <string name="display_required_score">Required Score: </string>
+    <string name="display_earned_by_score">Earned by Score: </string>
+    <string name="display_special_achievement">Special Achievement: </string>
 </resources>

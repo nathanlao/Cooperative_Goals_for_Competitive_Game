@@ -28,8 +28,6 @@ public class ViewAchievementActivity extends AppCompatActivity {
             "ca.cmpt276.chromiumproject - List of collections of available Achievements";
     private static final String POTENTIAL_SCORE_LIST =
             "ca.cmpt276.chromiumproject - List of potential achievable scores";
-    private static final String SPECIAL_ACHIEVEMENT =
-            "Toddler's Baby Step";
 
     private String[] achievementCollections = {};
     private List<String> actualAchievementList;
@@ -52,7 +50,7 @@ public class ViewAchievementActivity extends AppCompatActivity {
 
     private void includeSpecialAchievement() {
         actualAchievementList = new ArrayList<String>(Arrays.asList(achievementCollections));
-        actualAchievementList.add(0, SPECIAL_ACHIEVEMENT);
+        actualAchievementList.add(0, getString(R.string.special_achievement));
         actualScoreList =
                 new ArrayList<Integer>(Arrays.stream(potentialScoreCollections).boxed().collect(Collectors.toList()));
         actualScoreList.add(0, potentialScoreCollections[0]);
@@ -98,15 +96,15 @@ public class ViewAchievementActivity extends AppCompatActivity {
             TextView achieveText = itemView.findViewById(R.id.item_achievement);
             achieveText.setText(curAchieve);
             TextView reqText = itemView.findViewById(R.id.item_req);
-            reqText.setText("Required Score: ");
+            reqText.setText(getString(R.string.display_required_score));
 
             if (position == 0) {
                 int curAchScore = actualScoreList.get(position);
                 TextView scoreText = itemView.findViewById(R.id.item_achieveScore);
                 scoreText.setText("" + "<" + curAchScore);
 
-                reqText.setText("Earned by Score: ");
-                achieveText.setText("Special Achievement: " + curAchieve);
+                reqText.setText(getString(R.string.display_earned_by_score));
+                achieveText.setText(getString(R.string.display_special_achievement) + curAchieve);
             }
             if (position != 0) {
                 int curAchScore = actualScoreList.get(position);
