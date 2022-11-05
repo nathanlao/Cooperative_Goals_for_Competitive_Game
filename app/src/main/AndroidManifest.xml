@@ -20,6 +20,7 @@
             android:name=".AddOrEditGameConfigActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
+        <activity
             android:name=".RecordNewGamePlay"
             android:exported="false" />
         <activity
