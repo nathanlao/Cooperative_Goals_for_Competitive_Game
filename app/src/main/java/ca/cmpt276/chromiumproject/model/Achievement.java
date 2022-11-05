@@ -23,6 +23,12 @@ public class Achievement {
         this.curAchievement = "Initial Empty";
     }
 
+    public static Achievement makeAchievement(int playerCount, int theScore, GameConfig gameConfig) {
+        Achievement achievement = new Achievement();
+        achievement.setCurAchievement(playerCount, theScore, gameConfig);
+        return achievement;
+    }
+
     public void setCurAchievement(int playerCount, int theScore, GameConfig gameConfig) {
         setPotentialAchievePoint(playerCount, gameConfig);
         int curAchieveEndBoundary = 0;
@@ -91,12 +97,6 @@ public class Achievement {
 
     public int[] getPotentialAchievePoint() {
         return potentialAchievePoints;
-    }
-
-    public static Achievement makeAchievement(int playerCount, int theScore, GameConfig gameConfig) {
-        Achievement achievement = new Achievement();
-        achievement.setCurAchievement(playerCount, theScore, gameConfig);
-        return achievement;
     }
 
 }
