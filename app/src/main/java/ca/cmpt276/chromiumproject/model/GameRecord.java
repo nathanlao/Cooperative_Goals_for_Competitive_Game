@@ -17,7 +17,8 @@ public class GameRecord {
     private int combinedScore;
 
     private Achievement theAchievement;
-    private LocalDateTime creationTime;
+    private String creationTime;
+
     private static final DateTimeFormatter DT_FORMAT = DateTimeFormatter.ofPattern("MMM d @ h:mm a");
 
     public GameRecord(int numPlayers, int combinedScore, int poorScore, int greatScore) {
@@ -27,7 +28,7 @@ public class GameRecord {
 
         this.numPlayers = numPlayers;
         this.combinedScore = combinedScore;
-        this.creationTime = LocalDateTime.now();
+        creationTime = LocalDateTime.now().format(DT_FORMAT);
         this.theAchievement = makeAchievement(numPlayers, combinedScore, poorScore, greatScore);
     }
 
@@ -40,7 +41,7 @@ public class GameRecord {
     }
 
     public String getCreationTimeString() {
-        return creationTime.format(DT_FORMAT);
+        return creationTime;
     }
 
     public String getAchievement() {

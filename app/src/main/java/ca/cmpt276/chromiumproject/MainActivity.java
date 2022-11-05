@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -215,6 +217,15 @@ public class MainActivity extends AppCompatActivity {
     public boolean savedGameConfigsExists() {
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         return prefs.contains(SAVED_CONFIGS_NAME);
+    }
+
+    @SuppressLint("ApplySharedPref")
+    private void removeSavedGameConfigs() {
+        SharedPreferences prefs =
+                getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.remove(SAVED_CONFIGS_NAME);
+        editor.commit();
     }
 
 }
