@@ -43,5 +43,7 @@
     <string name="special_achievement">Toddler\'s Baby Step</string>
     <string name="display_required_score">Required Score: </string>
     <string name="display_earned_by_score">Earned by Score: </string>
-    <string name="display_special_achievement">Special Achievement: </string>
+    <string name="display_special_achievement">"Special Achievement: \n"</string>
+    <string name="view_achievements">View Achievements</string>
+
 </resources>

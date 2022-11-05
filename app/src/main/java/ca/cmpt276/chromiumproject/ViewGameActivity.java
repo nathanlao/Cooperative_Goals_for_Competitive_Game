@@ -19,6 +19,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.cmpt276.chromiumproject.model.Achievement;
 import ca.cmpt276.chromiumproject.model.GameConfig;
 import ca.cmpt276.chromiumproject.model.GameManager;
 import ca.cmpt276.chromiumproject.model.GameRecord;
@@ -57,6 +58,7 @@ public class ViewGameActivity extends AppCompatActivity {
         setUpEditConfig();
         setUpRecordNewGame();
         setUpDeleteConfig();
+        setUpViewAchievement();
 
         // populate list of game records
         setupGamesRecordList();
@@ -71,11 +73,29 @@ public class ViewGameActivity extends AppCompatActivity {
         populateGamesRecordListView();
     }
 
+    private void setUpViewAchievement() {
+        Button achievementBtn = findViewById(R.id.achievementBtn);
+        achievementBtn.setOnClickListener( v -> registerAchievementBtnClick());
+    }
+
+    private void registerAchievementBtnClick() {
+        GameConfig thisConfig = gameManager.getGameConfigByIndex(position);
+
+        int testPlayerCount = 2; // TODO: Remove hard-coded value! Need to get playerCount from user input!
+        // Feel free to change this code after #21 has been implemented!
+        String[] achieveList = Achievement.getAchievementCollection();
+        int[] scoreList = Achievement.getStaticPotentialAchievePoint(testPlayerCount, thisConfig);
+        Intent intent = ViewAchievementActivity.makeIntent(this, achieveList, scoreList);
+        startActivity(intent);
+    }
+
     private void populateGamesRecordListView() {
         ArrayAdapter<GameRecord> adapter = new gameRecordsListAdapter();
         ListView list = findViewById(R.id.gamesPlayedListView);
         list.setAdapter(adapter);
     }
+
+
 
     private void setUpDeleteConfig() {
         Button deleteBtn = findViewById(R.id.deleteConfigBtn);
