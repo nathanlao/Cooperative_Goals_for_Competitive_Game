@@ -6,13 +6,14 @@ package ca.cmpt276.chromiumproject.model;
  * Calculates potential points based on current game config's values passed down.
  */
 public class Achievement {
-    private static final int NUM_ACHIEVEMENTS = 8;
 
     private String curAchievement;
     private static final String[] ACHIEVEMENT_COLLECTION = {"Walking Toddler",
             "Fearless Kid", "HighSchool Star", "District Gang",
             "Infamous King", "Game Emperor",
             "World Conqueror", "Creator of the Game"};
+    private static final int NUM_ACHIEVEMENTS = ACHIEVEMENT_COLLECTION.length;
+
     private int[] potentialAchievePoints = {};
     private int partitionNum = 0;
 
@@ -87,7 +88,7 @@ public class Achievement {
     public static String[] getAchievementCollection() {
         return ACHIEVEMENT_COLLECTION;
     }
-    
+
     public int[] getPotentialAchievePoint() {
         return potentialAchievePoints;
     }
