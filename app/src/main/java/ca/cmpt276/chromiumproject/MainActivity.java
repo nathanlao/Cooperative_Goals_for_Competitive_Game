@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +22,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -167,4 +170,33 @@ public class MainActivity extends AppCompatActivity {
             return gameView;
         }
     }
+
+    // GAME CONFIG SAVE SUPPORT
+
+    public static final String PREFS_NAME = "AppPrefs";
+    private static final String SAVED_GAME_MANAGER_NAME = "Saved Game Manager";
+    private static final String DEFAULT_PREFS_NAME = "";
+    private void saveGameManager() {
+        // save current instance of GameManager as a Gson object to SharedPrefs
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(gameManager);
+        editor.putString(SAVED_GAME_MANAGER_NAME, json);
+        editor.commit();
+    }
+
+    private GameManager getSavedGameManager() {
+        // get saved GameManager from SharedPrefs, if it exists.
+        Gson gson = new Gson();
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        String json = prefs.getString(SAVED_GAME_MANAGER_NAME, DEFAULT_PREFS_NAME);
+        return gson.fromJson(json, GameManager.class);
+    }
+
+    public boolean savedGameManagerExists() {
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        return prefs.contains(SAVED_GAME_MANAGER_NAME);
+    }
+
 }
