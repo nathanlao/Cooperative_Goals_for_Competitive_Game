@@ -104,7 +104,7 @@ public class ViewAchievementActivity extends AppCompatActivity {
                 scoreText.setText("" + "<" + curAchScore);
 
                 reqText.setText(getString(R.string.display_earned_by_score));
-                achieveText.setText(getString(R.string.display_special_achievement) + curAchieve);
+                achieveText.setText(getString(R.string.display_special_achievement, curAchieve));
             }
             if (position != 0) {
                 int curAchScore = actualScoreList.get(position);
