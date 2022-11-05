@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +25,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +54,12 @@ public class MainActivity extends AppCompatActivity {
 
         // Get one instance that GameManager produced
         gameManager = GameManager.getInstance();
+
+        // Load saved GameConfigs from SharedPrefs, if it exists
+        if (savedGameConfigsExists()) {
+            List<GameConfig> savedGameConfigs = getSavedGameConfigs();
+            gameManager.setGameConfigs(savedGameConfigs);
+        }
 
         // Setup and display game configuration list
         setupListGameConfigs();
@@ -104,6 +113,14 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveGameConfigs();
+        // TODO: remove this log message later haha
+        Log.i("TAG", "HEY app was paused WOAH!!!");
     }
 
     private void setupListGameConfigs() {
@@ -174,29 +191,29 @@ public class MainActivity extends AppCompatActivity {
     // GAME CONFIG SAVE SUPPORT
 
     public static final String PREFS_NAME = "AppPrefs";
-    private static final String SAVED_GAME_MANAGER_NAME = "Saved Game Manager";
-    private static final String DEFAULT_PREFS_NAME = "";
-    private void saveGameManager() {
-        // save current instance of GameManager as a Gson object to SharedPrefs
+    private static final String SAVED_CONFIGS_NAME = "Saved GameConfigs";
+    private void saveGameConfigs() {
+        // save current GameManager's list of GameConfigs to SharedPrefs as a Gson object
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         Gson gson = new Gson();
-        String json = gson.toJson(gameManager);
-        editor.putString(SAVED_GAME_MANAGER_NAME, json);
+        String json = gson.toJson(gameManager.getGameConfigs());
+        editor.putString(SAVED_CONFIGS_NAME, json);
         editor.commit();
     }
 
-    private GameManager getSavedGameManager() {
-        // get saved GameManager from SharedPrefs, if it exists.
-        Gson gson = new Gson();
+    private List<GameConfig> getSavedGameConfigs() {
+        // get saved list of GameConfigs from SharedPrefs, if it exists.
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        String json = prefs.getString(SAVED_GAME_MANAGER_NAME, DEFAULT_PREFS_NAME);
-        return gson.fromJson(json, GameManager.class);
+        Gson gson = new Gson();
+        String json = prefs.getString(SAVED_CONFIGS_NAME, null);
+        Type type = new TypeToken<ArrayList<GameConfig>>() {}.getType();
+        return gson.fromJson(json, type);
     }
 
-    public boolean savedGameManagerExists() {
+    public boolean savedGameConfigsExists() {
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        return prefs.contains(SAVED_GAME_MANAGER_NAME);
+        return prefs.contains(SAVED_CONFIGS_NAME);
     }
 
 }
