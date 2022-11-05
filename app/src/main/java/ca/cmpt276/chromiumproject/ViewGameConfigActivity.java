@@ -4,7 +4,6 @@ package ca.cmpt276.chromiumproject;
  * A list of past game records for the game config is also listed underneath the buttons.
  */
 
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
