@@ -20,7 +20,6 @@ public class GameRecord {
     private LocalDateTime creationTime;
     private static final DateTimeFormatter DT_FORMAT = DateTimeFormatter.ofPattern("MMM d @ h:mm a");
 
-    // TODO: Could handle achievement object in a cleaner way (Pass in achievement object for now to avoid NULL OBJECT ERROR)
     public GameRecord(int numPlayers, int combinedScore, GameConfig gameConfig) {
         if (numPlayers < MIN_PLAYERS) {
             throw new IllegalArgumentException("Number of players cannot be less than " + MIN_PLAYERS +".");
