@@ -17,7 +17,6 @@ public class GameRecord {
     private int combinedScore;
 
     private Achievement theAchievement;
-    private GameConfig gameConfig;
     private LocalDateTime creationTime;
     private static final DateTimeFormatter DT_FORMAT = DateTimeFormatter.ofPattern("MMM d @ h:mm a");
 
@@ -29,7 +28,6 @@ public class GameRecord {
 
         this.numPlayers = numPlayers;
         this.combinedScore = combinedScore;
-        this.gameConfig = gameConfig;
         this.creationTime = LocalDateTime.now();
         this.theAchievement = makeAchievement(numPlayers, combinedScore, gameConfig);
     }
