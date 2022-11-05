@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
@@ -186,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String PREFS_NAME = "AppPrefs";
     private static final String SAVED_CONFIGS_NAME = "Saved GameConfigs";
+    @SuppressLint("ApplySharedPref")
     public static void saveGameConfigs(Context context, GameManager gameManager) {
         // save current GameManager's list of GameConfigs to SharedPrefs as a Gson object
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
