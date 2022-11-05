@@ -117,14 +117,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        saveGameConfigs();
-        // TODO: remove this log message later haha
-        Log.i("TAG", "HEY app was paused WOAH!!!");
-    }
-
     private void setupListGameConfigs() {
         // Store gameConfigs from gameManager into gameConfigs arraylist
         gameConfigs = gameManager.getGameConfigs();
@@ -194,9 +186,9 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String PREFS_NAME = "AppPrefs";
     private static final String SAVED_CONFIGS_NAME = "Saved GameConfigs";
-    private void saveGameConfigs() {
+    public static void saveGameConfigs(Context context, GameManager gameManager) {
         // save current GameManager's list of GameConfigs to SharedPrefs as a Gson object
-        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         Gson gson = new Gson();
         String json = gson.toJson(gameManager.getGameConfigs());
