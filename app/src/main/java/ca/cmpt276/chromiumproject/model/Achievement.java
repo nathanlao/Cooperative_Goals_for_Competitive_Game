@@ -6,7 +6,6 @@ package ca.cmpt276.chromiumproject.model;
  * Calculates potential points based on current game config's values passed down.
  */
 public class Achievement {
-
     private String curAchievement;
     private static final String[] ACHIEVEMENT_COLLECTION = {"Walking Toddler",
             "Fearless Kid", "HighSchool Star", "District Gang",
