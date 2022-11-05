@@ -207,6 +207,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         Gson gson = new Gson();
         String json = prefs.getString(SAVED_CONFIGS_NAME, null);
+        Log.i("TAG", json);
         Type type = new TypeToken<ArrayList<GameConfig>>() {}.getType();
         return gson.fromJson(json, type);
     }

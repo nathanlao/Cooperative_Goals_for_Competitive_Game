@@ -112,7 +112,7 @@ public class RecordNewGamePlay extends AppCompatActivity {
 
         // Add game record to the record list in gameConfig
         try {
-            gameRecord = new GameRecord(numberOfPlayersNum, combinedScoreNum, gameConfigs);
+            gameRecord = new GameRecord(numberOfPlayersNum, combinedScoreNum, gameConfigs.getPoorScore(), gameConfigs.getGreatScore());
             gameConfigs.addGameRecord(gameRecord);
         } catch (IllegalArgumentException ex) {
             Log.d(TAG_ILLEGAL_ARGUMENT_EXCEPTION, "IllegalArgumentException caught: number of players must be greater than 0");

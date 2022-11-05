@@ -20,7 +20,7 @@ public class GameRecord {
     private LocalDateTime creationTime;
     private static final DateTimeFormatter DT_FORMAT = DateTimeFormatter.ofPattern("MMM d @ h:mm a");
 
-    public GameRecord(int numPlayers, int combinedScore, GameConfig gameConfig) {
+    public GameRecord(int numPlayers, int combinedScore, int poorScore, int greatScore) {
         if (numPlayers < MIN_PLAYERS) {
             throw new IllegalArgumentException("Number of players cannot be less than " + MIN_PLAYERS +".");
         }
@@ -28,7 +28,7 @@ public class GameRecord {
         this.numPlayers = numPlayers;
         this.combinedScore = combinedScore;
         this.creationTime = LocalDateTime.now();
-        this.theAchievement = makeAchievement(numPlayers, combinedScore, gameConfig);
+        this.theAchievement = makeAchievement(numPlayers, combinedScore, poorScore, greatScore);
     }
 
     public int getNumPlayers() {
@@ -47,7 +47,7 @@ public class GameRecord {
         return theAchievement.getCurAchievement();
     }
 
-    public void calcAchievement(int numPlayers, int combinedScore, GameConfig gameConfig) {
-        theAchievement.setCurAchievement(numPlayers, combinedScore, gameConfig);
+    public void calcAchievement(int numPlayers, int combinedScore, int poorScore, int greatScore) {
+        theAchievement.setCurAchievement(numPlayers, combinedScore, poorScore, greatScore);
     }
 }
