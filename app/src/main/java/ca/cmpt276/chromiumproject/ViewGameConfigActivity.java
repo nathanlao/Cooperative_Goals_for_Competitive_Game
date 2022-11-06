@@ -95,7 +95,7 @@ public class ViewGameConfigActivity extends AppCompatActivity {
         // Feel free to change this code after #21 has been implemented!
         String[] achieveList = Achievement.getAchievementCollection();
         int[] scoreList = Achievement.getStaticPotentialAchievePoint(testPlayerCount, thisConfig);
-        Intent intent = ViewAchievementActivity.makeIntent(this, achieveList, scoreList);
+        Intent intent = ViewAchievementActivity.makeIntent(this, gameConfigPosition);
         startActivity(intent);
     }
 

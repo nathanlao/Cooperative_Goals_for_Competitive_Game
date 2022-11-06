@@ -45,5 +45,7 @@
     <string name="display_earned_by_score">Earned by Score: </string>
     <string name="display_special_achievement">"Special Achievement: \n%s"</string>
     <string name="view_achievements">View Achievements</string>
+    <string name="zero_player_msg">Please Enter Players more than 0!</string>
+    <string name="num_player_text">Enter Number of Players:</string>
 
 </resources>
