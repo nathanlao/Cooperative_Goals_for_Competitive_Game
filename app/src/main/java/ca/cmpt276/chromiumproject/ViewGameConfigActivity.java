@@ -1,8 +1,4 @@
 package ca.cmpt276.chromiumproject;
-/**ViewGameConfig Activity shows users details about a game config (the game config they chose in the main activity screen).
- * It shows users buttons to Edit the game config or record a new game played, both of which open a different activity.
- * A list of past game records for the game config is also listed underneath the buttons.
- */
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,9 +18,15 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.cmpt276.chromiumproject.model.Achievement;
 import ca.cmpt276.chromiumproject.model.GameConfig;
 import ca.cmpt276.chromiumproject.model.GameManager;
 import ca.cmpt276.chromiumproject.model.GameRecord;
+
+/**ViewGameConfig Activity shows users details about a game config (the game config they chose in the main activity screen).
+ * It shows users buttons to Edit the game config or record a new game played, both of which open a different activity.
+ * A list of past game records for the game config is also listed underneath the buttons.
+ */
 
 public class ViewGameConfigActivity extends AppCompatActivity {
 
@@ -62,6 +64,7 @@ public class ViewGameConfigActivity extends AppCompatActivity {
         setUpEditConfig();
         setUpRecordNewGame();
         setUpDeleteConfig();
+        setUpViewAchievement();
 
         // populate list of game records
         setupGamesRecordList();
@@ -74,6 +77,22 @@ public class ViewGameConfigActivity extends AppCompatActivity {
 
         setupGamesRecordList();
         populateGamesRecordListView();
+    }
+
+    private void setUpViewAchievement() {
+        Button achievementBtn = findViewById(R.id.achievementBtn);
+        achievementBtn.setOnClickListener( v -> registerAchievementBtnClick());
+    }
+
+    private void registerAchievementBtnClick() {
+        GameConfig thisConfig = gameManager.getGameConfigByIndex(gameConfigPosition);
+
+        int testPlayerCount = 2; // TODO: Remove hard-coded value! Need to get playerCount from user input!
+        // Feel free to change this code after #21 has been implemented!
+        String[] achieveList = Achievement.getAchievementCollection();
+        int[] scoreList = Achievement.getStaticPotentialAchievePoint(testPlayerCount, thisConfig);
+        Intent intent = ViewAchievementActivity.makeIntent(this, achieveList, scoreList);
+        startActivity(intent);
     }
 
     private void populateGamesRecordListView() {
