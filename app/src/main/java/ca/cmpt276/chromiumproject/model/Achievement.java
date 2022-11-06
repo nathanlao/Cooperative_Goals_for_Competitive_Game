@@ -16,8 +16,6 @@ public class Achievement {
     private int[] potentialAchievePoints = {};
     private int partitionNum = 0;
 
-    //private GameConfig curGameConfig;
-
     public Achievement() {
         this.curAchievement = "Initial Empty";
     }
@@ -92,8 +90,10 @@ public class Achievement {
     // Useful for showing list of possible scores.
     public static int[] getStaticPotentialAchievePoint(int playerCount, GameConfig gameConfig) {
         int potentialScore = 0;
-        Achievement potentialAchievement = makeAchievement(playerCount, potentialScore, gameConfig);
-        potentialAchievement.setPotentialAchievePoint(playerCount, gameConfig);
+        int poorScore = gameConfig.getPoorScore();
+        int greatScore = gameConfig.getGreatScore();
+        Achievement potentialAchievement = makeAchievement(playerCount, potentialScore, poorScore, greatScore);
+        potentialAchievement.setPotentialAchievePoint(playerCount, poorScore, greatScore);
         return potentialAchievement.getPotentialAchievePoint();
     }
 
