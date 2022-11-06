@@ -1,3 +1,4 @@
+package ca.cmpt276.chromiumproject;
 /**
  * MainActivity class allows user to start by adding a new game config
  * Use ArrayAdapter displays the listView of GameConfig list handle by GameManager
@@ -5,9 +6,6 @@
  * Add button on toolbar directs users to AddOrEditGameConfigActivity by using intent
  * On start and when there are no game configurations a text will appear telling the user how to start adding games.
  */
-
-package ca.cmpt276.chromiumproject;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,8 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private GameManager gameManager;
     private List<GameConfig> gameConfigs = new ArrayList<>();
 
-    private boolean isEmpty = true;
-    private boolean firstOpenedApp = true;
+    private boolean isFirstLaunch = true;
     ArrayAdapter<GameConfig> adapter;
     TextView emptyText;
 
@@ -55,19 +52,17 @@ public class MainActivity extends AppCompatActivity {
 
         // Click on one game config to edit
         gameConfigClickCallBack();
-        firstOpenedApp = false;
+        isFirstLaunch = false;
         checkIsEmpty();
     }
 
     private void checkIsEmpty() {
         //show empty state text if empty or if it's the first time the user opens the app
-        if (adapter.getCount() == 0 || firstOpenedApp) {
-            isEmpty = true;
+        if (adapter.getCount() == 0 || isFirstLaunch) {
             emptyText.setVisibility(View.VISIBLE);
         }
 
         else if (adapter.getCount() > 0){
-            isEmpty = false;
             emptyText.setVisibility(View.INVISIBLE);
         }
     }
@@ -122,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         ListView list = findViewById(R.id.gameConfigListView);
 
         list.setOnItemClickListener((parent, viewClicked, position, id) -> {
-            Intent i = ViewGameActivity.makeViewIntent(MainActivity.this, position);
+            Intent i = ViewGameConfigActivity.makeViewIntent(MainActivity.this, position);
             startActivity(i);
         });
 
