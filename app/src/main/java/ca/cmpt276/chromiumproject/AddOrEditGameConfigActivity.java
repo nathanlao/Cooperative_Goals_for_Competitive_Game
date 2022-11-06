@@ -50,9 +50,9 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
     }
 
     // Intent for main activity to edit current game config
-    public static Intent makeEditIntent(Context context, int position) {
+    public static Intent makeEditIntent(Context context, int gameConfigPosition) {
             Intent intent =  new Intent(context, AddOrEditGameConfigActivity.class);
-            intent.putExtra(EXTRA_EDIT_GAME_POSITION, position);
+            intent.putExtra(EXTRA_EDIT_GAME_POSITION, gameConfigPosition);
             return intent;
             }
 
@@ -87,12 +87,12 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
         switch(item.getItemId()) {
             case R.id.action_save_game_config:
 
-                String gameConfigStr = "";
+                String gameConfigName = "";
                 int poorScoreNum = 0;
                 int greatScoreNum = 0;
 
                 // Take in user input
-                setupGameConfigFieldsInput(gameConfigStr, poorScoreNum, greatScoreNum);
+                setupGameConfigFieldsInput(gameConfigName, poorScoreNum, greatScoreNum);
 
                 // Validate empty input and display Toast message accordingly
                 if (checkEmptyInput()) {
@@ -147,11 +147,11 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
         }
     }
 
-    private void setupGameConfigFieldsInput(String gameConfigStr, int poorScoreNum, int greatScoreNum) {
+    private void setupGameConfigFieldsInput(String gameConfigName, int poorScoreNum, int greatScoreNum) {
 
         // Get the name from user input
         try {
-            gameConfigStr = gameConfigName.getText().toString();
+            gameConfigName = this.gameConfigName.getText().toString();
         } catch (NumberFormatException ex) {
             // Debugging purpose
             Log.d(TAG_NUMBER_FORMAT_EXCEPTION, "NumberFormatException caught: Game Config name must not be empty.");
@@ -176,8 +176,8 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
         // New Game! Set gamConfig object with user input values
         if (isNewGame) {
             try {
-                newGameConfig = new GameConfig(gameConfigStr, poorScoreNum, greatScoreNum);
-                newGameConfig.setConfigValues(gameConfigStr, poorScoreNum, greatScoreNum);
+                newGameConfig = new GameConfig(gameConfigName, poorScoreNum, greatScoreNum);
+                newGameConfig.setConfigValues(gameConfigName, poorScoreNum, greatScoreNum);
             } catch (IllegalArgumentException ex) {
                 Log.d(TAG_ILLEGAL_ARGUMENT_EXCEPTION, "IllegalArgumentException caught: Game Config name must not be empty.");
             }
@@ -187,12 +187,12 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
                 // Not a new Game!
                 GameConfig originalConfig = gameManager.getGameConfigByIndex(gameConfigPosition);
 
-                editedGameConfig = new GameConfig(gameConfigStr, poorScoreNum, greatScoreNum);
+                editedGameConfig = new GameConfig(gameConfigName, poorScoreNum, greatScoreNum);
                 // deep copy of original GameConfig's GameRecords
                 for (GameRecord record : originalConfig.getGameRecords()) {
                     editedGameConfig.addGameRecord(record);
                 }
-                editedGameConfig.setConfigValues(gameConfigStr, poorScoreNum, greatScoreNum);
+                editedGameConfig.setConfigValues(gameConfigName, poorScoreNum, greatScoreNum);
             } catch (IllegalArgumentException ex) {
                 Log.d(TAG_ILLEGAL_ARGUMENT_EXCEPTION, "IllegalArgumentException caught: Game Config name must not be empty.");
             }
@@ -200,13 +200,11 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
     }
 
     private boolean checkEmptyInput() {
-        String gameConfigStr = gameConfigName.getText().toString();
+        String gameConfigName = this.gameConfigName.getText().toString();
         String poorScoreStr = poorScore.getText().toString();
         String greatScoreStr = greatScore.getText().toString();
 
-        // TODO: Probably Validate String input for name field
-
-        if (gameConfigStr.matches("")) {
+        if (gameConfigName.matches("")) {
             Toast.makeText(this, "All fields cannot be empty, please enter the Game Name", Toast.LENGTH_LONG).show();
             return true;
         } else if (poorScoreStr.matches("")) {
