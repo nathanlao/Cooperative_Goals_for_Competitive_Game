@@ -1,4 +1,8 @@
 package ca.cmpt276.chromiumproject;
+/**ViewGameConfig Activity shows users details about a game config (the game config they chose in the main activity screen).
+ * It shows users buttons to Edit the game config or record a new game played, both of which open a different activity.
+ * A list of past game records for the game config is also listed underneath the buttons.
+ */
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -7,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -23,10 +26,10 @@ import ca.cmpt276.chromiumproject.model.GameConfig;
 import ca.cmpt276.chromiumproject.model.GameManager;
 import ca.cmpt276.chromiumproject.model.GameRecord;
 
-public class ViewGameActivity extends AppCompatActivity {
+public class ViewGameConfigActivity extends AppCompatActivity {
 
     public static final String POSITION = "POSITION";
-    private int position;
+    private int gameConfigPosition;
 
     private GameManager gameManager;
     private GameConfig gameConfigs;
@@ -34,14 +37,14 @@ public class ViewGameActivity extends AppCompatActivity {
     private List<GameRecord> gameRecords = new ArrayList<>();
 
     public static Intent makeViewIntent(Context context, int position) {
-        Intent intent = new Intent(context, ViewGameActivity.class);
+        Intent intent = new Intent(context, ViewGameConfigActivity.class);
         intent.putExtra(POSITION, position);
         return intent;
     }
 
     private void extractDataFromIntent() {
         Intent intent = getIntent();
-        position = intent.getIntExtra(POSITION, 0);
+        gameConfigPosition = intent.getIntExtra(POSITION, 0);
     }
 
     @Override
@@ -50,7 +53,9 @@ public class ViewGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_game);
 
         gameManager = GameManager.getInstance();
-
+        //setting the title for the correct game config
+        gameConfigs = gameManager.getGameConfigByIndex(gameConfigPosition);
+        setTitle(gameConfigs.getName());
         extractDataFromIntent();
 
         // setup buttons
@@ -83,7 +88,7 @@ public class ViewGameActivity extends AppCompatActivity {
     }
 
     private void registerDeleteBtnClick() {
-        GameConfig targetConfig = gameManager.getGameConfigByIndex(position);
+        GameConfig targetConfig = gameManager.getGameConfigByIndex(gameConfigPosition);
         String deleteMessage = getString(R.string.delete_msg, targetConfig.getName());
         Toast.makeText(this, deleteMessage, Toast.LENGTH_SHORT).show();
 
@@ -96,7 +101,7 @@ public class ViewGameActivity extends AppCompatActivity {
     private void setUpEditConfig() {
         Button editBtn = findViewById(R.id.editConfigBtn);
         editBtn.setOnClickListener(view -> {
-                Intent editIntent = AddOrEditGameConfigActivity.makeEditIntent(ViewGameActivity.this, position);
+                Intent editIntent = AddOrEditGameConfigActivity.makeEditIntent(ViewGameConfigActivity.this, gameConfigPosition);
                 startActivity(editIntent);
                 });
     }
@@ -104,20 +109,20 @@ public class ViewGameActivity extends AppCompatActivity {
     private void setUpRecordNewGame() {
         Button recordBtn = findViewById(R.id.recordGameBtn);
         recordBtn.setOnClickListener(view -> {
-            Intent recordIntent = RecordNewGamePlay.makeRecordIntent(ViewGameActivity.this, position);
+            Intent recordIntent = RecordNewGamePlayActivity.makeRecordIntent(ViewGameConfigActivity.this, gameConfigPosition);
             startActivity(recordIntent);
         });
     }
 
     private void setupGamesRecordList() {
         // Get current game configuration and retrieve its associated game records
-        gameConfigs = gameManager.getGameConfigByIndex(position);
+        gameConfigs = gameManager.getGameConfigByIndex(gameConfigPosition);
         gameRecords = gameConfigs.getGameRecords();
     }
 
     private class gameRecordsListAdapter extends ArrayAdapter<GameRecord> {
         public gameRecordsListAdapter() {
-            super(ViewGameActivity.this, R.layout.games_played_item_view, gameRecords);
+            super(ViewGameConfigActivity.this, R.layout.games_played_item_view, gameRecords);
         }
 
         @NonNull

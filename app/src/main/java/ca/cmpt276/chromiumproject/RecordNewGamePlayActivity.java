@@ -1,4 +1,7 @@
 package ca.cmpt276.chromiumproject;
+/**RecordNewGamePlayActivity records the # of players and combined score (inputted by users) and creates a new game record
+ * The game record is added to the correct game config's list of game records and can be seen listed in the ViewGameConfigActivity
+ */
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,12 +15,11 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import ca.cmpt276.chromiumproject.model.Achievement;
 import ca.cmpt276.chromiumproject.model.GameConfig;
 import ca.cmpt276.chromiumproject.model.GameManager;
 import ca.cmpt276.chromiumproject.model.GameRecord;
 
-public class RecordNewGamePlay extends AppCompatActivity {
+public class RecordNewGamePlayActivity extends AppCompatActivity {
 
     public static final String EXTRA_RECORD_GAME_POSITION = "Record Intent Extra - gameConfig position";
 
@@ -34,7 +36,7 @@ public class RecordNewGamePlay extends AppCompatActivity {
     private TextView combinedScore;
 
     public static Intent makeRecordIntent(Context context, int position) {
-        Intent intent =  new Intent(context, RecordNewGamePlay.class);
+        Intent intent =  new Intent(context, RecordNewGamePlayActivity.class);
         intent.putExtra(EXTRA_RECORD_GAME_POSITION, position);
         return intent;
     }
