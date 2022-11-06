@@ -80,7 +80,8 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                 if (checkEmptyInput()) {
                     return false;
                 }
-
+                // save updated gameConfigs list to SharedPrefs
+                MainActivity.saveGameConfigs(this, gameManager);
                 Toast.makeText(this, R.string.toast_save_game_record, Toast.LENGTH_SHORT).show();
                 finish();
 
@@ -114,7 +115,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
         // Add game record to the record list in gameConfig
         try {
-            gameRecord = new GameRecord(numberOfPlayersNum, combinedScoreNum, gameConfigs);
+            gameRecord = new GameRecord(numberOfPlayersNum, combinedScoreNum, gameConfigs.getPoorScore(), gameConfigs.getGreatScore());
             gameConfigs.addGameRecord(gameRecord);
         } catch (IllegalArgumentException ex) {
             Log.d(TAG_ILLEGAL_ARGUMENT_EXCEPTION, "IllegalArgumentException caught: number of players must be greater than 0");

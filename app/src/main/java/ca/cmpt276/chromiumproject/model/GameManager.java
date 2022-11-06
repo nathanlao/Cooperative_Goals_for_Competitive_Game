@@ -18,9 +18,6 @@ public class GameManager implements Iterable<GameConfig>{
 
     private static GameManager instance;
 
-    private GameManager() {
-    }
-
     public static GameManager getInstance() {
         if (instance == null) {
             instance = new GameManager();
@@ -42,6 +39,10 @@ public class GameManager implements Iterable<GameConfig>{
 
     public List<GameConfig> getGameConfigs() {
         return gameConfigs;
+    }
+
+    public void setGameConfigs(List<GameConfig> newGameConfigs) {
+        this.gameConfigs = newGameConfigs;
     }
 
     public void setGameConfigByIndex(int indexOfGame, GameConfig editedGame) {

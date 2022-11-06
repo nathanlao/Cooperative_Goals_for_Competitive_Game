@@ -112,6 +112,8 @@ public class ViewGameConfigActivity extends AppCompatActivity {
         Toast.makeText(this, deleteMessage, Toast.LENGTH_SHORT).show();
 
         gameManager.deleteGameConfig(targetConfig);
+        // save updated gameConfigs list to SharedPrefs
+        MainActivity.saveGameConfigs(this, gameManager);
         finish();
     }
 
