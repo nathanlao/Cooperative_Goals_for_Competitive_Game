@@ -61,8 +61,7 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_or_edit_game_config);
 
         // Enable "up" on toolbar
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
+        setupBackButton();
 
         gameManager = GameManager.getInstance();
 
@@ -71,6 +70,11 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
         // Extract position from makeEditIntent()
         extractPositionFromIntent();
 
+    }
+
+    private void setupBackButton() {
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
