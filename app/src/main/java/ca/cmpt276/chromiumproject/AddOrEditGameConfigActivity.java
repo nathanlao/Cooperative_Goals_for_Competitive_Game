@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import ca.cmpt276.chromiumproject.model.GameConfig;
 import ca.cmpt276.chromiumproject.model.GameManager;
+import ca.cmpt276.chromiumproject.model.GameRecord;
 
 /**
  * AddOrEditGameConfigActivity class allows user to add a new game config or edit current game config
@@ -184,7 +185,13 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
         } else {
             try {
                 // Not a new Game!
+                GameConfig originalConfig = gameManager.getGameConfigByIndex(gameConfigPosition);
+
                 editedGameConfig = new GameConfig(gameConfigStr, poorScoreNum, greatScoreNum);
+                // deep copy of original GameConfig's GameRecords
+                for (GameRecord record : originalConfig.getGameRecords()) {
+                    editedGameConfig.addGameRecord(record);
+                }
                 editedGameConfig.setConfigValues(gameConfigStr, poorScoreNum, greatScoreNum);
             } catch (IllegalArgumentException ex) {
                 Log.d(TAG_ILLEGAL_ARGUMENT_EXCEPTION, "IllegalArgumentException caught: Game Config name must not be empty.");
