@@ -1,8 +1,4 @@
 package ca.cmpt276.chromiumproject;
-/**ViewGameConfig Activity shows users details about a game config (the game config they chose in the main activity screen).
- * It shows users buttons to Edit the game config or record a new game played, both of which open a different activity.
- * A list of past game records for the game config is also listed underneath the buttons.
- */
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +22,11 @@ import ca.cmpt276.chromiumproject.model.Achievement;
 import ca.cmpt276.chromiumproject.model.GameConfig;
 import ca.cmpt276.chromiumproject.model.GameManager;
 import ca.cmpt276.chromiumproject.model.GameRecord;
+
+/**ViewGameConfig Activity shows users details about a game config (the game config they chose in the main activity screen).
+ * It shows users buttons to Edit the game config or record a new game played, both of which open a different activity.
+ * A list of past game records for the game config is also listed underneath the buttons.
+ */
 
 public class ViewGameConfigActivity extends AppCompatActivity {
 
