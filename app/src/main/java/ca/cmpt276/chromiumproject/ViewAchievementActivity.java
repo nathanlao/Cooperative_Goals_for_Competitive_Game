@@ -35,10 +35,6 @@ import ca.cmpt276.chromiumproject.model.GameManager;
  * and uses these passed down lists to show up as view in the screen.
  */
 public class ViewAchievementActivity extends AppCompatActivity {
-    private static final String ACHIEVEMENT_COLLECTION_LIST =
-            "ca.cmpt276.chromiumproject - List of collections of available Achievements";
-    private static final String POTENTIAL_SCORE_LIST =
-            "ca.cmpt276.chromiumproject - List of potential achievable scores";
     private static final String GAME_CONFIG_POSITION =
             "ca.cmpt276.chromiumproject - Selected particular Game Config position";
 
@@ -63,9 +59,6 @@ public class ViewAchievementActivity extends AppCompatActivity {
 
         extractDataFromIntent();
         setUpTextMonitor();
-        //includeSpecialAchievement();
-
-        //populateAchievements();
     }
 
     private void includeSpecialAchievement() {
@@ -76,14 +69,6 @@ public class ViewAchievementActivity extends AppCompatActivity {
         actualScoreList.add(0, potentialScoreCollections[0]);
     }
 
-    /*public static Intent makeIntent (Context context, String[] achieveList, int[] scoreList) {
-        Intent intent = new Intent(context, ViewAchievementActivity.class);
-
-        intent.putExtra(ACHIEVEMENT_COLLECTION_LIST, achieveList);
-        intent.putExtra(POTENTIAL_SCORE_LIST, scoreList);
-
-        return intent;
-    }*/
     public static Intent makeIntent (Context context, int gameConfigPos) {
         Intent intent = new Intent(context, ViewAchievementActivity.class);
 
@@ -95,12 +80,10 @@ public class ViewAchievementActivity extends AppCompatActivity {
         Intent intent = getIntent();
         gameConfigPosition = intent.getIntExtra(GAME_CONFIG_POSITION, 0);
 
-        //TODO----ReEnable Later after testing
         gameConfigs = gameManager.getGameConfigByIndex(gameConfigPosition);
     }
     private void setUpTextMonitor() {
         EditText numPlayerText = findViewById(R.id.editTextNumberPlayer);
-        String textBoxSTring = "";
         numPlayerText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -141,14 +124,6 @@ public class ViewAchievementActivity extends AppCompatActivity {
                 populateAchievements();
             }
         }
-
-        /*textBoxIntNumPlayer = Integer.parseInt(textBoxString);
-
-        potentialScoreCollections = Achievement.getStaticPotentialAchievePoint(textBoxIntNumPlayer, gameConfigs);
-
-        includeSpecialAchievement();
-        populateAchievements();*/
-
     }
 
     private void populateAchievements() {
