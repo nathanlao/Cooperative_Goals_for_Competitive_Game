@@ -55,9 +55,7 @@ public class ViewGameConfigActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_game);
 
         gameManager = GameManager.getInstance();
-        //setting the title for the correct game config
-        gameConfigs = gameManager.getGameConfigByIndex(gameConfigPosition);
-        setTitle(gameConfigs.getName());
+        updateTitle(); // updates AppBar title to be the GameConfig's name
         extractDataFromIntent();
 
         // setup buttons
@@ -71,12 +69,18 @@ public class ViewGameConfigActivity extends AppCompatActivity {
         populateGamesRecordListView();
     }
 
+    private void updateTitle() {
+        //setting the title for the correct game config
+        gameConfigs = gameManager.getGameConfigByIndex(gameConfigPosition);
+        setTitle(gameConfigs.getName());
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
-
         setupGamesRecordList();
         populateGamesRecordListView();
+        updateTitle();
     }
 
     private void setUpViewAchievement() {
