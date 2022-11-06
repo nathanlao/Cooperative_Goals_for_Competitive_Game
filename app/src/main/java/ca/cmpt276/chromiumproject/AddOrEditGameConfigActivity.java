@@ -11,10 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import ca.cmpt276.chromiumproject.model.GameConfig;
@@ -109,6 +106,8 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
                 }
 
                 Toast.makeText(this, R.string.toast_game_config_saved, Toast.LENGTH_SHORT).show();
+                // save new/edited gameConfigs to SharedPrefs
+                MainActivity.saveGameConfigs(this, gameManager);
                 finish();
                 return true;
 

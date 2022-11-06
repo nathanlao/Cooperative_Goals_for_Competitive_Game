@@ -16,14 +16,14 @@ public class Achievement {
     private int[] potentialAchievePoints = {};
     private int partitionNum = 0;
 
-    private GameConfig curGameConfig;
+    //private GameConfig curGameConfig;
 
     public Achievement() {
         this.curAchievement = "Initial Empty";
     }
 
-    public void setCurAchievement(int playerCount, int theScore, GameConfig gameConfig) {
-        setPotentialAchievePoint(playerCount, gameConfig);
+    public void setCurAchievement(int playerCount, int theScore, int poorScore, int greatScore) {
+        setPotentialAchievePoint(playerCount, poorScore, greatScore);
         int curAchieveEndBoundary = 0;
         for (int i = 0; i < potentialAchievePoints.length; i++) {
 
@@ -60,11 +60,11 @@ public class Achievement {
         curAchievement = theResult;
     }
 
-    public void setPotentialAchievePoint(int playerCount, GameConfig gameConfig) {
+    public void setPotentialAchievePoint(int playerCount, int poorScore, int greatScore) {
         potentialAchievePoints = new int[NUM_ACHIEVEMENTS];
-        curGameConfig = gameConfig;
-        int lowestAchieve = playerCount * curGameConfig.getPoorScore();
-        int highestAchieve = playerCount * curGameConfig.getGreatScore();
+
+        int lowestAchieve = playerCount * poorScore;
+        int highestAchieve = playerCount * greatScore;
 
         int middleGround = highestAchieve - lowestAchieve;
 
@@ -87,9 +87,9 @@ public class Achievement {
         return potentialAchievePoints;
     }
 
-    public static Achievement makeAchievement(int playerCount, int theScore, GameConfig gameConfig) {
+    public static Achievement makeAchievement(int playerCount, int theScore, int poorScore, int greatScore) {
         Achievement achievement = new Achievement();
-        achievement.setCurAchievement(playerCount, theScore, gameConfig);
+        achievement.setCurAchievement(playerCount, theScore, poorScore, greatScore);
         return achievement;
     }
 

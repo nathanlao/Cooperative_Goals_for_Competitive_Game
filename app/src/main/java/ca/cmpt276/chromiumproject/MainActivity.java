@@ -10,8 +10,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +24,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +53,12 @@ public class MainActivity extends AppCompatActivity {
 
         // Get one instance that GameManager produced
         gameManager = GameManager.getInstance();
+
+        // Load saved GameConfigs from SharedPrefs, if it exists
+        if (savedGameConfigsExists()) {
+            List<GameConfig> savedGameConfigs = getSavedGameConfigs();
+            gameManager.setGameConfigs(savedGameConfigs);
+        }
 
         // Setup and display game configuration list
         setupListGameConfigs();
@@ -83,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
@@ -162,4 +177,44 @@ public class MainActivity extends AppCompatActivity {
             return gameView;
         }
     }
+
+    // GAME CONFIG SAVE SUPPORT
+
+    public static final String PREFS_NAME = "AppPrefs";
+    private static final String SAVED_CONFIGS_NAME = "Saved GameConfigs";
+    @SuppressLint("ApplySharedPref")
+    public static void saveGameConfigs(Context context, GameManager gameManager) {
+        // save current GameManager's list of GameConfigs to SharedPrefs as a Gson object
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(gameManager.getGameConfigs());
+        editor.putString(SAVED_CONFIGS_NAME, json);
+        editor.commit();
+    }
+
+    private List<GameConfig> getSavedGameConfigs() {
+        // get saved list of GameConfigs from SharedPrefs, if it exists.
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = prefs.getString(SAVED_CONFIGS_NAME, null);
+        Log.i("TAG", json);
+        Type type = new TypeToken<ArrayList<GameConfig>>() {}.getType();
+        return gson.fromJson(json, type);
+    }
+
+    public boolean savedGameConfigsExists() {
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        return prefs.contains(SAVED_CONFIGS_NAME);
+    }
+
+    @SuppressLint("ApplySharedPref")
+    private void removeSavedGameConfigs() {
+        SharedPreferences prefs =
+                getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.remove(SAVED_CONFIGS_NAME);
+        editor.commit();
+    }
+
 }
