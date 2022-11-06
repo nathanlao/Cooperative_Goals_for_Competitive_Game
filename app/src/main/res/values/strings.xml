@@ -48,4 +48,17 @@
     <string name="zero_player_msg">Please Enter Players more than 0!</string>
     <string name="num_player_text">Enter Number of Players:</string>
 
+    <!-- Strings used for Achievement -->
+    <string-array name="achievement_names">
+        <item>Walking Toddler</item>
+        <item>Fearless Kid</item>
+        <item>HighSchool Star</item>
+        <item>District Gang</item>
+        <item>Infamous King</item>
+        <item>Game Emperor</item>
+        <item>World Conqueror</item>
+        <item>Creator of the Game</item>
+    </string-array>
+
+
 </resources>
