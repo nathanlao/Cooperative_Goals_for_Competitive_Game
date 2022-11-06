@@ -2,6 +2,7 @@ package ca.cmpt276.chromiumproject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -54,6 +55,8 @@ public class ViewGameConfigActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_game);
 
+        setupBackButton();
+
         gameManager = GameManager.getInstance();
         updateTitle(); // updates AppBar title to be the GameConfig's name
         extractDataFromIntent();
@@ -67,6 +70,11 @@ public class ViewGameConfigActivity extends AppCompatActivity {
         // populate list of game records
         setupGamesRecordList();
         populateGamesRecordListView();
+    }
+
+    private void setupBackButton() {
+        ActionBar actionbar  = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
     }
 
     private void updateTitle() {

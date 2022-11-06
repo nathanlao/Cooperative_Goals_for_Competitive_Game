@@ -22,9 +22,11 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".RecordNewGamePlayActivity"
+            android:parentActivityName=".ViewGameConfigActivity"
             android:exported="false" />
         <activity
             android:name=".ViewGameConfigActivity"
+            android:parentActivityName=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
