@@ -27,6 +27,7 @@
     <string name="past_games">Past Games</string>
     <string name="record_a_new_game_play_label">Record a New Game Play</string>
     <string name="delete_game_configuration">Delete Game Configuration</string>
+    <string name="view_achievements">View Achievements</string>
     <string name="delete_msg">Game Config: \"%s\" has been deleted!</string>
     <string name="number_players_view">Number of Players:</string>
     <string name="combined_score_view">Combined Score:</string>
@@ -36,6 +37,7 @@
     <string name="toast_check_empty_combine_score">All fields cannot be empty, please enter the combined score</string>
 
     <!-- Strings used for Record Game Screen -->
+    <string name="record_new_game_title">Record New Game Play</string>
     <string name="number_of_players">Number of Players:</string>
     <string name="combined_score">Combined Score:</string>
 
@@ -44,6 +46,4 @@
     <string name="display_required_score">Required Score: </string>
     <string name="display_earned_by_score">Earned by Score: </string>
     <string name="display_special_achievement">"Special Achievement: \n%s"</string>
-    <string name="view_achievements">View Achievements</string>
-
 </resources>
