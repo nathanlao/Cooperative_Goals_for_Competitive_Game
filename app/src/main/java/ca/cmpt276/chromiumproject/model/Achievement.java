@@ -94,6 +94,8 @@ public class Achievement {
         return ACHIEVEMENT_COLLECTION;
     }
 
+    // Calculates potential achievement points given playerCount and gameConfig, removing the need to explicitly declare a collective score.
+    // Useful for showing list of possible scores.
     public static int[] getStaticPotentialAchievePoint(int playerCount, GameConfig gameConfig) {
         int potentialScore = 0;
         Achievement potentialAchievement = makeAchievement(playerCount, potentialScore, gameConfig);
