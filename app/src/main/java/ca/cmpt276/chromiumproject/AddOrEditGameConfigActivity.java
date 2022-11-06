@@ -51,10 +51,10 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
 
     // Intent for main activity to edit current game config
     public static Intent makeEditIntent(Context context, int gameConfigPosition) {
-            Intent intent =  new Intent(context, AddOrEditGameConfigActivity.class);
-            intent.putExtra(EXTRA_EDIT_GAME_POSITION, gameConfigPosition);
-            return intent;
-            }
+        Intent intent =  new Intent(context, AddOrEditGameConfigActivity.class);
+        intent.putExtra(EXTRA_EDIT_GAME_POSITION, gameConfigPosition);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,6 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
 
         // Extract position from makeEditIntent()
         extractPositionFromIntent();
-
     }
 
     @Override
@@ -148,7 +147,6 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
     }
 
     private void setupGameConfigFieldsInput(String gameConfigName, int poorScoreNum, int greatScoreNum) {
-
         // Get the name from user input
         try {
             gameConfigName = this.gameConfigName.getText().toString();
@@ -173,7 +171,7 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
             Log.d(TAG_NUMBER_FORMAT_EXCEPTION, "NumberFormatException caught: Game Config great score must not be empty.");
         }
 
-        // New Game! Set gamConfig object with user input values
+        // New Game! Set gameConfig object with user input values
         if (isNewGame) {
             try {
                 newGameConfig = new GameConfig(gameConfigName, poorScoreNum, greatScoreNum);
