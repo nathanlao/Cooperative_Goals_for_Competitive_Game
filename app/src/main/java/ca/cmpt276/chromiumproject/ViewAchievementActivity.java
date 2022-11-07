@@ -52,8 +52,7 @@ public class ViewAchievementActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_achievement);
-
-        //getSupportActionBar().hide();
+        
         TextView enterTextNum = findViewById(R.id.textViewEnterMsg);
         enterTextNum.setText(R.string.num_player_text);
 
