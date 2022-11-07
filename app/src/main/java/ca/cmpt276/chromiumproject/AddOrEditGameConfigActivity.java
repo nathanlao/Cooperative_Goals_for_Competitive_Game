@@ -203,13 +203,13 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
         String greatScoreStr = greatScore.getText().toString();
 
         if (gameConfigName.matches("")) {
-            Toast.makeText(this, "All fields cannot be empty, please enter the Game Name", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.empty_game_config_name, Toast.LENGTH_LONG).show();
             return true;
         } else if (poorScoreStr.matches("")) {
-            Toast.makeText(this, "All fields cannot be empty, please enter the Poor Score", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.empty_game_config_poor_score, Toast.LENGTH_LONG).show();
             return true;
         } else if (greatScoreStr.matches("")) {
-            Toast.makeText(this, "All fields cannot be empty, please enter the Great Score", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.empty_game_config_great_score, Toast.LENGTH_LONG).show();
             return true;
         }
         return false;

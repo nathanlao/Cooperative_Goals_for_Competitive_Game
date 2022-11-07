@@ -101,7 +101,11 @@ public class ViewAchievementActivity extends AppCompatActivity {
             if (position == 0) {
                 int curAchScore = actualScoreList.get(position);
                 TextView scoreText = itemView.findViewById(R.id.item_achieveScore);
-                scoreText.setText("" + "<" + curAchScore);
+
+                String curAchScoreMsg = getString(R.string.less_than_achievement_score);
+                curAchScoreMsg += "" + curAchScore;
+
+                scoreText.setText(curAchScoreMsg);
 
                 reqText.setText(getString(R.string.display_earned_by_score));
                 achieveText.setText(getString(R.string.display_special_achievement, curAchieve));
@@ -109,7 +113,11 @@ public class ViewAchievementActivity extends AppCompatActivity {
             if (position != 0) {
                 int curAchScore = actualScoreList.get(position);
                 TextView scoreText = itemView.findViewById(R.id.item_achieveScore);
-                scoreText.setText("" + curAchScore);
+
+                String curAchScoreMsg = getString(R.string.required_achievement_score);
+                curAchScoreMsg += "" + curAchScore;
+
+                scoreText.setText(curAchScoreMsg);
             }
 
             return itemView;
