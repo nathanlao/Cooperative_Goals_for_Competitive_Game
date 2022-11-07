@@ -23,7 +23,8 @@
         <activity
             android:name=".RecordNewGamePlayActivity"
             android:parentActivityName=".ViewGameConfigActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="@string/record_new_game_title" />
         <activity
             android:name=".ViewGameConfigActivity"
             android:parentActivityName=".MainActivity"
