@@ -57,13 +57,13 @@ public class ViewAchievementActivity extends AppCompatActivity {
         TextView enterTextNum = findViewById(R.id.textViewEnterMsg);
         enterTextNum.setText(R.string.num_player_text);
 
-        setupBackButton();
+        setUpBackButton();
 
         extractDataFromIntent();
         setUpTextMonitor();
     }
 
-    private void setupBackButton() {
+    private void setUpBackButton() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
