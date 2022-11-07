@@ -89,13 +89,7 @@ public class ViewGameConfigActivity extends AppCompatActivity {
     }
 
     private void registerAchievementBtnClick() {
-        GameConfig thisConfig = gameManager.getGameConfigByIndex(gameConfigPosition);
-
-        int testPlayerCount = 2; // TODO: Remove hard-coded value! Need to get playerCount from user input!
-        // Feel free to change this code after #21 has been implemented!
-        String[] achieveList = Achievement.getAchievementCollection();
-        int[] scoreList = Achievement.getStaticPotentialAchievePoint(testPlayerCount, thisConfig);
-        Intent intent = ViewAchievementActivity.makeIntent(this, achieveList, scoreList);
+        Intent intent = ViewAchievementActivity.makeIntent(this, gameConfigPosition);
         startActivity(intent);
     }
 
