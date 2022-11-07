@@ -49,7 +49,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_new_game_play);
 
-        setupBackButton();
+        setUpBackButton();
 
         gameManager = GameManager.getInstance();
 
@@ -60,9 +60,9 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
     }
 
-    private void setupBackButton() {
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
+    private void setUpBackButton() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     private void extractPositionFromIntent() {

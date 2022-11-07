@@ -64,8 +64,8 @@ public class ViewAchievementActivity extends AppCompatActivity {
     }
 
     private void setupBackButton() {
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     private void includeSpecialAchievement() {

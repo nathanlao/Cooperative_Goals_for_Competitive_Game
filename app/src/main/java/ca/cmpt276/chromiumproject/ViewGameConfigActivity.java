@@ -55,7 +55,7 @@ public class ViewGameConfigActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_game);
 
-        setupBackButton();
+        setUpBackButton();
 
         gameManager = GameManager.getInstance();
         updateTitle(); // updates AppBar title to be the GameConfig's name
@@ -72,9 +72,9 @@ public class ViewGameConfigActivity extends AppCompatActivity {
         populateGamesRecordListView();
     }
 
-    private void setupBackButton() {
-        ActionBar actionbar  = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
+    private void setUpBackButton() {
+        ActionBar actionBar  = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     private void updateTitle() {
