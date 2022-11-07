@@ -1,7 +1,4 @@
 package ca.cmpt276.chromiumproject;
-/**RecordNewGamePlayActivity records the # of players and combined score (inputted by users) and creates a new game record
- * The game record is added to the correct game config's list of game records and can be seen listed in the ViewGameConfigActivity
- */
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +15,10 @@ import android.widget.Toast;
 import ca.cmpt276.chromiumproject.model.GameConfig;
 import ca.cmpt276.chromiumproject.model.GameManager;
 import ca.cmpt276.chromiumproject.model.GameRecord;
+
+/** RecordNewGamePlayActivity records the # of players and combined score (inputted by users) and creates a new game record
+ * The game record is added to the correct game config's list of game records and can be seen listed in the ViewGameConfigActivity
+ */
 
 public class RecordNewGamePlayActivity extends AppCompatActivity {
 
