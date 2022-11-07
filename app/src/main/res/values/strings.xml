@@ -43,8 +43,24 @@
     <string name="check_invalid_number_of_player">Number of players must be greater than 0</string>
 
     <!-- Strings used for View Achievement Screen -->
+    <string name="achievement_level_title">Achievement Levels</string>
     <string name="special_achievement">Toddler\'s Baby Step</string>
     <string name="display_required_score">Required Score: </string>
     <string name="display_earned_by_score">Earned by Score: </string>
     <string name="display_special_achievement">"Special Achievement: \n%s"</string>
+    <string name="view_achievements2">View Achievements</string>
+    <string name="zero_player_msg">Please Enter Players more than 0!</string>
+    <string name="num_player_text">Enter Number of Players:</string>
+
+    <!-- Strings used for Achievement -->
+    <string-array name="achievement_names">
+        <item>Walking Toddler</item>
+        <item>Fearless Kid</item>
+        <item>HighSchool Star</item>
+        <item>District Gang</item>
+        <item>Infamous King</item>
+        <item>Game Emperor</item>
+        <item>World Conqueror</item>
+        <item>Creator of the Game</item>
+    </string-array>
 </resources>
