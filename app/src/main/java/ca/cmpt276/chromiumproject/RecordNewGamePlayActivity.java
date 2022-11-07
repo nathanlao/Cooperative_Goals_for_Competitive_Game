@@ -1,6 +1,7 @@
 package ca.cmpt276.chromiumproject;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -48,6 +49,8 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_new_game_play);
 
+        setUpBackButton();
+
         gameManager = GameManager.getInstance();
 
         numPlayers = findViewById(R.id.numPlayersInput);
@@ -55,6 +58,11 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
         extractPositionFromIntent();
 
+    }
+
+    private void setUpBackButton() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     private void extractPositionFromIntent() {

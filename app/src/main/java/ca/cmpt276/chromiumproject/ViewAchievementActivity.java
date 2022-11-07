@@ -2,6 +2,7 @@ package ca.cmpt276.chromiumproject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -56,8 +57,15 @@ public class ViewAchievementActivity extends AppCompatActivity {
         TextView enterTextNum = findViewById(R.id.textViewEnterMsg);
         enterTextNum.setText(R.string.num_player_text);
 
+        setUpBackButton();
+
         extractDataFromIntent();
         setUpTextMonitor();
+    }
+
+    private void setUpBackButton() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     private void includeSpecialAchievement() {
