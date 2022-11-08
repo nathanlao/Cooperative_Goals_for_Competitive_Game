@@ -1,0 +1,5 @@
+Scrum roles for iteration 1:
+    - Scrum Master: gla93 (Nathan)
+    - Repository Manager: kel7 (Kayla)
+    - Product Owner: cza95 (Chel)
+    - Team Member: jwa362 (Jay)
