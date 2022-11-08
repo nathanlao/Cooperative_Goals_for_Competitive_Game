@@ -104,6 +104,7 @@ public class ViewGameConfigActivity extends AppCompatActivity {
         setupGamesRecordList();
         populateGamesRecordListView();
         updateTitle();
+        checkNoPastGames();
     }
 
     private void setUpViewAchievement() {
