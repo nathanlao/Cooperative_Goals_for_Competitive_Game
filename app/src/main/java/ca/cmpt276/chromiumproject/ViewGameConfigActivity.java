@@ -19,7 +19,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.cmpt276.chromiumproject.model.Achievement;
 import ca.cmpt276.chromiumproject.model.GameConfig;
 import ca.cmpt276.chromiumproject.model.GameManager;
 import ca.cmpt276.chromiumproject.model.GameRecord;
@@ -175,6 +174,7 @@ public class ViewGameConfigActivity extends AppCompatActivity {
            }
 
            GameRecord currentRecord = gameRecords.get(position);
+           String[] achievementNames = getResources().getStringArray(R.array.achievement_names);
 
             // String msg with associated retrieved values
             String numOfPlayersMsg = getString(R.string.number_players_view);
@@ -184,7 +184,8 @@ public class ViewGameConfigActivity extends AppCompatActivity {
             combinedScoreMsg += " " + currentRecord.getCombinedScore();
 
             String achievementMsg = getString(R.string.achievement_level_view);
-            achievementMsg += " " + currentRecord.getAchievement();
+            String achievementTitle = achievementNames[currentRecord.getAchievementLevel()];
+            achievementMsg += " " + achievementTitle;
 
             // Fill the view creationTime, number players, combined score and achievement level
             TextView creationTimeView = gamePlayedView.findViewById(R.id.txtGameCreationTime);

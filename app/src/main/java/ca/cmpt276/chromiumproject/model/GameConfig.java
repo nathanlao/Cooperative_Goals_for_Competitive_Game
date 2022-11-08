@@ -55,41 +55,4 @@ public class GameConfig {
     public List<GameRecord> getGameRecords() {
         return gameRecords;
     }
-
-    // TODO: need to ask customer if there is a specific data format he wants, for now just reusing format from As2
-    public String[] getGameRecordStrings() {
-        int numGamesPlayed = getNumGameRecords();
-        String[] gameStrings;
-
-        if (numGamesPlayed == 0) {
-            gameStrings = new String[1];
-            gameStrings[0] = "No games";
-            return gameStrings;
-        }
-
-        gameStrings = new String[numGamesPlayed];
-        int itr = 0;
-        for (GameRecord game : gameRecords) {
-            StringBuilder gameStr = new StringBuilder();
-
-            // append creation time
-            String creationTime = game.getCreationTimeString();
-            gameStr.append(creationTime);
-
-            gameStr.append(" - ");
-
-            // append num players
-            gameStr.append(game.getNumPlayers()).append(" players scored ");
-
-            //append combined score
-            gameStr.append(game.getCombinedScore());
-
-            //append achievement
-            gameStr.append(". Achievement: ").append(game.getAchievement());
-
-            gameStrings[itr] = gameStr.toString();
-            itr++;
-        }
-        return gameStrings;
-    }
 }

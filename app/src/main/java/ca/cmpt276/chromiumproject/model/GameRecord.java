@@ -44,11 +44,7 @@ public class GameRecord {
         return creationTime;
     }
 
-    public String getAchievement() {
+    public int getAchievementLevel() {
         return theAchievement.getCurAchievement();
-    }
-
-    public void calcAchievement(int numPlayers, int combinedScore, int poorScore, int greatScore) {
-        theAchievement.setCurAchievement(numPlayers, combinedScore, poorScore, greatScore);
     }
 }
