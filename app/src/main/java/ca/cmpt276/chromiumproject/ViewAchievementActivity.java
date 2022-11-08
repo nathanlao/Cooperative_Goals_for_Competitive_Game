@@ -43,7 +43,7 @@ public class ViewAchievementActivity extends AppCompatActivity {
     private GameManager gameManager = GameManager.getInstance();
     private GameConfig gameConfigs;
 
-    private String[] achievementCollections = Achievement.getAchievementCollection();
+    private String[] achievementCollections;
     private List<String> actualAchievementList;
 
     private int[] potentialScoreCollections = {};
@@ -53,7 +53,8 @@ public class ViewAchievementActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_achievement);
-        
+
+        achievementCollections = getResources().getStringArray(R.array.achievement_names);
         TextView enterTextNum = findViewById(R.id.textViewEnterMsg);
         enterTextNum.setText(R.string.num_player_text);
 

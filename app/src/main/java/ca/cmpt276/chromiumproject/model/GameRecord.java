@@ -16,7 +16,7 @@ public class GameRecord {
     private int numPlayers;
     private int combinedScore;
 
-    private Achievement theAchievement;
+    private int achievementLevel;
     private String creationTime;
 
     private static final DateTimeFormatter DT_FORMAT = DateTimeFormatter.ofPattern("MMM d @ h:mm a");
@@ -29,7 +29,8 @@ public class GameRecord {
         this.numPlayers = numPlayers;
         this.combinedScore = combinedScore;
         creationTime = LocalDateTime.now().format(DT_FORMAT);
-        this.theAchievement = makeAchievement(numPlayers, combinedScore, poorScore, greatScore);
+        Achievement theAchievement = makeAchievement(numPlayers, combinedScore, poorScore, greatScore);
+        this.achievementLevel  = theAchievement.getCurAchievementLevel();
     }
 
     public int getNumPlayers() {
@@ -44,11 +45,7 @@ public class GameRecord {
         return creationTime;
     }
 
-    public String getAchievement() {
-        return theAchievement.getCurAchievement();
-    }
-
-    public void calcAchievement(int numPlayers, int combinedScore, int poorScore, int greatScore) {
-        theAchievement.setCurAchievement(numPlayers, combinedScore, poorScore, greatScore);
+    public int getAchievementLevel() {
+        return achievementLevel;
     }
 }

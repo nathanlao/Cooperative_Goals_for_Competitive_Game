@@ -175,6 +175,7 @@ public class ViewGameConfigActivity extends AppCompatActivity {
            }
 
            GameRecord currentRecord = gameRecords.get(position);
+           String[] achievementNames = getResources().getStringArray(R.array.achievement_names);
 
             // String msg with associated retrieved values
             String numOfPlayersMsg = getString(R.string.number_players_view);
@@ -184,7 +185,15 @@ public class ViewGameConfigActivity extends AppCompatActivity {
             combinedScoreMsg += " " + currentRecord.getCombinedScore();
 
             String achievementMsg = getString(R.string.achievement_level_view);
-            achievementMsg += " " + currentRecord.getAchievement();
+            int achievementLevel = currentRecord.getAchievementLevel();
+            String achievementTitle;
+            // check if Special Worst Achievement
+            if (achievementLevel == Achievement.SPECIAL_WORST_ACHIEVE) {
+                achievementTitle = getString(R.string.special_achievement);
+            } else {
+                achievementTitle = achievementNames[currentRecord.getAchievementLevel()];
+            }
+            achievementMsg += " " + achievementTitle;
 
             // Fill the view creationTime, number players, combined score and achievement level
             TextView creationTimeView = gamePlayedView.findViewById(R.id.txtGameCreationTime);
