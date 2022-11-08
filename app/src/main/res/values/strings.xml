@@ -13,6 +13,9 @@
     <string name="dialog_welcome">Welcome!</string>
     <string name="welcome_message">You have no games! \n\n 1. To add a game, simply click the plus (+) button and fill out your game details.\n 2. You can later edit a game by clicking on the game and changing the game\'s details.\n 3. We hope you enjoy playing and keeping track of your games!\n</string>
     <string name="test">Welcome! Good to meet you and get to know you here. I am very happy you are playing our game today!</string>
+    <string name="empty_game_config_name">All fields cannot be empty, please enter the Game Name</string>
+    <string name="empty_game_config_poor_score">All fields cannot be empty, please enter the Poor Score</string>
+    <string name="empty_game_config_great_score">All fields cannot be empty, please enter the Great Score</string>
 
     <!-- Strings used for Add/Edit Game Config Screen -->
     <string name="name">Name</string>
@@ -40,10 +43,31 @@
     <string name="record_new_game_title">Record New Game Play</string>
     <string name="number_of_players">Number of Players:</string>
     <string name="combined_score">Combined Score:</string>
+    <string name="check_invalid_number_of_player">Number of players must be greater than 0</string>
 
     <!-- Strings used for View Achievement Screen -->
+    <string name="achievement_level_title">Achievement Levels</string>
     <string name="special_achievement">Toddler\'s Baby Step</string>
     <string name="display_required_score">Required Score: </string>
     <string name="display_earned_by_score">Earned by Score: </string>
     <string name="display_special_achievement">"Special Achievement: \n%s"</string>
+    <string name="view_achievements2">View Achievements</string>
+    <string name="zero_player_msg">Please Enter Players more than 0!</string>
+    <string name="num_player_text">Enter Number of Players:</string>
+    <string name="less_than_achievement_score"><![CDATA[<]]></string>
+    <string name="required_achievement_score" />
+    <string name="no_past_games_played">You have no past games played! \n\n1. To record a new game press the Record a New Game Play button and enter the number of players and the combined score.\n2. You can come back here to see the history of your past games and view their achievement.</string>
+
+
+    <!-- Strings used for Achievement -->
+    <string-array name="achievement_names">
+        <item>Walking Toddler</item>
+        <item>Fearless Kid</item>
+        <item>HighSchool Star</item>
+        <item>District Gang</item>
+        <item>Infamous King</item>
+        <item>Game Emperor</item>
+        <item>World Conqueror</item>
+        <item>Creator of the Game</item>
+    </string-array>
 </resources>

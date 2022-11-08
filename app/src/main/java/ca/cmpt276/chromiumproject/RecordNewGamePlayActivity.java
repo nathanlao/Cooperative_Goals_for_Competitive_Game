@@ -1,6 +1,7 @@
 package ca.cmpt276.chromiumproject;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -48,6 +49,8 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_new_game_play);
 
+        setUpBackButton();
+
         gameManager = GameManager.getInstance();
 
         numPlayers = findViewById(R.id.numPlayersInput);
@@ -55,6 +58,11 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
         extractPositionFromIntent();
 
+    }
+
+    private void setUpBackButton() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     private void extractPositionFromIntent() {
@@ -78,7 +86,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                 setupGameRecordInput();
 
                 // Validate empty input and display Toast message accordingly
-                if (checkEmptyInput()) {
+                if (checkEmptyInput() || checkInvalidInput()) {
                     return false;
                 }
                 // save updated gameConfigs list to SharedPrefs
@@ -132,6 +140,16 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
             return true;
         } else if (combinedScoreStr.matches("")){
             Toast.makeText(this, R.string.toast_check_empty_combine_score, Toast.LENGTH_LONG).show();
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkInvalidInput() {
+        String numOfPlayersStr = numPlayers.getText().toString();
+
+        if (numOfPlayersStr.matches("0")) {
+            Toast.makeText(this, R.string.check_invalid_number_of_player, Toast.LENGTH_LONG).show();
             return true;
         }
         return false;
