@@ -7,15 +7,13 @@ package ca.cmpt276.chromiumproject.model;
  */
 public class Achievement {
     private int achievementLevel;
-//    private static final String[] ACHIEVEMENT_COLLECTION = {"Walking Toddler",
-//            "Fearless Kid", "HighSchool Star", "District Gang",
-//            "Infamous King", "Game Emperor",
-//            "World Conqueror", "Creator of the Game"};
+
     private static final int NUM_ACHIEVEMENTS = 8;
-    private static final int SPECIAL_WORST_ACHIEVE = -1;
 
     private int[] potentialAchievePoints = {};
     private int partitionNum = 0;
+
+    public static final int SPECIAL_WORST_ACHIEVE = -1;
 
     public Achievement() {
         this.achievementLevel = 0;
@@ -49,15 +47,9 @@ public class Achievement {
         }
 
     }
-    public int getCurAchievement() {
+    public int getCurAchievementLevel() {
         return achievementLevel;
     }
-
-//    private void chooseFromAchieveCollection(int achieveNum) {
-//        String theResult = ACHIEVEMENT_COLLECTION[achieveNum];
-//
-//        curAchievement = theResult;
-//    }
 
     public void setPotentialAchievePoint(int playerCount, int poorScore, int greatScore) {
         potentialAchievePoints = new int[NUM_ACHIEVEMENTS];

@@ -19,6 +19,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.cmpt276.chromiumproject.model.Achievement;
 import ca.cmpt276.chromiumproject.model.GameConfig;
 import ca.cmpt276.chromiumproject.model.GameManager;
 import ca.cmpt276.chromiumproject.model.GameRecord;
@@ -184,7 +185,14 @@ public class ViewGameConfigActivity extends AppCompatActivity {
             combinedScoreMsg += " " + currentRecord.getCombinedScore();
 
             String achievementMsg = getString(R.string.achievement_level_view);
-            String achievementTitle = achievementNames[currentRecord.getAchievementLevel()];
+            int achievementLevel = currentRecord.getAchievementLevel();
+            String achievementTitle;
+            // check if Special Worst Achievement
+            if (achievementLevel == Achievement.SPECIAL_WORST_ACHIEVE) {
+                achievementTitle = getString(R.string.special_achievement);
+            } else {
+                achievementTitle = achievementNames[currentRecord.getAchievementLevel()];
+            }
             achievementMsg += " " + achievementTitle;
 
             // Fill the view creationTime, number players, combined score and achievement level
