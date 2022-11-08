@@ -38,7 +38,9 @@ public class ViewGameConfigActivity extends AppCompatActivity {
     private GameConfig gameConfigs;
 
     private List<GameRecord> gameRecords = new ArrayList<>();
+    ArrayAdapter<GameRecord> adapter;
 
+    private TextView noPastGamesText;
     public static Intent makeViewIntent(Context context, int position) {
         Intent intent = new Intent(context, ViewGameConfigActivity.class);
         intent.putExtra(POSITION, position);
@@ -54,9 +56,10 @@ public class ViewGameConfigActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_game);
-
         setUpBackButton();
 
+        //checking if there are past games played
+        noPastGamesText = findViewById(R.id.pastGamesEmptyStateTxt);
         gameManager = GameManager.getInstance();
         updateTitle(); // updates AppBar title to be the GameConfig's name
         extractDataFromIntent();
@@ -70,11 +73,23 @@ public class ViewGameConfigActivity extends AppCompatActivity {
         // populate list of game records
         setupGamesRecordList();
         populateGamesRecordListView();
-    }
 
+        checkNoPastGames();
+    }
     private void setUpBackButton() {
         ActionBar actionBar  = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void checkNoPastGames() {
+        //show empty state text if there are no game plays recorded yet
+        if (adapter.getCount() == 0) {
+            noPastGamesText.setVisibility(View.VISIBLE);
+        }
+
+        else if (adapter.getCount() > 0){
+            noPastGamesText.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void updateTitle() {
@@ -89,6 +104,7 @@ public class ViewGameConfigActivity extends AppCompatActivity {
         setupGamesRecordList();
         populateGamesRecordListView();
         updateTitle();
+        checkNoPastGames();
     }
 
     private void setUpViewAchievement() {
@@ -102,7 +118,7 @@ public class ViewGameConfigActivity extends AppCompatActivity {
     }
 
     private void populateGamesRecordListView() {
-        ArrayAdapter<GameRecord> adapter = new gameRecordsListAdapter();
+        adapter = new gameRecordsListAdapter();
         ListView list = findViewById(R.id.gamesPlayedListView);
         list.setAdapter(adapter);
     }
