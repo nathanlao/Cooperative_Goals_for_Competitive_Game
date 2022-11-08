@@ -13,6 +13,9 @@
     <string name="dialog_welcome">Welcome!</string>
     <string name="welcome_message">You have no games! \n\n 1. To add a game, simply click the plus (+) button and fill out your game details.\n 2. You can later edit a game by clicking on the game and changing the game\'s details.\n 3. We hope you enjoy playing and keeping track of your games!\n</string>
     <string name="test">Welcome! Good to meet you and get to know you here. I am very happy you are playing our game today!</string>
+    <string name="empty_game_config_name">All fields cannot be empty, please enter the Game Name</string>
+    <string name="empty_game_config_poor_score">All fields cannot be empty, please enter the Poor Score</string>
+    <string name="empty_game_config_great_score">All fields cannot be empty, please enter the Great Score</string>
 
     <!-- Strings used for Add/Edit Game Config Screen -->
     <string name="name">Name</string>
@@ -51,6 +54,9 @@
     <string name="view_achievements2">View Achievements</string>
     <string name="zero_player_msg">Please Enter Players more than 0!</string>
     <string name="num_player_text">Enter Number of Players:</string>
+    <string name="less_than_achievement_score"><![CDATA[<]]></string>
+    <string name="required_achievement_score" />
+
 
     <!-- Strings used for Achievement -->
     <string-array name="achievement_names">
