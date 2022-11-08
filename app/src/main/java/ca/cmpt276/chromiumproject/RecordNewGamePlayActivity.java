@@ -86,7 +86,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                 setupGameRecordInput();
 
                 // Validate empty input and display Toast message accordingly
-                if (checkEmptyInput()) {
+                if (checkEmptyInput() || checkInvalidInput()) {
                     return false;
                 }
                 // save updated gameConfigs list to SharedPrefs
@@ -140,6 +140,16 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
             return true;
         } else if (combinedScoreStr.matches("")){
             Toast.makeText(this, R.string.toast_check_empty_combine_score, Toast.LENGTH_LONG).show();
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkInvalidInput() {
+        String numOfPlayersStr = numPlayers.getText().toString();
+
+        if (numOfPlayersStr.matches("0")) {
+            Toast.makeText(this, R.string.check_invalid_number_of_player, Toast.LENGTH_LONG).show();
             return true;
         }
         return false;

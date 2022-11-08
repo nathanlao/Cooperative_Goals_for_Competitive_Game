@@ -40,6 +40,7 @@
     <string name="record_new_game_title">Record New Game Play</string>
     <string name="number_of_players">Number of Players:</string>
     <string name="combined_score">Combined Score:</string>
+    <string name="check_invalid_number_of_player">Number of players must be greater than 0</string>
 
     <!-- Strings used for View Achievement Screen -->
     <string name="achievement_level_title">Achievement Levels</string>
