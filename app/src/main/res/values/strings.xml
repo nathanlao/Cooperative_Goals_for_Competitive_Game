@@ -54,6 +54,9 @@
     <string name="view_achievements2">View Achievements</string>
     <string name="zero_player_msg">Please Enter Players more than 0!</string>
     <string name="num_player_text">Enter Number of Players:</string>
+    <string name="less_than_achievement_score"><![CDATA[<]]></string>
+    <string name="required_achievement_score" />
+
 
     <!-- Strings used for Achievement -->
     <string-array name="achievement_names">
