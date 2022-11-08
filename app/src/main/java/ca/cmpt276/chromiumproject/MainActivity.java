@@ -155,8 +155,6 @@ public class MainActivity extends AppCompatActivity {
 
             GameConfig currentGame = gameConfigs.get(position);
 
-            // TODO: Probably fill with game image later
-
             // Extract string and concatenate with poor score/great score in GameConfig
             String poorScoreMsg = getString(R.string.string_poor_score);
             poorScoreMsg += " " + currentGame.getPoorScore();
