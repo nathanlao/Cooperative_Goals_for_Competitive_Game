@@ -70,4 +70,16 @@
         <item>World Conqueror</item>
         <item>Creator of the Game</item>
     </string-array>
+
+    <!-- Strings used for 2nd Achievement Theme-->
+    <string-array name="enchanted_forest_achievement_names">
+        <item>Young Sprout</item>
+        <item>Sparkling fairy</item>
+        <item>Forest Gnome</item>
+        <item>Formidable Beast</item>
+        <item>Brave Warrior</item>
+        <item>Magical Guardian</item>
+        <item>Mighty Dragon</item>
+        <item>Ruler of the Enchanted Forest</item>
+    </string-array>
 </resources>
