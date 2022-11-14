@@ -92,8 +92,8 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                 // save updated gameConfigs list to SharedPrefs
                 MainActivity.saveGameConfigs(this, gameManager);
                 Toast.makeText(this, R.string.toast_save_game_record, Toast.LENGTH_SHORT).show();
+                setUpEarnedAchievement();
                 finish();
-
                 return true;
 
             case android.R.id.home:
@@ -103,6 +103,11 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void setUpEarnedAchievement() {
+        Intent earnedAchievementIntent = new Intent(RecordNewGamePlayActivity.this, EarnedAchievementActivity.class);
+        startActivity(earnedAchievementIntent);
     }
 
     private void setupGameRecordInput() {
