@@ -10,6 +10,9 @@ public class Achievement {
 
     private static final int NUM_ACHIEVEMENTS = 8;
 
+    private static final double EASY_SCALE_FACTOR = 0.75;
+    private static final double HARD_SCALE_FACTOR = 1.25;
+
     private int[] potentialAchievePoints = {};
     private int partitionNum = 0;
 
@@ -88,6 +91,12 @@ public class Achievement {
 
     public int[] getPotentialAchievePoint() {
         return potentialAchievePoints;
+    }
+
+    public int[] getPotentialAchievePointByDifficulty(Difficulty difficulty) {
+        int[] scaledPoints = new int[NUM_ACHIEVEMENTS];
+        // TODO: add code to scale potentialAchievePoints according to specified difficulty
+        return scaledPoints;
     }
 
     public static Achievement makeAchievement(int playerCount, int theScore, int poorScore, int greatScore) {
