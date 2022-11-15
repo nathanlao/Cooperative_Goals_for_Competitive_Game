@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -97,12 +98,14 @@ public class ViewAchievementActivity extends AppCompatActivity {
 
         return intent;
     }
+
     private void extractDataFromIntent() {
         Intent intent = getIntent();
         gameConfigPosition = intent.getIntExtra(GAME_CONFIG_POSITION, 0);
 
         gameConfigs = gameManager.getGameConfigByIndex(gameConfigPosition);
     }
+
     private void setUpTextMonitor() {
         EditText numPlayerText = findViewById(R.id.editTextNumberPlayer);
         numPlayerText.addTextChangedListener(new TextWatcher() {
@@ -122,6 +125,7 @@ public class ViewAchievementActivity extends AppCompatActivity {
             }
         });
     }
+
     private void calibrateNewAchievement() {
         ListView achieveList = findViewById(R.id.listViewAchieveCollection);
         EditText numPlayerText = findViewById(R.id.editTextNumberPlayer);
@@ -142,9 +146,42 @@ public class ViewAchievementActivity extends AppCompatActivity {
                 potentialScoreCollections = Achievement.getStaticPotentialAchievePoint(textBoxIntNumPlayer, gameConfigs);
 
                 includeSpecialAchievement();
-                populateAchievements();
+
+                // TODO: Comment out populateAchievements(), now have to click difficult buttons
+                // populateAchievements();
+                setUpDifficultyButton();
             }
         }
+    }
+
+    private void setUpDifficultyButton() {
+        Button normalBtn = findViewById(R.id.btnSelectNormal);
+        Button easyBtn = findViewById(R.id.btnSelectEasy);
+        Button hardBtn = findViewById(R.id.btnSelectHard);
+
+        normalBtn.setOnClickListener(v -> {
+            // TODO: Testing purpose, delete later
+            Toast.makeText(ViewAchievementActivity.this, "Testing: normal", Toast.LENGTH_SHORT).show();
+
+            // TODO: Adapt normal level calculation into achievement listView by clicking normal button
+            populateAchievements();
+        });
+
+        easyBtn.setOnClickListener(v -> {
+            // TODO: Testing purpose, delete later
+            Toast.makeText(ViewAchievementActivity.this, "Testing: easy", Toast.LENGTH_SHORT).show();
+
+            // TODO: Adapt easy level calculation into achievement listView by clicking easy button
+            populateAchievements();
+        });
+
+        hardBtn.setOnClickListener(v -> {
+            // TODO: Testing purpose, delete later
+            Toast.makeText(ViewAchievementActivity.this, "Testing: hard", Toast.LENGTH_SHORT).show();
+
+            // TODO: Adapt hard level calculation into achievement listView by clicking hard button
+            populateAchievements();
+        });
     }
 
     private void populateAchievements() {
