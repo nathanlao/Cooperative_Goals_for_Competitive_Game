@@ -24,38 +24,15 @@ public class Achievement {
 
     public static Achievement makeAchievement(int playerCount, int theScore, int poorScore, int greatScore) {
         Achievement achievement = new Achievement();
-        achievement.setCurAchievement(playerCount, theScore, poorScore, greatScore);
+        int achievementLevel = achievement.calculateAchievementLevel(playerCount, theScore, poorScore, greatScore);
+        achievement.setAchievementLevel(achievementLevel);
         return achievement;
     }
 
-    public void setCurAchievement(int playerCount, int theScore, int poorScore, int greatScore) {
-        setPotentialAchievePoint(playerCount, poorScore, greatScore);
-        int curAchieveEndBoundary = 0;
-        for (int i = 0; i < potentialAchievePoints.length; i++) {
-
-            //check on first loop, for Special worst achievement
-            if (i == 0) {
-                if (theScore <= potentialAchievePoints[0]) {
-                    achievementLevel = SPECIAL_WORST_ACHIEVE;
-                }
-            }
-
-            curAchieveEndBoundary = potentialAchievePoints[i] + partitionNum;
-            //If score is in the Boundary, choose from achievement Collection
-            if (theScore >= potentialAchievePoints[i] &&
-            theScore < curAchieveEndBoundary) {
-                achievementLevel = i;
-            }
-
-            //check on last loop, case far larger than expected
-            if (i == potentialAchievePoints.length - 1) {
-                if (theScore > potentialAchievePoints[i]) {
-                    achievementLevel = i;
-                }
-            }
-        }
-
+    private void setAchievementLevel(int achievementLevel) {
+        this.achievementLevel = achievementLevel;
     }
+
     public int getCurAchievementLevel() {
         return achievementLevel;
     }
@@ -99,10 +76,38 @@ public class Achievement {
         return potentialAchievePoints;
     }
 
-    public int[] getPotentialAchievePointByDifficulty(Difficulty difficulty) {
-        int[] scaledPoints = new int[NUM_ACHIEVEMENTS];
-        // TODO: add code to scale potentialAchievePoints according to specified difficulty
-        return scaledPoints;
+    // Calculates Achievement Level without considering difficulty.
+    private int calculateAchievementLevel(int playerCount, int theScore, int poorScore, int greatScore) {
+        int achievementLevel = 0;
+
+        setPotentialAchievePoint(playerCount, poorScore, greatScore);
+
+        int curAchieveEndBoundary = 0;
+        for (int i = 0; i < potentialAchievePoints.length; i++) {
+
+            //check on first loop, for Special worst achievement
+            if (i == 0) {
+                if (theScore <= potentialAchievePoints[0]) {
+                    achievementLevel = SPECIAL_WORST_ACHIEVE;
+                }
+            }
+
+            curAchieveEndBoundary = potentialAchievePoints[i] + partitionNum;
+            //If score is in the Boundary, choose from achievement Collection
+            if (theScore >= potentialAchievePoints[i] &&
+                    theScore < curAchieveEndBoundary) {
+                achievementLevel = i;
+            }
+
+            //check on last loop, case far larger than expected
+            if (i == potentialAchievePoints.length - 1) {
+                if (theScore > potentialAchievePoints[i]) {
+                    achievementLevel = i;
+                }
+            }
+        }
+
+        return achievementLevel;
     }
 
 }
