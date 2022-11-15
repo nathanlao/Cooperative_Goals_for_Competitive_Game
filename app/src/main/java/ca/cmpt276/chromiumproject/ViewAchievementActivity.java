@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,8 +21,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -160,27 +159,51 @@ public class ViewAchievementActivity extends AppCompatActivity {
         Button hardBtn = findViewById(R.id.btnSelectHard);
 
         normalBtn.setOnClickListener(v -> {
-            // TODO: Testing purpose, delete later
-            Toast.makeText(ViewAchievementActivity.this, "Testing: normal", Toast.LENGTH_SHORT).show();
+            switch (v.getId()) {
+                case R.id.btnSelectNormal:
+                    normalBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
+                    easyBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
+                    hardBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
 
-            // TODO: Adapt normal level calculation into achievement listView by clicking normal button
-            populateAchievements();
+                    // TODO: Testing purpose, delete later
+                    Toast.makeText(ViewAchievementActivity.this, "Testing: normal", Toast.LENGTH_SHORT).show();
+
+                    // TODO: Adapt normal level calculation into achievement listView by clicking normal button
+                    populateAchievements();
+                    break;
+            }
         });
 
         easyBtn.setOnClickListener(v -> {
-            // TODO: Testing purpose, delete later
-            Toast.makeText(ViewAchievementActivity.this, "Testing: easy", Toast.LENGTH_SHORT).show();
+            switch (v.getId()) {
+                case R.id.btnSelectEasy:
+                    normalBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
+                    easyBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
+                    hardBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
 
-            // TODO: Adapt easy level calculation into achievement listView by clicking easy button
-            populateAchievements();
+                    // TODO: Testing purpose, delete later
+                    Toast.makeText(ViewAchievementActivity.this, "Testing: easy", Toast.LENGTH_SHORT).show();
+
+                    // TODO: Adapt easy level calculation into achievement listView by clicking easy button
+                    populateAchievements();
+                    break;
+            }
         });
 
         hardBtn.setOnClickListener(v -> {
-            // TODO: Testing purpose, delete later
-            Toast.makeText(ViewAchievementActivity.this, "Testing: hard", Toast.LENGTH_SHORT).show();
+            switch (v.getId()) {
+                case R.id.btnSelectHard:
+                    normalBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
+                    easyBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
+                    hardBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
 
-            // TODO: Adapt hard level calculation into achievement listView by clicking hard button
-            populateAchievements();
+                    // TODO: Testing purpose, delete later
+                    Toast.makeText(ViewAchievementActivity.this, "Testing: hard", Toast.LENGTH_SHORT).show();
+
+                    // TODO: Adapt hard level calculation into achievement listView by clicking hard button
+                    populateAchievements();
+                    break;
+            }
         });
     }
 
