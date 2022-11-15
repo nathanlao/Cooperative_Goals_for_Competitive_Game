@@ -46,7 +46,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline7"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
     <TextView
         android:id="@+id/combinedScore"
@@ -73,7 +73,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline8"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/btnSelectNormal"
