@@ -147,7 +147,7 @@ public class ViewAchievementActivity extends AppCompatActivity {
 
                 includeSpecialAchievement();
 
-                // TODO: Comment out populateAchievements(),
+                // TODO: Comment out populateAchievements(), now have to click difficult buttons
                 // populateAchievements();
                 setUpDifficultyButton();
             }
