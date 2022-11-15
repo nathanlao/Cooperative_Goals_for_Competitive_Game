@@ -22,6 +22,12 @@ public class Achievement {
         this.achievementLevel = 0;
     }
 
+    public static Achievement makeAchievement(int playerCount, int theScore, int poorScore, int greatScore) {
+        Achievement achievement = new Achievement();
+        achievement.setCurAchievement(playerCount, theScore, poorScore, greatScore);
+        return achievement;
+    }
+
     public void setCurAchievement(int playerCount, int theScore, int poorScore, int greatScore) {
         setPotentialAchievePoint(playerCount, poorScore, greatScore);
         int curAchieveEndBoundary = 0;
@@ -97,12 +103,6 @@ public class Achievement {
         int[] scaledPoints = new int[NUM_ACHIEVEMENTS];
         // TODO: add code to scale potentialAchievePoints according to specified difficulty
         return scaledPoints;
-    }
-
-    public static Achievement makeAchievement(int playerCount, int theScore, int poorScore, int greatScore) {
-        Achievement achievement = new Achievement();
-        achievement.setCurAchievement(playerCount, theScore, poorScore, greatScore);
-        return achievement;
     }
 
 }
