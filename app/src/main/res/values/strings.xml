@@ -63,7 +63,6 @@
     <string name="select_button_easy">Easy</string>
     <string name="select_button_hard">Hard</string>
 
-
     <!-- Strings used for Achievement -->
     <string-array name="achievement_names">
         <item>Walking Toddler</item>
