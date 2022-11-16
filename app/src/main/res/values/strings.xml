@@ -57,6 +57,11 @@
     <string name="less_than_achievement_score"><![CDATA[<]]></string>
     <string name="required_achievement_score" />
     <string name="no_past_games_played">You have no past games played! \n\n1. To record a new game press the Record a New Game Play button and enter the number of players and the combined score.\n2. You can come back here to see the history of your past games and view their achievement.</string>
+    <string name="enter_number_of_players">Enter Number of Players:</string>
+    <string name="select_difficulty">Select Difficulty:</string>
+    <string name="select_button_normal">Normal</string>
+    <string name="select_button_easy">Easy</string>
+    <string name="select_button_hard">Hard</string>
     <string name="achievement_level_congratulations_message">Congratulations! Your team has earned an achievement level! Woohoo!</string>
 
 
