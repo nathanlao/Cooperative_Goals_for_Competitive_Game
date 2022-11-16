@@ -5,3 +5,5 @@ public enum Difficulty {
     EASY,
     HARD
 }
+
+// TODO: implement toString method to return difficulty as string
