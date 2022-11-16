@@ -52,6 +52,9 @@ public class ViewAchievementActivity extends AppCompatActivity {
     private List<Integer> actualScoreList;
 
     private EditText numPlayerText;
+    private Button normalBtn;
+    private Button easyBtn;
+    private Button hardBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +66,12 @@ public class ViewAchievementActivity extends AppCompatActivity {
         enterTextNum.setText(R.string.num_player_text);
 
         numPlayerText = findViewById(R.id.editTextNumberPlayer);
+        setUpButtonField();
 
         setUpBackButton();
 
         extractDataFromIntent();
+        setUpInitialButtonBehaviour();
         setUpTextMonitor();
     }
 
@@ -80,6 +85,19 @@ public class ViewAchievementActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void setUpButtonField() {
+        normalBtn = findViewById(R.id.btnSelectNormal);
+        easyBtn = findViewById(R.id.btnSelectEasy);
+        hardBtn = findViewById(R.id.btnSelectHard);
+    }
+
+    private void setUpInitialButtonBehaviour() {
+        // Initially click on button display toast message to notify user to enter playerCount
+        normalBtn.setOnClickListener(v -> Toast.makeText(ViewAchievementActivity.this, R.string.toast_enter_number_of_players, Toast.LENGTH_SHORT).show());
+        easyBtn.setOnClickListener(v -> Toast.makeText(ViewAchievementActivity.this, R.string.toast_enter_number_of_players, Toast.LENGTH_SHORT).show());
+        hardBtn.setOnClickListener(v -> Toast.makeText(ViewAchievementActivity.this, R.string.toast_enter_number_of_players, Toast.LENGTH_SHORT).show());
     }
 
     private void setUpBackButton() {
@@ -111,7 +129,7 @@ public class ViewAchievementActivity extends AppCompatActivity {
     }
 
     private void setUpTextMonitor() {
-        EditText numPlayerText = findViewById(R.id.editTextNumberPlayer);
+        numPlayerText = findViewById(R.id.editTextNumberPlayer);
         numPlayerText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -131,9 +149,6 @@ public class ViewAchievementActivity extends AppCompatActivity {
     }
 
     private void calibrateNewAchievement() {
-        Button normalBtn = findViewById(R.id.btnSelectNormal);
-        Button easyBtn = findViewById(R.id.btnSelectEasy);
-        Button hardBtn = findViewById(R.id.btnSelectHard);
 
         ListView achieveList = findViewById(R.id.listViewAchieveCollection);
         String textBoxString = numPlayerText.getText().toString();
@@ -180,6 +195,7 @@ public class ViewAchievementActivity extends AppCompatActivity {
 
                     // Set button color
                     if (TextUtils.isEmpty(textBoxString)) {
+                        Toast.makeText(this, R.string.toast_enter_number_of_players, Toast.LENGTH_SHORT).show();
                         normalBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
                     } else {
                         normalBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
@@ -192,7 +208,6 @@ public class ViewAchievementActivity extends AppCompatActivity {
                         // TODO: Adapt normal level calculation into achievement listView by clicking normal button
                         populateAchievements();
                     }
-
                     break;
             }
         });
@@ -202,6 +217,7 @@ public class ViewAchievementActivity extends AppCompatActivity {
                 case R.id.btnSelectEasy:
                     String textBoxString = numPlayerText.getText().toString();
                     if (TextUtils.isEmpty(textBoxString)) {
+                        Toast.makeText(this, R.string.toast_enter_number_of_players, Toast.LENGTH_SHORT).show();
                         easyBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
                     } else {
                         normalBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
@@ -223,6 +239,7 @@ public class ViewAchievementActivity extends AppCompatActivity {
                 case R.id.btnSelectHard:
                     String textBoxString = numPlayerText.getText().toString();
                     if (TextUtils.isEmpty(textBoxString)) {
+                        Toast.makeText(this, R.string.toast_enter_number_of_players, Toast.LENGTH_SHORT).show();
                         hardBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
                     } else {
                         normalBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
