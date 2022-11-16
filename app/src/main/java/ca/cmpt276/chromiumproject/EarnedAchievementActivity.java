@@ -8,6 +8,8 @@ import android.os.Handler;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,11 +21,11 @@ import android.widget.ImageView;
  */
 public class EarnedAchievementActivity extends AppCompatActivity {
 
-    public static final int ANIMATION_DURATION = 4000;
-    public static final int FIREWORKS1_X_TRANLSATION = 500;
-    public static final int FIREWORKS1_Y_TRANSLATION = -500;
-    public static final int FIREWORKS2_X_TRANLSATION = -500;
-    public static final int FIREWORKS2_Y_TRANSLATION = -500;
+    public static final int ANIMATION_DURATION = 5000;
+    public static final int FIREWORKS1_X_TRANLSATION = 600;
+    public static final int FIREWORKS1_Y_TRANSLATION = -600;
+    public static final int FIREWORKS2_X_TRANLSATION = -600;
+    public static final int FIREWORKS2_Y_TRANSLATION = -600;
     private static int SPLASH_TIME = 10*1000;
 
     @Override
@@ -58,17 +60,19 @@ public class EarnedAchievementActivity extends AppCompatActivity {
 
     private void runAnimation(ImageView fireworks, int xTranlsation, int yTranslation) {
         //animation tutorial: https://stackoverflow.com/questions/12983681/translateanimation-on-imageview-android
+        //and https://stackoverflow.com/questions/20608073/how-to-rotate-imageview-from-its-centre-position
 
         int xPosition = fireworks.getLeft();
         int yPosition = fireworks.getTop();
 
         AnimationSet animationSet = new AnimationSet(false);
 
-        Animation animation = new TranslateAnimation(xPosition, xPosition+ xTranlsation, yPosition, yPosition+ yTranslation);
-        animation.setDuration(ANIMATION_DURATION);
-        animation.setFillAfter(true);
-        animation.setFillEnabled(true);
-        animation.setAnimationListener(new Animation.AnimationListener() {
+        //translation animation
+        Animation translateAnimation = new TranslateAnimation(xPosition, xPosition+ xTranlsation, yPosition, yPosition+ yTranslation);
+        translateAnimation.setDuration(ANIMATION_DURATION);
+        translateAnimation.setFillAfter(true);
+        translateAnimation.setFillEnabled(true);
+        translateAnimation.setAnimationListener(new Animation.AnimationListener() {
 
             @Override
             public void onAnimationStart(Animation animation) {
@@ -85,7 +89,9 @@ public class EarnedAchievementActivity extends AppCompatActivity {
 
             }
         });
-        animationSet.addAnimation(animation);
+        animationSet.addAnimation(translateAnimation);
+
+
         fireworks.startAnimation(animationSet);
     }
 }
