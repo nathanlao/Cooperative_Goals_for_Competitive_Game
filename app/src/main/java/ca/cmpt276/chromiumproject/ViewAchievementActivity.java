@@ -5,12 +5,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,11 +69,21 @@ public class ViewAchievementActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_achievement_settings_configurations, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case android.R.id.home:
                 finish();
                 return true;
+
+            case R.id.action_achievement_settings:
+                Intent i = AchievementSettingsActivity.makeAchievementSettingsIntent(ViewAchievementActivity.this);
+                startActivity(i);
 
             default:
                 return super.onOptionsItemSelected(item);
