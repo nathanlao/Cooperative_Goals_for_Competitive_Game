@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import ca.cmpt276.chromiumproject.model.Difficulty;
 import ca.cmpt276.chromiumproject.model.GameConfig;
 import ca.cmpt276.chromiumproject.model.GameManager;
 import ca.cmpt276.chromiumproject.model.GameRecord;
@@ -34,8 +33,6 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     private GameManager gameManager;
     private GameRecord gameRecord;
     private GameConfig gameConfigs;
-
-    private Difficulty selectedDifficulty;
 
     private int gameConfigPosition;
 
@@ -72,7 +69,6 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         setDifficultyButtonsGray();
 
         normalBtn.setOnClickListener(v -> {
-            selectedDifficulty = Difficulty.NORMAL;
             setDifficultyButtonsGray();
             normalBtn.setBackgroundColor(Color.BLUE);
             // TODO: Testing purpose, delete later
@@ -80,7 +76,6 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         });
 
         easyBtn.setOnClickListener(v -> {
-            selectedDifficulty = Difficulty.EASY;
             setDifficultyButtonsGray();
             easyBtn.setBackgroundColor(Color.GREEN);
             // TODO: Testing purpose, delete later
@@ -88,7 +83,6 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         });
 
         hardBtn.setOnClickListener(v -> {
-            selectedDifficulty = Difficulty.HARD;
             setDifficultyButtonsGray();
             hardBtn.setBackgroundColor(Color.RED);
             // TODO: Testing purpose, delete later
@@ -181,7 +175,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
         // Add game record to the record list in gameConfig
         try {
-            gameRecord = new GameRecord(numberOfPlayersNum, combinedScoreNum, gameConfigs.getPoorScore(), gameConfigs.getGreatScore(), selectedDifficulty);
+            gameRecord = new GameRecord(numberOfPlayersNum, combinedScoreNum, gameConfigs.getPoorScore(), gameConfigs.getGreatScore());
             gameConfigs.addGameRecord(gameRecord);
         } catch (IllegalArgumentException ex) {
             Log.d(TAG_ILLEGAL_ARGUMENT_EXCEPTION, "IllegalArgumentException caught: number of players must be greater than 0");
