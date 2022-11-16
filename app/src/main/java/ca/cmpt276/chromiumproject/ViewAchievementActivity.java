@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,8 @@ public class ViewAchievementActivity extends AppCompatActivity {
     private int[] potentialScoreCollections = {};
     private List<Integer> actualScoreList;
 
+    private EditText numPlayerText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +61,8 @@ public class ViewAchievementActivity extends AppCompatActivity {
         achievementCollections = getResources().getStringArray(R.array.achievement_names);
         TextView enterTextNum = findViewById(R.id.textViewEnterMsg);
         enterTextNum.setText(R.string.num_player_text);
+
+        numPlayerText = findViewById(R.id.editTextNumberPlayer);
 
         setUpBackButton();
 
@@ -126,13 +131,21 @@ public class ViewAchievementActivity extends AppCompatActivity {
     }
 
     private void calibrateNewAchievement() {
+        Button normalBtn = findViewById(R.id.btnSelectNormal);
+        Button easyBtn = findViewById(R.id.btnSelectEasy);
+        Button hardBtn = findViewById(R.id.btnSelectHard);
+
         ListView achieveList = findViewById(R.id.listViewAchieveCollection);
-        EditText numPlayerText = findViewById(R.id.editTextNumberPlayer);
         String textBoxString = numPlayerText.getText().toString();
         int textBoxIntNumPlayer = 0;
+
         //checkEmpty
         if (TextUtils.isEmpty(textBoxString)) {
             achieveList.setAdapter(null);
+
+            // Reset button color and clear the list to avoid mistaken display
+            resetDifficultyButtonColor(normalBtn, easyBtn, hardBtn);
+            actualAchievementList.clear();
         }
         if (!TextUtils.isEmpty(textBoxString)) {
             textBoxIntNumPlayer = Integer.parseInt(textBoxString);
@@ -148,28 +161,38 @@ public class ViewAchievementActivity extends AppCompatActivity {
 
                 // TODO: Comment out populateAchievements(), now have to click difficult buttons
                 // populateAchievements();
-                setUpDifficultyButton();
+                setUpDifficultyButton(normalBtn, easyBtn, hardBtn);
             }
         }
     }
 
-    private void setUpDifficultyButton() {
-        Button normalBtn = findViewById(R.id.btnSelectNormal);
-        Button easyBtn = findViewById(R.id.btnSelectEasy);
-        Button hardBtn = findViewById(R.id.btnSelectHard);
+    private void resetDifficultyButtonColor(Button normalBtn, Button easyBtn, Button hardBtn) {
+        normalBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
+        easyBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
+        hardBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
+    }
 
+    private void setUpDifficultyButton(Button normalBtn, Button easyBtn, Button hardBtn) {
         normalBtn.setOnClickListener(v -> {
             switch (v.getId()) {
                 case R.id.btnSelectNormal:
-                    normalBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
-                    easyBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
-                    hardBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
+                    String textBoxString = numPlayerText.getText().toString();
 
-                    // TODO: Testing purpose, delete later
-                    Toast.makeText(ViewAchievementActivity.this, "Testing: normal", Toast.LENGTH_SHORT).show();
+                    // Set button color
+                    if (TextUtils.isEmpty(textBoxString)) {
+                        normalBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
+                    } else {
+                        normalBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
+                        easyBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
+                        hardBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
 
-                    // TODO: Adapt normal level calculation into achievement listView by clicking normal button
-                    populateAchievements();
+                        // TODO: Testing purpose, delete later
+                        Toast.makeText(ViewAchievementActivity.this, "Testing: normal", Toast.LENGTH_SHORT).show();
+
+                        // TODO: Adapt normal level calculation into achievement listView by clicking normal button
+                        populateAchievements();
+                    }
+
                     break;
             }
         });
@@ -177,15 +200,20 @@ public class ViewAchievementActivity extends AppCompatActivity {
         easyBtn.setOnClickListener(v -> {
             switch (v.getId()) {
                 case R.id.btnSelectEasy:
-                    normalBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
-                    easyBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
-                    hardBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
+                    String textBoxString = numPlayerText.getText().toString();
+                    if (TextUtils.isEmpty(textBoxString)) {
+                        easyBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
+                    } else {
+                        normalBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
+                        easyBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
+                        hardBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
 
-                    // TODO: Testing purpose, delete later
-                    Toast.makeText(ViewAchievementActivity.this, "Testing: easy", Toast.LENGTH_SHORT).show();
+                        // TODO: Testing purpose, delete later
+                        Toast.makeText(ViewAchievementActivity.this, "Testing: easy", Toast.LENGTH_SHORT).show();
 
-                    // TODO: Adapt easy level calculation into achievement listView by clicking easy button
-                    populateAchievements();
+                        // TODO: Adapt easy level calculation into achievement listView by clicking easy button
+                        populateAchievements();
+                    }
                     break;
             }
         });
@@ -193,15 +221,21 @@ public class ViewAchievementActivity extends AppCompatActivity {
         hardBtn.setOnClickListener(v -> {
             switch (v.getId()) {
                 case R.id.btnSelectHard:
-                    normalBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
-                    easyBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
-                    hardBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
+                    String textBoxString = numPlayerText.getText().toString();
+                    if (TextUtils.isEmpty(textBoxString)) {
+                        hardBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
+                    } else {
+                        normalBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
+                        easyBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
+                        hardBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
 
-                    // TODO: Testing purpose, delete later
-                    Toast.makeText(ViewAchievementActivity.this, "Testing: hard", Toast.LENGTH_SHORT).show();
+                        // TODO: Testing purpose, delete later
+                        Toast.makeText(ViewAchievementActivity.this, "Testing: hard", Toast.LENGTH_SHORT).show();
 
-                    // TODO: Adapt hard level calculation into achievement listView by clicking hard button
-                    populateAchievements();
+                        // TODO: Adapt hard level calculation into achievement listView by clicking hard button
+                        populateAchievements();
+                    }
+
                     break;
             }
         });
