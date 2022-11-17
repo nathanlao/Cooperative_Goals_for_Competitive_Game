@@ -36,7 +36,10 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     private GameRecord gameRecord;
     private GameConfig gameConfigs;
 
+    // Position for makeRecordIntent
     private int gameConfigPosition;
+
+    // Positions for makePastGameIntent
     private int currentGameConfigPosition;
     private int currentGamePlayPosition;
 
@@ -136,13 +139,13 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         switch(item.getItemId()) {
             case R.id.action_save:
 
-                // Take user input
-                setupGameRecordInput();
-
                 // Validate empty input and display Toast message accordingly
                 if (checkEmptyInput() || checkInvalidInput()) {
                     return false;
                 }
+
+                // Take user input
+                setupGameRecordInput();
 
                 if (isNewGamePlay) {
                     gameConfigs.addGameRecord(gameRecord);
@@ -196,9 +199,13 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
             }
         } else {
             try {
+                // Get current game configs and edit its associated game record
                 gameConfigs = gameManager.getGameConfigByIndex(currentGameConfigPosition);
                 gameRecord = gameConfigs.getGameRecordByIndex(currentGamePlayPosition);
+
+                // TODO: Need to change gameRecord fields (combinedScoreNum) when score calculator part is done
                 gameRecord.setGameRecordFields(numberOfPlayersNum, combinedScoreNum, gameConfigs.getPoorScore(), gameConfigs.getGreatScore());
+
             } catch (IllegalArgumentException ex) {
                 Log.d(TAG_ILLEGAL_ARGUMENT_EXCEPTION, "IllegalArgumentException caught: number of players must be greater than 0");
             }
@@ -242,13 +249,14 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         if (currentGamePlayPosition == -1) {
             isNewGamePlay = true;
         } else {
-            setTitle(getString(R.string.edit_game_play_title));
+            GameConfig currentGameConfigs = gameManager.getGameConfigByIndex(currentGameConfigPosition);
+            setTitle(getString(R.string.edit_game_play_title) + " " + currentGameConfigs.getName());
             isNewGamePlay = false;
-            displayCurrentGamePlay(currentGameConfigPosition, currentGamePlayPosition);
+            displayCurrentGamePlay();
         }
     }
 
-    private void displayCurrentGamePlay(int currentGameConfigPosition, int currentGamePlayPosition) {
+    private void displayCurrentGamePlay() {
         // Getting current gameConfigs and its associated gameRecord
         gameConfigs = gameManager.getGameConfigByIndex(currentGameConfigPosition);
         GameRecord currentGamePlay = gameConfigs.getGameRecordByIndex(currentGamePlayPosition);
