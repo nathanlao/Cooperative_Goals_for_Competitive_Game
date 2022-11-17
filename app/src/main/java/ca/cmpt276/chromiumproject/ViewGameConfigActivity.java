@@ -165,7 +165,7 @@ public class ViewGameConfigActivity extends AppCompatActivity {
     private void setUpRecordNewGame() {
         Button recordBtn = findViewById(R.id.recordGameBtn);
         recordBtn.setOnClickListener(view -> {
-            Intent recordIntent = RecordNewGamePlayActivity.makeRecordIntent(ViewGameConfigActivity.this);
+            Intent recordIntent = RecordNewGamePlayActivity.makeRecordIntent(ViewGameConfigActivity.this, gameConfigPosition);
             startActivity(recordIntent);
         });
     }

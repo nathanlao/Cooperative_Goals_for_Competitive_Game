@@ -26,7 +26,7 @@ import ca.cmpt276.chromiumproject.model.GameRecord;
 public class RecordNewGamePlayActivity extends AppCompatActivity {
 
     public static final String EXTRA_RECORD_GAME_POSITION = "Record Intent Extra - gameConfig position";
-    public static final String EXTRA_PAST_GAME_POSITION = "Record Intent Extra - gameConfig position";
+    public static final String EXTRA_PAST_GAME_POSITION = "Past Game Intent Extra - pastGame position";
 
     public static final String TAG_NUMBER_FORMAT_EXCEPTION = "Catch NumberFormatException";
     public static final String TAG_ILLEGAL_ARGUMENT_EXCEPTION = "Catch IllegalArgumentException";
@@ -41,8 +41,10 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     private TextView numPlayers;
     private TextView combinedScore;
 
-    public static Intent makeRecordIntent(Context context) {
-        return new Intent(context, RecordNewGamePlayActivity.class);
+    public static Intent makeRecordIntent(Context context, int position) {
+        Intent intent =  new Intent(context, RecordNewGamePlayActivity.class);
+        intent.putExtra(EXTRA_RECORD_GAME_POSITION, position);
+        return intent;
     }
 
     public static Intent makePastGameIntent(Context context, int position) {
@@ -70,7 +72,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     private void extractPastGamePositionFromIntent() {
         Intent pastGameIntent = getIntent();
         pastGamePosition = pastGameIntent.getIntExtra(EXTRA_PAST_GAME_POSITION, -1);
-//        Log.d("Current past game position" , "" + pastGamePosition);
+
         // Its a new game record
         if (pastGamePosition == -1) {
 
