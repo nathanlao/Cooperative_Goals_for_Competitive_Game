@@ -194,8 +194,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
             }
         } else {
             try {
-                // Get current game configs and edit its associated game record
-                gameConfigs = gameManager.getGameConfigByIndex(gameConfigPosition);
+                // Get current game record and edit it
                 gameRecord = gameConfigs.getGameRecordByIndex(GamePlayPosition);
 
                 // TODO: Need to change gameRecord fields (combinedScoreNum) when score calculator part is done
