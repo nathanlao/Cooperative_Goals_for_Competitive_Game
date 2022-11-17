@@ -75,6 +75,7 @@
         <item>Creator of the Game</item>
     </string-array>
 
+
     <!-- Strings used for 2nd Achievement Theme-->
     <string-array name="enchanted_forest_achievement_names">
         <item>Young Sprout</item>
