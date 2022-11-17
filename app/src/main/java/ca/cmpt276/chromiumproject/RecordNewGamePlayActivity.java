@@ -37,9 +37,13 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     private GameConfig gameConfigs;
 
     private int gameConfigPosition;
+    private int currentGameConfigPosition;
+    private int currentGamePlayPosition;
 
     private TextView numPlayers;
     private TextView combinedScore;
+
+    private boolean isNewGamePlay;
 
     public static Intent makeRecordIntent(Context context, int position) {
         Intent intent =  new Intent(context, RecordNewGamePlayActivity.class);
@@ -139,6 +143,13 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                 if (checkEmptyInput() || checkInvalidInput()) {
                     return false;
                 }
+
+                if (isNewGamePlay) {
+                    gameConfigs.addGameRecord(gameRecord);
+                } else {
+                    gameConfigs.setGameRecordByIndex(currentGamePlayPosition, gameRecord);
+                }
+
                 // save updated gameConfigs list to SharedPrefs
                 MainActivity.saveGameConfigs(this, gameManager);
                 Toast.makeText(this, R.string.toast_save_game_record, Toast.LENGTH_SHORT).show();
@@ -176,12 +187,21 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
             Log.d(TAG_NUMBER_FORMAT_EXCEPTION, "NumberFormatException caught: combined score can not be empty");
         }
 
-        // Add game record to the record list in gameConfig
-        try {
-            gameRecord = new GameRecord(numberOfPlayersNum, combinedScoreNum, gameConfigs.getPoorScore(), gameConfigs.getGreatScore());
-            gameConfigs.addGameRecord(gameRecord);
-        } catch (IllegalArgumentException ex) {
-            Log.d(TAG_ILLEGAL_ARGUMENT_EXCEPTION, "IllegalArgumentException caught: number of players must be greater than 0");
+        if (isNewGamePlay) {
+            // Add new game record to the record list in gameConfig
+            try {
+                gameRecord = new GameRecord(numberOfPlayersNum, combinedScoreNum, gameConfigs.getPoorScore(), gameConfigs.getGreatScore());
+            } catch (IllegalArgumentException ex) {
+                Log.d(TAG_ILLEGAL_ARGUMENT_EXCEPTION, "IllegalArgumentException caught: number of players must be greater than 0");
+            }
+        } else {
+            try {
+                gameConfigs = gameManager.getGameConfigByIndex(currentGameConfigPosition);
+                gameRecord = gameConfigs.getGameRecordByIndex(currentGamePlayPosition);
+                gameRecord.setGameRecordFields(numberOfPlayersNum, combinedScoreNum, gameConfigs.getPoorScore(), gameConfigs.getGreatScore());
+            } catch (IllegalArgumentException ex) {
+                Log.d(TAG_ILLEGAL_ARGUMENT_EXCEPTION, "IllegalArgumentException caught: number of players must be greater than 0");
+            }
         }
     }
 
@@ -216,14 +236,14 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
     private void extractPastGamePositionFromIntent() {
         Intent pastGameIntent = getIntent();
-        int currentGameConfigPosition = pastGameIntent.getIntExtra(EXTRA_PAST_GAME_CONFIG_POSITION, 0);
-        int currentGamePlayPosition = pastGameIntent.getIntExtra(EXTRA_PAST_GAME_POSITION, -1);
+        currentGameConfigPosition = pastGameIntent.getIntExtra(EXTRA_PAST_GAME_CONFIG_POSITION, 0);
+        currentGamePlayPosition = pastGameIntent.getIntExtra(EXTRA_PAST_GAME_POSITION, -1);
 
         if (currentGamePlayPosition == -1) {
-
+            isNewGamePlay = true;
         } else {
-            setTitle("Edit Game Play");
-
+            setTitle(getString(R.string.edit_game_play_title));
+            isNewGamePlay = false;
             displayCurrentGamePlay(currentGameConfigPosition, currentGamePlayPosition);
         }
     }
@@ -233,7 +253,11 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         gameConfigs = gameManager.getGameConfigByIndex(currentGameConfigPosition);
         GameRecord currentGamePlay = gameConfigs.getGameRecordByIndex(currentGamePlayPosition);
 
+        // TODO: Probably need to reflect on button select as well
+
         numPlayers.setText(String.valueOf(currentGamePlay.getNumPlayers()));
+
+        // TODO: Need to change this when score calculator part is done
         combinedScore.setText(String.valueOf(currentGamePlay.getCombinedScore()));
     }
 }
