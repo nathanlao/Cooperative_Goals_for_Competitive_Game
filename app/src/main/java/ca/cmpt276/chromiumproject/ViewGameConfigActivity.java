@@ -100,7 +100,7 @@ public class ViewGameConfigActivity extends AppCompatActivity {
     private void pastGamesClickCallBack() {
         ListView pastGamesList = findViewById(R.id.gamesPlayedListView);
         pastGamesList.setOnItemClickListener((parent, view, position, id) -> {
-            Intent pastGameIntent = RecordNewGamePlayActivity.makePastGameIntent(this, position);
+            Intent pastGameIntent = RecordNewGamePlayActivity.makePastGameIntent(this, gameConfigPosition, position);
             startActivity(pastGameIntent);
         });
     }
