@@ -75,27 +75,19 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
             selectedDifficulty = Difficulty.NORMAL;
             setDifficultyButtonsGray();
             normalBtn.setBackgroundColor(Color.BLUE);
-            // TODO: Testing purpose, delete later
-            Toast.makeText(RecordNewGamePlayActivity.this, "Testing: normal", Toast.LENGTH_SHORT).show();
         });
 
         easyBtn.setOnClickListener(v -> {
             selectedDifficulty = Difficulty.EASY;
             setDifficultyButtonsGray();
             easyBtn.setBackgroundColor(Color.GREEN);
-            // TODO: Testing purpose, delete later
-            Toast.makeText(RecordNewGamePlayActivity.this, "Testing: easy", Toast.LENGTH_SHORT).show();
         });
 
         hardBtn.setOnClickListener(v -> {
             selectedDifficulty = Difficulty.HARD;
             setDifficultyButtonsGray();
             hardBtn.setBackgroundColor(Color.RED);
-            // TODO: Testing purpose, delete later
-            Toast.makeText(RecordNewGamePlayActivity.this, "Testing: hard", Toast.LENGTH_SHORT).show();
         });
-
-        // TODO: throw error if no difficulty is selected for new game play save
     }
 
     private void setDifficultyButtonsGray() {
@@ -164,7 +156,6 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     }
 
     private void setupGameRecordInput() {
-
         // Take user input and get current gameConfig
         int numberOfPlayersNum = 0;
         int combinedScoreNum = 0;
@@ -219,7 +210,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
     private boolean checkNullSelectedDifficulty() {
         if (selectedDifficulty == null) {
-            Toast.makeText(this, "Please select a difficulty", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.null_difficulty_selected_error), Toast.LENGTH_LONG).show();
             return true;
         }
         return false;
