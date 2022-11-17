@@ -37,6 +37,7 @@ public class GameRecord {
         this.achievementLevel  = theAchievement.getCurAchievementLevel();
     }
 
+    // TODO: If you want to get difficulty as a string, please refer to Difficulty class comments :]
     public Difficulty getDifficulty() {
         return difficulty;
     }
