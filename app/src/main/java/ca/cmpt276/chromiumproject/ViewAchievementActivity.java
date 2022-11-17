@@ -6,7 +6,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +13,6 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Menu;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +22,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,6 +56,8 @@ public class ViewAchievementActivity extends AppCompatActivity {
     private Button easyBtn;
     private Button hardBtn;
 
+    private String theme;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,11 +75,12 @@ public class ViewAchievementActivity extends AppCompatActivity {
         extractDataFromIntent();
         setUpInitialButtonBehaviour();
         setUpTextMonitor();
+        setTheme();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_achievement_settings_configurations, menu);
+        getMenuInflater().inflate(R.menu.menu_view_achievement, menu);
         return true;
     }
 
@@ -323,5 +322,14 @@ public class ViewAchievementActivity extends AppCompatActivity {
 
             return itemView;
         }
+    }
+
+    public void setTheme() {
+        theme = AchievementSettingsActivity.getTheme(ViewAchievementActivity.this);
+    }
+
+    protected void onResume() {
+        super.onResume();
+        setTheme();
     }
 }

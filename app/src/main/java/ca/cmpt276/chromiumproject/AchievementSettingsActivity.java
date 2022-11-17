@@ -1,19 +1,28 @@
 package ca.cmpt276.chromiumproject;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 public class AchievementSettingsActivity extends AppCompatActivity {
 
     private static final String APP_PREFS = "AppPrefs";
+    private static final String THEME = "Theme";
+    private RadioGroup settingsRadioGroup;
+    private RadioButton checkedRadioButton;
 
     public static Intent makeAchievementSettingsIntent(Context context) {
         Intent intent = new Intent(context, AchievementSettingsActivity.class);
@@ -26,31 +35,105 @@ public class AchievementSettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_achievement_settings);
         setTitle(getString(R.string.achievement_settings_activity_title));
 
-        RadioGroup settingsRadioGroup = (RadioGroup) findViewById(R.id.radioGroup);
-        RadioButton adventurerThemeBtn = (RadioButton) findViewById(R.id.theme1RadioButton);
-        RadioButton enchantedForestThemeBtn = (RadioButton) findViewById(R.id.theme2RadioButton);
-        //TODO add 3rd radio btn
+        setUpBackButton();
 
-        setUpRadioBtnClick(adventurerThemeBtn);
-        setUpRadioBtnClick(enchantedForestThemeBtn);
+        settingsRadioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+        createRadioButtons();
+//        RadioButton adventurerThemeBtn = (RadioButton) findViewById(R.id.theme1RadioButton);
+//        RadioButton enchantedForestThemeBtn = (RadioButton) findViewById(R.id.theme2RadioButton);
+//        //TODO add 3rd radio btn
+//
+//        setUpRadioBtnClick(adventurerThemeBtn);
+//        setUpRadioBtnClick(enchantedForestThemeBtn);
 
     }
 
-    private void setUpRadioBtnClick(RadioButton btn) {
-        btn.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(AchievementSettingsActivity.this, "Theme Changed", Toast.LENGTH_SHORT).show();
-                saveTheme(btn);
-            }
-        });
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //Inflate the menu
+        getMenuInflater().inflate(R.menu.menu_achievement_settings, menu);
+        return true;
     }
 
-    private void saveTheme(RadioButton btn) {
+    private void setUpBackButton() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+
+
+//    private void setUpRadioBtnClick(RadioButton btn) {
+//        btn.setOnClickListener(new View.OnClickListener(){
+//
+//            @Override
+//            public void onClick(View view) {
+//                //TODO: double check if the toast message works
+//                Toast.makeText(AchievementSettingsActivity.this, "Theme Changed: " + btn.getText(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
+//
+    private void saveTheme(String theme) {
         SharedPreferences prefs = this.getSharedPreferences(APP_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-//        editor.putInt()
+        editor.putString(THEME, theme);
+        editor.apply();
+    }
+
+    public static String getTheme(Context  c) {
+        SharedPreferences prefs = c.getSharedPreferences(APP_PREFS, MODE_PRIVATE);
+        String defaultTheme = c.getResources().getString(R.string.default_theme);
+        return prefs.getString(THEME, defaultTheme);
+    }
+
+    private void createRadioButtons() {
+        String[] themeOptions = getResources().getStringArray(R.array.theme_names);
+
+        //Create radio btns
+        for (int i = 0; i<themeOptions.length; i++) {
+            final String themeName = themeOptions[i];
+
+            RadioButton radioThemeBtn = new RadioButton(this);
+            radioThemeBtn.setText(themeName);
+
+            radioThemeBtn.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(AchievementSettingsActivity.this, "Theme Changed", Toast.LENGTH_SHORT).show();
+                    saveTheme(themeName);
+                }
+            });
+            settingsRadioGroup.addView(radioThemeBtn);
+            if (Objects.equals(themeName, getTheme(this))) {
+                radioThemeBtn.setChecked(true);
+            }
+        }
+    }
+
+
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.action_save_achievement_settings:
+//                int radioID = settingsRadioGroup.getCheckedRadioButtonId();
+//                checkedRadioButton = findViewById(radioID);
+
+                String savedTheme = getTheme(AchievementSettingsActivity.this);
+                saveTheme(savedTheme);
+                finish();
+                return true;
+
+            case android.R.id.home:
+                finish();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 
