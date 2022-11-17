@@ -23,7 +23,7 @@ import ca.cmpt276.chromiumproject.model.GameManager;
 import ca.cmpt276.chromiumproject.model.GameRecord;
 
 /**EarnedAchievementActivity is displayed after a user saves a new game record and earns an achievement level. A congratulatory message appears alongside a
- * sound effect, image, and animation.
+ * sound effect, image, animation, and the achievement level earned.
  * Background photo from https://unsplash.com/photos/xplrF8WMitE, firework animation from cupids@aphrodite.global
  * Sound from https://pixabay.com/sound-effects/pleased-crowdflac-14484/
  */
