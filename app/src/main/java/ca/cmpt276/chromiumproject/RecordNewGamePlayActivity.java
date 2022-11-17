@@ -1,6 +1,7 @@
 package ca.cmpt276.chromiumproject;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,13 +9,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import ca.cmpt276.chromiumproject.model.Achievement;
 import ca.cmpt276.chromiumproject.model.GameConfig;
 import ca.cmpt276.chromiumproject.model.GameManager;
 import ca.cmpt276.chromiumproject.model.GameRecord;
@@ -39,6 +51,8 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     private TextView numPlayers;
     private TextView combinedScore;
 
+    private List<Integer> playerListData;
+
     public static Intent makeRecordIntent(Context context, int position) {
         Intent intent =  new Intent(context, RecordNewGamePlayActivity.class);
         intent.putExtra(EXTRA_RECORD_GAME_POSITION, position);
@@ -59,7 +73,128 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         setUpDifficultyButtons();
 
         extractPositionFromIntent();
+        
+        setUpTextMonitor();
 
+    }
+
+    //Monitor input change on NumPlayer Edit text
+    private void setUpTextMonitor() {
+        numPlayers.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                renewPlayerList();
+            }
+        });
+    }
+
+    private void renewPlayerList() {
+        ListView playersViewList = findViewById(R.id.listViewSinglePlayer);
+        String userInputPlayerNumbers = numPlayers.getText().toString();
+        int intConvertedUserInput = 0;
+        //checkEmpty
+        if (TextUtils.isEmpty(userInputPlayerNumbers)) {
+            playersViewList.setAdapter(null);
+        }
+        if (!TextUtils.isEmpty(userInputPlayerNumbers)) {
+            intConvertedUserInput = Integer.parseInt(userInputPlayerNumbers);
+            //case of 0
+            if (intConvertedUserInput == 0) {
+                playersViewList.setAdapter(null);
+                Toast.makeText(this, R.string.zero_player_msg, Toast.LENGTH_SHORT).show();
+            }
+            if (intConvertedUserInput > 0) {
+                updatePlayerListData(intConvertedUserInput);
+                populatePlayersListView();
+            }
+        }
+    }
+
+    private void updatePlayerListData(int userIntInput) {
+        List<Integer> tempListData = new ArrayList<>();
+
+        //modified to preserve data once Player size changes
+        if (playerListData == null) {
+            playerListData = new ArrayList<>();
+
+            for (int i = 0; i < userIntInput; i++) {
+                playerListData.add(0);
+            }
+        }
+        else if (playerListData != null) {
+            int curSize = playerListData.size();
+            if (curSize > userIntInput) {
+                for (int i = 0; i < userIntInput; i++) {
+                    tempListData.add(playerListData.get(i));
+                }
+            }
+            if (curSize < userIntInput) {
+                for (int i = 0; i < curSize; i++) {
+                    tempListData.add(playerListData.get(i));
+                }
+            }
+
+            playerListData = tempListData;
+        }
+    }
+
+    private boolean isNewPlayerList() {
+        boolean theResult = true;
+
+        for(int i = 0; i < playerListData.size(); i++) {
+            if (playerListData.get(i) != 0) {
+                theResult = false;
+            }
+        }
+
+        return theResult;
+    }
+
+    private void populatePlayersListView() {
+        ArrayAdapter<Integer> adapterPlayersList = new PlayerListAdapter();
+
+        ListView playersViewList = findViewById(R.id.listViewSinglePlayer);
+        playersViewList.setAdapter(adapterPlayersList);
+    }
+    private class PlayerListAdapter extends ArrayAdapter<Integer> {
+        public PlayerListAdapter() {
+            super(RecordNewGamePlayActivity.this, R.layout.player_view, playerListData);
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            View itemView = convertView;
+            if (itemView == null) {
+                itemView = getLayoutInflater().inflate(R.layout.player_view, parent, false);
+            }
+
+            String curPlayerName = "Player #" + Integer.toString(position + 1);
+
+            TextView curPlayerNameText = itemView.findViewById(R.id.item_player_name);
+            curPlayerNameText.setText(curPlayerName);
+
+            int curPlayerScore = playerListData.get(position);
+            TextView curPlayerScoreText = itemView.findViewById(R.id.item_player_input_score);
+
+            //String curPlayerScoreMsg = getString(R.string.required_achievement_score);
+            String curPlayerScoreMsg = "Player Score is: ";
+            curPlayerScoreMsg += " " + curPlayerScore;
+
+            curPlayerScoreText.setText(curPlayerScoreMsg);
+
+            return itemView;
+        }
     }
 
     private void setUpDifficultyButtons() {
