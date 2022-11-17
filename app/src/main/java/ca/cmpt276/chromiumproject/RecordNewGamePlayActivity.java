@@ -152,10 +152,6 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         }
     }
 
-    public void setUpEarnedAchievement() {
-        Intent earnedAchievementIntent = new Intent(RecordNewGamePlayActivity.this, EarnedAchievementActivity.class);
-        startActivity(earnedAchievementIntent);
-    }
 
     private void setupGameRecordInput() {
 
@@ -209,5 +205,11 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    public void setUpEarnedAchievement() {
+        Intent earnedAchievementIntent = new Intent(RecordNewGamePlayActivity.this, EarnedAchievementActivity.class);
+        earnedAchievementIntent.putExtra("gameConfigPosition", gameConfigPosition);
+        startActivity(earnedAchievementIntent);
     }
 }

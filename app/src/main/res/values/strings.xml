@@ -62,7 +62,8 @@
     <string name="select_button_normal">Normal</string>
     <string name="select_button_easy">Easy</string>
     <string name="select_button_hard">Hard</string>
-    <string name="achievement_level_congratulations_message">Congratulations! Your team has earned an achievement level! Woohoo!</string>
+    <string name="achievement_level_congratulations_message">Congratulations! Your team has earned achievement level: %1$s! Woohoo!</string>
+    <string name="earned_achievement">Earned Achievement</string>
 
 
     <!-- Strings used for Achievement -->
