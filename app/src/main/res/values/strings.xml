@@ -41,6 +41,7 @@
 
     <!-- Strings used for Record Game Screen -->
     <string name="record_new_game_title">Record New Game Play</string>
+    <string name="edit_game_play_title">Edit Game Play</string>
     <string name="number_of_players">Number of Players:</string>
     <string name="combined_score">Combined Score:</string>
     <string name="check_invalid_number_of_player">Number of players must be greater than 0</string>
