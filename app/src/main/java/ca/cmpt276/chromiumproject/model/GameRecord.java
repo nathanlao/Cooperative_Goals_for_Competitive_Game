@@ -41,7 +41,16 @@ public class GameRecord {
         return difficulty;
     }
 
+    // need to set all values at the same time in order to calculate new achievement correctly!!!
+    public void editGameRecordValues(int numPlayers, int combinedScore, int poorScore, int greatScore, Difficulty difficulty) {
+        this.numPlayers = numPlayers;
+        this.combinedScore = combinedScore;
+        this.difficulty = difficulty;
 
+        // recalculate the achievement based on the new difficulty
+        Achievement theAchievement = makeScaledAchievement(numPlayers, combinedScore, poorScore, greatScore, difficulty);
+        this.achievementLevel = theAchievement.getCurAchievementLevel();
+    }
 
     public int getNumPlayers() {
         return numPlayers;
