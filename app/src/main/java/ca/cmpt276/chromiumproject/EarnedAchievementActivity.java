@@ -34,6 +34,7 @@ public class EarnedAchievementActivity extends AppCompatActivity {
     public static final int FIREWORKS1_Y_TRANSLATION = -600;
     public static final int FIREWORKS2_X_TRANSLATION = -600;
     public static final int FIREWORKS2_Y_TRANSLATION = -600;
+    public static final String GAME_CONFIG_POSITION = "game config position";
     private static final String EXTRA_RECORD_GAME_POSITION = "String" ;
     public static final int DEFAULT_VALUE = 0;
     private static int SPLASH_TIME = 10*1000;
@@ -43,7 +44,19 @@ public class EarnedAchievementActivity extends AppCompatActivity {
     private GameManager gameManager;
     private GameRecord gameRecord;
     private GameConfig gameConfig;
+    private int gameConfigPosition;
+    MediaPlayer cheeringAudio;
 
+    public static Intent makeEarnedAchievementIntent(Context c, int gameConfigPosition) {
+        Intent intent = new Intent(c, EarnedAchievementActivity.class);
+        intent.putExtra(GAME_CONFIG_POSITION, gameConfigPosition);
+        return intent;
+    }
+
+    private void extractDataFromIntent(){
+        Intent intent = getIntent();
+        gameConfigPosition = intent.getIntExtra("gameConfigPosition", DEFAULT_VALUE);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +64,7 @@ public class EarnedAchievementActivity extends AppCompatActivity {
         setContentView(R.layout.activity_earned_achievement);
         setTitle(getString(R.string.earned_achievement));
 
-        Intent intent = getIntent();
-        int gameConfigPosition = intent.getIntExtra("gameConfigPosition", DEFAULT_VALUE);
+        extractDataFromIntent();
         setText(gameConfigPosition);
 
 
@@ -61,15 +73,24 @@ public class EarnedAchievementActivity extends AppCompatActivity {
 
         runAnimation(fireworks1, FIREWORKS1_X_TRANSLATION, FIREWORKS1_Y_TRANSLATION);
         runAnimation(fireworks2, FIREWORKS2_X_TRANSLATION, FIREWORKS2_Y_TRANSLATION);
-        MediaPlayer cheeringAudio = MediaPlayer.create(EarnedAchievementActivity.this, R.raw.cheering_audio);
+        cheeringAudio = MediaPlayer.create(EarnedAchievementActivity.this, R.raw.cheering_audio);
         cheeringAudio.start();
 
+        setUpTimeLimit();
+        setUpSkipBtn();
+
+    }
+
+    private void setUpTimeLimit() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 finish();
             }
         }, SPLASH_TIME);
+    }
+
+    private void setUpSkipBtn() {
         Button skipBtn = (Button)findViewById(R.id.skipBtn);
         skipBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +127,7 @@ public class EarnedAchievementActivity extends AppCompatActivity {
         return achievementTitleString;
     }
 
-    private void runAnimation(ImageView fireworks, int xTranlsation, int yTranslation) {
+    private void runAnimation(ImageView fireworks, int xTranslation, int yTranslation) {
         //animation tutorial: https://stackoverflow.com/questions/12983681/translateanimation-on-imageview-android
         //and https://stackoverflow.com/questions/20608073/how-to-rotate-imageview-from-its-centre-position
 
@@ -116,7 +137,7 @@ public class EarnedAchievementActivity extends AppCompatActivity {
         AnimationSet animationSet = new AnimationSet(false);
 
         //translation animation
-        Animation translateAnimation = new TranslateAnimation(xPosition, xPosition+ xTranlsation, yPosition, yPosition+ yTranslation);
+        Animation translateAnimation = new TranslateAnimation(xPosition, xPosition+ xTranslation, yPosition, yPosition+ yTranslation);
         translateAnimation.setDuration(ANIMATION_DURATION);
         translateAnimation.setFillAfter(true);
         translateAnimation.setFillEnabled(true);
