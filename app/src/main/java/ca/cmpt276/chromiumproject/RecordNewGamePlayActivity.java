@@ -27,6 +27,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
     public static final String EXTRA_RECORD_GAME_POSITION = "Record Intent Extra - gameConfig position";
     public static final String EXTRA_PAST_GAME_POSITION = "Past Game Intent Extra - pastGame position";
+    public static final String EXTRA_PAST_GAME_CONFIG_POSITION = "Past Game Config Intent Extra - pastGameConfig position";
 
     public static final String TAG_NUMBER_FORMAT_EXCEPTION = "Catch NumberFormatException";
     public static final String TAG_ILLEGAL_ARGUMENT_EXCEPTION = "Catch IllegalArgumentException";
@@ -36,7 +37,6 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     private GameConfig gameConfigs;
 
     private int gameConfigPosition;
-    private int pastGamePosition;
 
     private TextView numPlayers;
     private TextView combinedScore;
@@ -47,9 +47,10 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         return intent;
     }
 
-    public static Intent makePastGameIntent(Context context, int position) {
+    public static Intent makePastGameIntent(Context context, int gameConfigPosition, int gamePlayPosition) {
         Intent intent =  new Intent(context, RecordNewGamePlayActivity.class);
-        intent.putExtra(EXTRA_PAST_GAME_POSITION, position);
+        intent.putExtra(EXTRA_PAST_GAME_CONFIG_POSITION, gameConfigPosition);
+        intent.putExtra(EXTRA_PAST_GAME_POSITION, gamePlayPosition);
         return intent;
     }
 
@@ -67,18 +68,6 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
         extractGameConfigPositionFromIntent();
         extractPastGamePositionFromIntent();
-    }
-
-    private void extractPastGamePositionFromIntent() {
-        Intent pastGameIntent = getIntent();
-        pastGamePosition = pastGameIntent.getIntExtra(EXTRA_PAST_GAME_POSITION, -1);
-
-        // Its a new game record
-        if (pastGamePosition == -1) {
-
-        } else {
-            setTitle("Edit Game Play");
-        }
     }
 
     private void setUpDifficultyButtons() {
@@ -129,11 +118,6 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     private void setUpInputFields() {
         numPlayers = findViewById(R.id.numPlayersInput);
         combinedScore = findViewById(R.id.combinedScoreInput);
-    }
-
-    private void extractGameConfigPositionFromIntent() {
-        Intent gameConfigIntent = getIntent();
-        gameConfigPosition = gameConfigIntent.getIntExtra(EXTRA_RECORD_GAME_POSITION, 0);
     }
 
     @Override
@@ -223,5 +207,33 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    private void extractGameConfigPositionFromIntent() {
+        Intent gameConfigIntent = getIntent();
+        gameConfigPosition = gameConfigIntent.getIntExtra(EXTRA_RECORD_GAME_POSITION, 0);
+    }
+
+    private void extractPastGamePositionFromIntent() {
+        Intent pastGameIntent = getIntent();
+        int currentGameConfigPosition = pastGameIntent.getIntExtra(EXTRA_PAST_GAME_CONFIG_POSITION, 0);
+        int currentGamePlayPosition = pastGameIntent.getIntExtra(EXTRA_PAST_GAME_POSITION, -1);
+
+        if (currentGamePlayPosition == -1) {
+
+        } else {
+            setTitle("Edit Game Play");
+
+            displayCurrentGamePlay(currentGameConfigPosition, currentGamePlayPosition);
+        }
+    }
+
+    private void displayCurrentGamePlay(int currentGameConfigPosition, int currentGamePlayPosition) {
+        // Getting current gameConfigs and its associated gameRecord
+        gameConfigs = gameManager.getGameConfigByIndex(currentGameConfigPosition);
+        GameRecord currentGamePlay = gameConfigs.getGameRecordByIndex(currentGamePlayPosition);
+
+        numPlayers.setText(String.valueOf(currentGamePlay.getNumPlayers()));
+        combinedScore.setText(String.valueOf(currentGamePlay.getCombinedScore()));
     }
 }
