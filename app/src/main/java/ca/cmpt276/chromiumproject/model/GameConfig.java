@@ -55,4 +55,8 @@ public class GameConfig {
     public List<GameRecord> getGameRecords() {
         return gameRecords;
     }
+
+    public GameRecord getGameRecordByIndex(int index) {
+        return gameRecords.get(index);
+    }
 }
