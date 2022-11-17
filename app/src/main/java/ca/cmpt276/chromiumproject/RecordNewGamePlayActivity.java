@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,16 +55,61 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
         gameManager = GameManager.getInstance();
 
-        numPlayers = findViewById(R.id.numPlayersInput);
-        combinedScore = findViewById(R.id.combinedScoreInput);
+        setUpInputFields();
+        setUpDifficultyButtons();
 
         extractPositionFromIntent();
 
     }
 
+    private void setUpDifficultyButtons() {
+        Button normalBtn = findViewById(R.id.btnSelectNormal);
+        Button easyBtn = findViewById(R.id.btnSelectEasy);
+        Button hardBtn = findViewById(R.id.btnSelectHard);
+        setDifficultyButtonsGray();
+
+        normalBtn.setOnClickListener(v -> {
+            setDifficultyButtonsGray();
+            normalBtn.setBackgroundColor(Color.BLUE);
+            // TODO: Testing purpose, delete later
+            Toast.makeText(RecordNewGamePlayActivity.this, "Testing: normal", Toast.LENGTH_SHORT).show();
+        });
+
+        easyBtn.setOnClickListener(v -> {
+            setDifficultyButtonsGray();
+            easyBtn.setBackgroundColor(Color.GREEN);
+            // TODO: Testing purpose, delete later
+            Toast.makeText(RecordNewGamePlayActivity.this, "Testing: easy", Toast.LENGTH_SHORT).show();
+        });
+
+        hardBtn.setOnClickListener(v -> {
+            setDifficultyButtonsGray();
+            hardBtn.setBackgroundColor(Color.RED);
+            // TODO: Testing purpose, delete later
+            Toast.makeText(RecordNewGamePlayActivity.this, "Testing: hard", Toast.LENGTH_SHORT).show();
+        });
+
+        // TODO: throw error if no difficulty is selected for new game play save
+    }
+
+    private void setDifficultyButtonsGray() {
+        Button normalBtn = findViewById(R.id.btnSelectNormal);
+        Button easyBtn = findViewById(R.id.btnSelectEasy);
+        Button hardBtn = findViewById(R.id.btnSelectHard);
+
+        normalBtn.setBackgroundColor(Color.GRAY);
+        easyBtn.setBackgroundColor(Color.GRAY);
+        hardBtn.setBackgroundColor(Color.GRAY);
+    }
+
     private void setUpBackButton() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void setUpInputFields() {
+        numPlayers = findViewById(R.id.numPlayersInput);
+        combinedScore = findViewById(R.id.combinedScoreInput);
     }
 
     private void extractPositionFromIntent() {
