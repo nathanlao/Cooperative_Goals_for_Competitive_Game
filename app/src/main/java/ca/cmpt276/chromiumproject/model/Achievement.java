@@ -4,7 +4,7 @@ package ca.cmpt276.chromiumproject.model;
  * Achievement contains list of possible achievements you can achieve,
  * as well as potential points for each achievement.
  * Calculates potential points based on current game config's values passed down.
- * potentialAchievePoints stores the point thresholds at NORMAL difficulty.
+ * normalAchievePoints stores the scores required to earn an achievement level at NORMAL difficulty.
  */
 
 public class Achievement {
@@ -39,17 +39,38 @@ public class Achievement {
         return achievement;
     }
 
-    private void setAchievementLevel(int achievementLevel) {
-        this.achievementLevel = achievementLevel;
-    }
-
     public int getCurAchievementLevel() {
         return achievementLevel;
     }
 
-    // calculates score thresholds in potentialAchievePoints according to NORMAL difficulty, without any difficulty scaling.
-    // calculates each value without setting and returns int[].
-    public int[] calculateNormalAchievePoints(int playerCount, int poorScore, int greatScore) {
+    // TODO: remove deprecated method after difficulty selection is implemented on UI-side. currently, this can only get achievePoints at Normal difficulty.
+    public static int[] getStaticPotentialAchievePoint(int playerCount, GameConfig gameConfig) {
+        int potentialScore = 0;
+        int poorScore = gameConfig.getPoorScore();
+        int greatScore = gameConfig.getGreatScore();
+        Achievement potentialAchievement = new Achievement(playerCount, potentialScore, gameConfig.getPoorScore(), gameConfig.getGreatScore());
+        potentialAchievement.calculateNormalAchievePoints(playerCount, poorScore, greatScore);
+        return potentialAchievement.getNormalAchievePoints();
+    }
+
+    // Calculates potential achievement points given playerCount, gameConfig, and difficulty. Removes the need to explicitly declare a collective score.
+    // Useful for showing list of possible scores for a specified difficulty.
+    public static int[] getStaticAchievePointsByDifficulty(int playerCount, GameConfig gameConfig, Difficulty difficulty) {
+        int potentialScore = 0;
+        int poorScore = gameConfig.getPoorScore();
+        int greatScore = gameConfig.getGreatScore();
+        Achievement potentialAchievement = makeScaledAchievement(playerCount, potentialScore, poorScore, greatScore, difficulty);
+        int[] normalAchievePoints = potentialAchievement.getNormalAchievePoints();
+
+        return potentialAchievement.scaleAchievePointsToDifficulty(normalAchievePoints, difficulty);
+    }
+
+    private int[] getNormalAchievePoints() {
+        return normalAchievePoints;
+    }
+
+    // calculates and returns achievement point thresholds according to NORMAL difficulty, without any difficulty scaling.
+    private int[] calculateNormalAchievePoints(int playerCount, int poorScore, int greatScore) {
         int[] normalAchievePoints = new int[NUM_ACHIEVEMENTS];
 
         int lowestAchieve = playerCount * poorScore;
@@ -75,7 +96,7 @@ public class Achievement {
         return normalAchievePoints;
     }
 
-    // scales NORMAL potentialAchievePoints to specified difficulty. returns int[] with scaled point thresholds.
+    // scales NORMAL-level achievePoints to specified difficulty. returns int[] with scaled point thresholds.
     private int[] scaleAchievePointsToDifficulty(int[] normalAchievePoints, Difficulty difficulty) {
         if (difficulty == Difficulty.NORMAL) {
             return normalAchievePoints;
@@ -90,39 +111,17 @@ public class Achievement {
                 case HARD:
                     scaledAchievePoints[i] = (int) (normalAchievePoints[i] * HARD_SCALE_FACTOR);
                     break;
+                default:
+                    throw new IllegalStateException("Unexpected difficulty when calculating Achievement: " + difficulty);
             }
         }
 
         return scaledAchievePoints;
     }
 
-    // TODO: remove possibly deprecated method, since Difficulty is required. currently this makes an Achievement at Normal difficulty.
-    public static int[] getStaticPotentialAchievePoint(int playerCount, GameConfig gameConfig) {
-        int potentialScore = 0;
-        int poorScore = gameConfig.getPoorScore();
-        int greatScore = gameConfig.getGreatScore();
-        Achievement potentialAchievement = new Achievement(playerCount, potentialScore, gameConfig.getPoorScore(), gameConfig.getGreatScore());
-        potentialAchievement.calculateNormalAchievePoints(playerCount, poorScore, greatScore);
-        return potentialAchievement.getNormalAchievePoints();
+    private void setAchievementLevel(int achievementLevel) {
+        this.achievementLevel = achievementLevel;
     }
-
-    // Calculates potential achievement points given playerCount, gameConfig, and difficulty. Removes the need to explicitly declare a collective score.
-    // Useful for showing list of possible scores.
-    public static int[] getStaticAchievePointsByDifficulty(int playerCount, GameConfig gameConfig, Difficulty difficulty) {
-        int potentialScore = 0;
-        int poorScore = gameConfig.getPoorScore();
-        int greatScore = gameConfig.getGreatScore();
-        Achievement potentialAchievement = makeScaledAchievement(playerCount, potentialScore, poorScore, greatScore, difficulty);
-        int[] normalAchievePoints = potentialAchievement.getNormalAchievePoints();
-
-        return potentialAchievement.scaleAchievePointsToDifficulty(normalAchievePoints, difficulty);
-    }
-
-
-    private int[] getNormalAchievePoints() {
-        return normalAchievePoints;
-    }
-
 
     private int calculateAchievementLevel(int[] potentialAchievePoints, int theScore) {
         int achievementLevel = 0;
