@@ -134,6 +134,10 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case R.id.action_save:
+                // Validate difficulty buttons. Display error if no difficulty is selected.
+                if (checkNullSelectedDifficulty()) {
+                    return false;
+                }
 
                 // Take user input
                 setupGameRecordInput();
@@ -142,6 +146,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                 if (checkEmptyInput() || checkInvalidInput()) {
                     return false;
                 }
+
                 // save updated gameConfigs list to SharedPrefs
                 MainActivity.saveGameConfigs(this, gameManager);
                 Toast.makeText(this, R.string.toast_save_game_record, Toast.LENGTH_SHORT).show();
@@ -207,6 +212,14 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
         if (numOfPlayersStr.matches("0")) {
             Toast.makeText(this, R.string.check_invalid_number_of_player, Toast.LENGTH_LONG).show();
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkNullSelectedDifficulty() {
+        if (selectedDifficulty == null) {
+            Toast.makeText(this, "Please select a difficulty", Toast.LENGTH_LONG).show();
             return true;
         }
         return false;

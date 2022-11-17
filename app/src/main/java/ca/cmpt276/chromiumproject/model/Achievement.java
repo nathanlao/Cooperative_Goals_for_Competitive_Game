@@ -20,7 +20,7 @@ public class Achievement {
 
     public static final int SPECIAL_WORST_ACHIEVE = -1;
 
-    // makes an Achievement at NORMAL difficulty -> scores required to earn an achievement level is 100% of the usual amount
+    // default constructor makes an Achievement at NORMAL difficulty -> scores required to earn an achievement level is 100% of the usual amount
     public Achievement(int playerCount, int theScore, int poorScore, int greatScore) {
         potentialAchievePoints = calculateNormalAchievePoints(playerCount, poorScore, greatScore);
         achievementLevel = calculateAchievementLevel(potentialAchievePoints, theScore);
@@ -96,8 +96,7 @@ public class Achievement {
         return scaledAchievePoints;
     }
 
-    // Calculates potential achievement points given playerCount and gameConfig, removing the need to explicitly declare a collective score.
-    // Useful for showing list of possible scores.
+    // TODO: remove possibly deprecated method, since Difficulty is required. currently this makes an Achievement at Normal difficulty.
     public static int[] getStaticPotentialAchievePoint(int playerCount, GameConfig gameConfig) {
         int potentialScore = 0;
         int poorScore = gameConfig.getPoorScore();
@@ -107,6 +106,8 @@ public class Achievement {
         return potentialAchievement.getPotentialAchievePoint();
     }
 
+    // Calculates potential achievement points given playerCount, gameConfig, and difficulty. Removes the need to explicitly declare a collective score.
+    // Useful for showing list of possible scores.
     public static int[] getStaticPotentialAchievePointByDifficulty(int playerCount, GameConfig gameConfig, Difficulty difficulty) {
         int potentialScore = 0;
         int poorScore = gameConfig.getPoorScore();
@@ -114,8 +115,6 @@ public class Achievement {
         Achievement potentialAchievement = makeScaledAchievement(playerCount, potentialScore, poorScore, greatScore, difficulty);
         potentialAchievement.calculateNormalAchievePoints(playerCount, poorScore, greatScore);
         return potentialAchievement.getPotentialAchievePoint();
-
-        //TODO: test this more carefully
     }
 
 
