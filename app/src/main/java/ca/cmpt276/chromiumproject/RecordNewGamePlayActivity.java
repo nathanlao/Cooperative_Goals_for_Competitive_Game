@@ -27,7 +27,6 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
     public static final String EXTRA_RECORD_GAME_POSITION = "Record Intent Extra - gameConfig position";
     public static final String EXTRA_PAST_GAME_POSITION = "Past Game Intent Extra - pastGame position";
-    public static final String EXTRA_PAST_GAME_CONFIG_POSITION = "Past Game Config Intent Extra - pastGameConfig position";
 
     public static final String TAG_NUMBER_FORMAT_EXCEPTION = "Catch NumberFormatException";
     public static final String TAG_ILLEGAL_ARGUMENT_EXCEPTION = "Catch IllegalArgumentException";
@@ -36,12 +35,8 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     private GameRecord gameRecord;
     private GameConfig gameConfigs;
 
-    // Position for makeRecordIntent
     private int gameConfigPosition;
-
-    // Positions for makePastGameIntent
-    private int currentGameConfigPosition;
-    private int currentGamePlayPosition;
+    private int GamePlayPosition;
 
     private TextView numPlayers;
     private TextView combinedScore;
@@ -56,7 +51,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
     public static Intent makePastGameIntent(Context context, int gameConfigPosition, int gamePlayPosition) {
         Intent intent =  new Intent(context, RecordNewGamePlayActivity.class);
-        intent.putExtra(EXTRA_PAST_GAME_CONFIG_POSITION, gameConfigPosition);
+        intent.putExtra(EXTRA_RECORD_GAME_POSITION, gameConfigPosition);
         intent.putExtra(EXTRA_PAST_GAME_POSITION, gamePlayPosition);
         return intent;
     }
@@ -150,7 +145,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                 if (isNewGamePlay) {
                     gameConfigs.addGameRecord(gameRecord);
                 } else {
-                    gameConfigs.setGameRecordByIndex(currentGamePlayPosition, gameRecord);
+                    gameConfigs.setGameRecordByIndex(GamePlayPosition, gameRecord);
                 }
 
                 // save updated gameConfigs list to SharedPrefs
@@ -200,8 +195,8 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         } else {
             try {
                 // Get current game configs and edit its associated game record
-                gameConfigs = gameManager.getGameConfigByIndex(currentGameConfigPosition);
-                gameRecord = gameConfigs.getGameRecordByIndex(currentGamePlayPosition);
+                gameConfigs = gameManager.getGameConfigByIndex(gameConfigPosition);
+                gameRecord = gameConfigs.getGameRecordByIndex(GamePlayPosition);
 
                 // TODO: Need to change gameRecord fields (combinedScoreNum) when score calculator part is done
                 gameRecord.setGameRecordFields(numberOfPlayersNum, combinedScoreNum, gameConfigs.getPoorScore(), gameConfigs.getGreatScore());
@@ -243,14 +238,15 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
     private void extractPastGamePositionFromIntent() {
         Intent pastGameIntent = getIntent();
-        currentGameConfigPosition = pastGameIntent.getIntExtra(EXTRA_PAST_GAME_CONFIG_POSITION, 0);
-        currentGamePlayPosition = pastGameIntent.getIntExtra(EXTRA_PAST_GAME_POSITION, -1);
+        gameConfigPosition = pastGameIntent.getIntExtra(EXTRA_RECORD_GAME_POSITION, 0);
+        GamePlayPosition = pastGameIntent.getIntExtra(EXTRA_PAST_GAME_POSITION, -1);
 
-        if (currentGamePlayPosition == -1) {
+        if (GamePlayPosition == -1) {
             isNewGamePlay = true;
         } else {
-            GameConfig currentGameConfigs = gameManager.getGameConfigByIndex(currentGameConfigPosition);
+            GameConfig currentGameConfigs = gameManager.getGameConfigByIndex(gameConfigPosition);
             setTitle(getString(R.string.edit_game_play_title) + " " + currentGameConfigs.getName());
+
             isNewGamePlay = false;
             displayCurrentGamePlay();
         }
@@ -258,8 +254,8 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
     private void displayCurrentGamePlay() {
         // Getting current gameConfigs and its associated gameRecord
-        gameConfigs = gameManager.getGameConfigByIndex(currentGameConfigPosition);
-        GameRecord currentGamePlay = gameConfigs.getGameRecordByIndex(currentGamePlayPosition);
+        gameConfigs = gameManager.getGameConfigByIndex(gameConfigPosition);
+        GameRecord currentGamePlay = gameConfigs.getGameRecordByIndex(GamePlayPosition);
 
         // TODO: Probably need to reflect on button select as well
 
