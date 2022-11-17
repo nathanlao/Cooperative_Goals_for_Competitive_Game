@@ -33,6 +33,13 @@ public class GameRecord {
         this.achievementLevel  = theAchievement.getCurAchievementLevel();
     }
 
+    public void setGameRecordFields(int numPlayers, int combinedScore, int poorScore, int greatScore) {
+        this.numPlayers = numPlayers;
+        this.combinedScore = combinedScore;
+        Achievement theAchievement = makeAchievement(numPlayers, combinedScore, poorScore, greatScore);
+        this.achievementLevel  = theAchievement.getCurAchievementLevel();
+    }
+
     public int getNumPlayers() {
         return numPlayers;
     }

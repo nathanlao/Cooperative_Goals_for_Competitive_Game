@@ -59,4 +59,8 @@ public class GameConfig {
     public GameRecord getGameRecordByIndex(int index) {
         return gameRecords.get(index);
     }
+
+    public void setGameRecordByIndex(int indexOfGamePlay, GameRecord editedGamePlay) {
+        gameRecords.set(indexOfGamePlay, editedGamePlay);
+    }
 }
