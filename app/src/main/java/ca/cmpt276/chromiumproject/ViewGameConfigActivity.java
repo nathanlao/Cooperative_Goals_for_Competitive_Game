@@ -8,8 +8,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -41,6 +43,7 @@ public class ViewGameConfigActivity extends AppCompatActivity {
     ArrayAdapter<GameRecord> adapter;
 
     private TextView noPastGamesText;
+
     public static Intent makeViewIntent(Context context, int position) {
         Intent intent = new Intent(context, ViewGameConfigActivity.class);
         intent.putExtra(POSITION, position);
@@ -74,11 +77,32 @@ public class ViewGameConfigActivity extends AppCompatActivity {
         setupGamesRecordList();
         populateGamesRecordListView();
 
+        // Edit the past games
+        pastGamesClickCallBack();
+
         checkNoPastGames();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setupGamesRecordList();
+        populateGamesRecordListView();
+        updateTitle();
+        checkNoPastGames();
+    }
+
     private void setUpBackButton() {
         ActionBar actionBar  = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void pastGamesClickCallBack() {
+        ListView pastGamesList = findViewById(R.id.gamesPlayedListView);
+        pastGamesList.setOnItemClickListener((parent, view, position, id) -> {
+            Intent pastGameIntent = RecordNewGamePlayActivity.makePastGameIntent(this, position);
+            startActivity(pastGameIntent);
+        });
     }
 
     private void checkNoPastGames() {
@@ -96,15 +120,6 @@ public class ViewGameConfigActivity extends AppCompatActivity {
         //setting the title for the correct game config
         gameConfigs = gameManager.getGameConfigByIndex(gameConfigPosition);
         setTitle(gameConfigs.getName());
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        setupGamesRecordList();
-        populateGamesRecordListView();
-        updateTitle();
-        checkNoPastGames();
     }
 
     private void setUpViewAchievement() {
@@ -150,7 +165,7 @@ public class ViewGameConfigActivity extends AppCompatActivity {
     private void setUpRecordNewGame() {
         Button recordBtn = findViewById(R.id.recordGameBtn);
         recordBtn.setOnClickListener(view -> {
-            Intent recordIntent = RecordNewGamePlayActivity.makeRecordIntent(ViewGameConfigActivity.this, gameConfigPosition);
+            Intent recordIntent = RecordNewGamePlayActivity.makeRecordIntent(ViewGameConfigActivity.this);
             startActivity(recordIntent);
         });
     }

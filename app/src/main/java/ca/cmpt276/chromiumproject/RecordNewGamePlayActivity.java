@@ -26,6 +26,7 @@ import ca.cmpt276.chromiumproject.model.GameRecord;
 public class RecordNewGamePlayActivity extends AppCompatActivity {
 
     public static final String EXTRA_RECORD_GAME_POSITION = "Record Intent Extra - gameConfig position";
+    public static final String EXTRA_PAST_GAME_POSITION = "Record Intent Extra - gameConfig position";
 
     public static final String TAG_NUMBER_FORMAT_EXCEPTION = "Catch NumberFormatException";
     public static final String TAG_ILLEGAL_ARGUMENT_EXCEPTION = "Catch IllegalArgumentException";
@@ -35,16 +36,20 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     private GameConfig gameConfigs;
 
     private int gameConfigPosition;
+    private int pastGamePosition;
 
     private TextView numPlayers;
     private TextView combinedScore;
 
-    public static Intent makeRecordIntent(Context context, int position) {
-        Intent intent =  new Intent(context, RecordNewGamePlayActivity.class);
-        intent.putExtra(EXTRA_RECORD_GAME_POSITION, position);
-        return intent;
+    public static Intent makeRecordIntent(Context context) {
+        return new Intent(context, RecordNewGamePlayActivity.class);
     }
 
+    public static Intent makePastGameIntent(Context context, int position) {
+        Intent intent =  new Intent(context, RecordNewGamePlayActivity.class);
+        intent.putExtra(EXTRA_PAST_GAME_POSITION, position);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +63,20 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         setUpInputFields();
         setUpDifficultyButtons();
 
-        extractPositionFromIntent();
+        extractGameConfigPositionFromIntent();
+        extractPastGamePositionFromIntent();
+    }
 
+    private void extractPastGamePositionFromIntent() {
+        Intent pastGameIntent = getIntent();
+        pastGamePosition = pastGameIntent.getIntExtra(EXTRA_PAST_GAME_POSITION, -1);
+//        Log.d("Current past game position" , "" + pastGamePosition);
+        // Its a new game record
+        if (pastGamePosition == -1) {
+
+        } else {
+            setTitle("Edit Game Play");
+        }
     }
 
     private void setUpDifficultyButtons() {
@@ -112,9 +129,9 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         combinedScore = findViewById(R.id.combinedScoreInput);
     }
 
-    private void extractPositionFromIntent() {
-        Intent intent = getIntent();
-        gameConfigPosition = intent.getIntExtra(EXTRA_RECORD_GAME_POSITION, 0);
+    private void extractGameConfigPositionFromIntent() {
+        Intent gameConfigIntent = getIntent();
+        gameConfigPosition = gameConfigIntent.getIntExtra(EXTRA_RECORD_GAME_POSITION, 0);
     }
 
     @Override
