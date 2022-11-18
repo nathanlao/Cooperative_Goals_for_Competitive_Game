@@ -16,14 +16,12 @@ public class GameConfig {
     private int greatScore;
     private List<GameRecord> gameRecords;
 
-    // TODO: might be useful to have empty constructor depending on requirements
     public GameConfig(String name, int poorScore, int greatScore) {
         setConfigValues(name, poorScore, greatScore);
         gameRecords = new ArrayList<>();
     }
 
     public void setConfigValues(String name, int poorScore, int greatScore) {
-        // TODO: add more error handling depending on customer requirements
         if (name.isEmpty()) {
             throw new IllegalArgumentException("Game Config name is empty");
         }
