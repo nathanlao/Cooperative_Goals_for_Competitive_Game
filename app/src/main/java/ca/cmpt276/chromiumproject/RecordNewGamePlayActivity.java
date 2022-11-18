@@ -192,7 +192,8 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                 itemView = getLayoutInflater().inflate(R.layout.player_view, parent, false);
             }
 
-            String curPlayerName = "Player #" + Integer.toString(position);
+            String curPlayerName = getString(R.string.player_id_info)
+                    + Integer.toString(position);
 
             TextView curPlayerNameText = itemView.findViewById(R.id.item_player_name);
             curPlayerNameText.setText(curPlayerName);
@@ -200,8 +201,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
             int curPlayerScore = playerListData.get(position);
             TextView curPlayerScoreText = itemView.findViewById(R.id.item_player_input_score);
 
-            //String curPlayerScoreMsg = getString(R.string.required_achievement_score);
-            String curPlayerScoreMsg = "Player Score is: ";
+            String curPlayerScoreMsg = getString(R.string.player_score_info);
             curPlayerScoreMsg += " " + curPlayerScore;
 
             curPlayerScoreText.setText(curPlayerScoreMsg);
@@ -238,8 +238,6 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                         int userPosition = SinglePlayerActivity.getPositionOfPlayer(data);
                         playerListData.set(userPosition, newUserInputPlayerScore);
                         Log.i("PlayerListPart", "Activity SUCCESSFUL.");
-
-                        System.out.println("ACITIVTY TEST SUCCESS");
                     }
                 }
             }

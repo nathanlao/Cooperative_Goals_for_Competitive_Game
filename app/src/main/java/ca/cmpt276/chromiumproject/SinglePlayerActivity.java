@@ -17,11 +17,13 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
     private static final String SAVED_PLAYER_INPUT =
             "ca.cmpt276.chromiumproject - Saved integer input value by the user";
-    public static final String POSITION_OF_THE_PLAYER =
-            "ca.cmpt276.chromiumproject Position of the player for name purpose";
+    private static final String POSITION_OF_THE_PLAYER =
+            "ca.cmpt276.chromiumproject - Position of the player for name purpose";
+    private static final int REQUEST_CODE_PLAYER_SCORE_INPUT = 101;
+
     private int extractedPlayerScore;
     private int currentPosition;
-    private static final int REQUEST_CODE_PLAYER_SCORE_INPUT = 101;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +50,14 @@ public class SinglePlayerActivity extends AppCompatActivity {
     }
     public void setUpUserInterface() {
         TextView enterMsgText = findViewById(R.id.textViewEnterScoreMsg);
-        enterMsgText.setText("Enter Score of Player #" + currentPosition);
+        enterMsgText.setText(getString(R.string.enter_player_info) +
+                currentPosition);
 
         EditText userInputScoreEdit = findViewById(R.id.editTextSinglePlayer);
         userInputScoreEdit.setText(Integer.toString(extractedPlayerScore));
 
         Button singlePlayerSaveButton = findViewById(R.id.buttonSingleScoreConfirm);
-        singlePlayerSaveButton.setText("Confirm Score");
+        singlePlayerSaveButton.setText(getString(R.string.confirm_save_info));
         singlePlayerSaveButton.setOnClickListener(view -> {
             Intent intent = new Intent();
             //EditText userInputScoreEdit2 = findViewById(R.id.editTextSinglePlayer);

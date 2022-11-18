@@ -45,6 +45,8 @@
     <string name="combined_score">Combined Score:</string>
     <string name="check_invalid_number_of_player">Number of players must be greater than 0</string>
     <string name="null_difficulty_selected_error">Please select a difficulty</string>
+    <string name="player_score_info">Player Score is:</string>
+    <string name="player_id_info">Player #</string>
 
     <!-- Strings used for View Achievement Screen -->
     <string name="achievement_level_title">Achievement Levels</string>
@@ -65,6 +67,9 @@
     <string name="select_button_hard">Hard</string>
     <string name="toast_enter_number_of_players">All fields can not be empty! Please enter the number of players</string>
 
+    <!-- Strings used for SinglePlayerAcitivity -->
+    <string name="enter_player_info">Enter Score of Player #</string>
+    <string name="confirm_save_info">Confirm Score</string>
 
     <!-- Strings used for Achievement -->
     <string-array name="achievement_names">
