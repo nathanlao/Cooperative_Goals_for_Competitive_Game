@@ -49,7 +49,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
     public static final String TAG_NUMBER_FORMAT_EXCEPTION = "Catch NumberFormatException";
     public static final String TAG_ILLEGAL_ARGUMENT_EXCEPTION = "Catch IllegalArgumentException";
-    public static final int REQUEST_CODE_PLAYER_SCORE_INPUT = 101;
+    private static final int REQUEST_CODE_PLAYER_SCORE_INPUT = 101;
 
     private GameManager gameManager;
     private GameRecord gameRecord;

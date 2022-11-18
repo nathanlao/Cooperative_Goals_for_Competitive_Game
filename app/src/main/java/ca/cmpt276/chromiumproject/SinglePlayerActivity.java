@@ -10,13 +10,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+//SinglePlayerActivity records new user input to be saved back to
+//RecordNewGamePlayActivity, inside of its Players List View,
+//altering the value whenever required.
 public class SinglePlayerActivity extends AppCompatActivity {
 
     private static final String SAVED_PLAYER_INPUT =
-            "Saved integer input value by the user";
-    public static final String POSITION_OF_THE_PLAYER = "Position of the player for name purpose";
+            "ca.cmpt276.chromiumproject - Saved integer input value by the user";
+    public static final String POSITION_OF_THE_PLAYER =
+            "ca.cmpt276.chromiumproject Position of the player for name purpose";
     private int extractedPlayerScore;
     private int currentPosition;
+    private static final int REQUEST_CODE_PLAYER_SCORE_INPUT = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +61,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
             String savedUserIntInput = userInputScoreEdit.getText().toString();
             intent.putExtra(SAVED_PLAYER_INPUT, Integer.valueOf(savedUserIntInput));
             intent.putExtra(POSITION_OF_THE_PLAYER, currentPosition);
-            setResult(101, intent);
+            setResult(REQUEST_CODE_PLAYER_SCORE_INPUT, intent);
             finish();
         });
     }
