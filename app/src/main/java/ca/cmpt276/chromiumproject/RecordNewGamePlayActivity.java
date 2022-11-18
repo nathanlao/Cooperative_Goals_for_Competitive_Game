@@ -1,5 +1,7 @@
 package ca.cmpt276.chromiumproject;
 
+import static ca.cmpt276.chromiumproject.model.Difficulty.NORMAL;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -82,7 +84,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         setDifficultyButtonsGray();
 
         normalBtn.setOnClickListener(v -> {
-            selectedDifficulty = Difficulty.NORMAL;
+            selectedDifficulty = NORMAL;
             setDifficultyButtonsGray();
             normalBtn.setBackgroundColor(Color.BLUE);
         });
@@ -144,11 +146,6 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                 // Take user input
                 setupGameRecordInput();
 
-                if (isNewGamePlay) {
-                    gameConfigs.addGameRecord(gameRecord);
-                } else {
-                    gameConfigs.setGameRecordByIndex(GamePlayPosition, gameRecord);
-                }
 
                 // save updated gameConfigs list to SharedPrefs
                 MainActivity.saveGameConfigs(this, gameManager);
@@ -190,6 +187,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
             // Add new game record to the record list in gameConfig
             try {
                 gameRecord = new GameRecord(numberOfPlayersNum, combinedScoreNum, gameConfigs.getPoorScore(), gameConfigs.getGreatScore(), selectedDifficulty);
+                gameConfigs.addGameRecord(gameRecord);
             } catch (IllegalArgumentException ex) {
                 Log.d(TAG_ILLEGAL_ARGUMENT_EXCEPTION, "IllegalArgumentException caught: number of players must be greater than 0");
             }
@@ -200,7 +198,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
                 // TODO: Need to change gameRecord fields (combinedScoreNum) when score calculator part is done
                 gameRecord.editGameRecordValues(numberOfPlayersNum, combinedScoreNum, gameConfigs.getPoorScore(), gameConfigs.getGreatScore(), selectedDifficulty);
-
+                gameConfigs.setGameRecordByIndex(GamePlayPosition, gameRecord);
             } catch (IllegalArgumentException ex) {
                 Log.d(TAG_ILLEGAL_ARGUMENT_EXCEPTION, "IllegalArgumentException caught: number of players must be greater than 0");
             }
@@ -231,6 +229,14 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         return false;
     }
 
+    private boolean checkNullSelectedDifficulty() {
+        if (selectedDifficulty == null) {
+            Toast.makeText(this, getString(R.string.null_difficulty_selected_error), Toast.LENGTH_LONG).show();
+            return true;
+        }
+        return false;
+    }
+
     private void extractGameConfigPositionFromIntent() {
         Intent gameConfigIntent = getIntent();
         gameConfigPosition = gameConfigIntent.getIntExtra(EXTRA_RECORD_GAME_POSITION, 0);
@@ -253,23 +259,36 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     }
 
     private void displayCurrentGamePlay() {
+        Button normalBtn = findViewById(R.id.btnSelectNormal);
+        Button easyBtn = findViewById(R.id.btnSelectEasy);
+        Button hardBtn = findViewById(R.id.btnSelectHard);
+
         // Getting current gameConfigs and its associated gameRecord
         gameConfigs = gameManager.getGameConfigByIndex(gameConfigPosition);
         GameRecord currentGamePlay = gameConfigs.getGameRecordByIndex(GamePlayPosition);
+        Difficulty currentSelectedDifficulty = currentGamePlay.getDifficulty();
 
-        // TODO: Probably need to reflect on button select as well
+        switch(currentSelectedDifficulty) {
+            case NORMAL:
+                // Assign values to global selectedDifficulty, to avoid when gameRecord work on null selectedDifficulty
+                selectedDifficulty = Difficulty.NORMAL;
+                normalBtn.setBackgroundColor(Color.BLUE);
+                break;
+            case EASY:
+                selectedDifficulty = Difficulty.EASY;
+                easyBtn.setBackgroundColor(Color.GREEN);
+                break;
+            case HARD:
+                selectedDifficulty = Difficulty.HARD;
+                hardBtn.setBackgroundColor(Color.RED);
+                break;
+            default:
+                setDifficultyButtonsGray();
+        }
 
         numPlayers.setText(String.valueOf(currentGamePlay.getNumPlayers()));
 
         // TODO: Need to change this when score calculator part is done
         combinedScore.setText(String.valueOf(currentGamePlay.getCombinedScore()));
-    }
-
-    private boolean checkNullSelectedDifficulty() {
-        if (selectedDifficulty == null) {
-            Toast.makeText(this, getString(R.string.null_difficulty_selected_error), Toast.LENGTH_LONG).show();
-            return true;
-        }
-        return false;
     }
 }
