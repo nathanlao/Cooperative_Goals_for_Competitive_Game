@@ -51,7 +51,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
     public void setUpUserInterface() {
         TextView enterMsgText = findViewById(R.id.textViewEnterScoreMsg);
         enterMsgText.setText(getString(R.string.enter_player_info) +
-                currentPosition);
+                (currentPosition + 1));
 
         EditText userInputScoreEdit = findViewById(R.id.editTextSinglePlayer);
         userInputScoreEdit.setText(Integer.toString(extractedPlayerScore));

@@ -204,7 +204,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
             }
 
             String curPlayerName = getString(R.string.player_id_info)
-                    + Integer.toString(position);
+                    + Integer.toString(position + 1);
 
             TextView curPlayerNameText = itemView.findViewById(R.id.item_player_name);
             curPlayerNameText.setText(curPlayerName);
