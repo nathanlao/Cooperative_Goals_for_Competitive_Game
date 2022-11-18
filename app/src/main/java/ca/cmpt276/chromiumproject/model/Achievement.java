@@ -4,55 +4,74 @@ package ca.cmpt276.chromiumproject.model;
  * Achievement contains list of possible achievements you can achieve,
  * as well as potential points for each achievement.
  * Calculates potential points based on current game config's values passed down.
+ * normalAchievePoints stores the scores required to earn an achievement level at NORMAL difficulty.
  */
+
 public class Achievement {
     private int achievementLevel;
 
     private static final int NUM_ACHIEVEMENTS = 8;
 
-    private int[] potentialAchievePoints = {};
+    private static final double EASY_SCALE_FACTOR = 0.75;
+    private static final double HARD_SCALE_FACTOR = 1.25;
+
+    private int[] normalAchievePoints;
     private int partitionNum = 0;
 
     public static final int SPECIAL_WORST_ACHIEVE = -1;
 
-    public Achievement() {
-        this.achievementLevel = 0;
+    // default constructor makes an Achievement at NORMAL difficulty -> scores required to earn an achievement level is 100% of the usual amount
+    public Achievement(int playerCount, int theScore, int poorScore, int greatScore) {
+        normalAchievePoints = calculateNormalAchievePoints(playerCount, poorScore, greatScore);
+        achievementLevel = calculateAchievementLevel(normalAchievePoints, theScore);
     }
 
-    public void setCurAchievement(int playerCount, int theScore, int poorScore, int greatScore) {
-        setPotentialAchievePoint(playerCount, poorScore, greatScore);
-        int curAchieveEndBoundary = 0;
-        for (int i = 0; i < potentialAchievePoints.length; i++) {
+    public static Achievement makeScaledAchievement(int playerCount, int theScore, int poorScore, int greatScore, Difficulty difficulty) {
+        Achievement achievement = new Achievement(playerCount, theScore, poorScore, greatScore);
 
-            //check on first loop, for Special worst achievement
-            if (i == 0) {
-                if (theScore <= potentialAchievePoints[0]) {
-                    achievementLevel = SPECIAL_WORST_ACHIEVE;
-                }
-            }
+        if (difficulty != Difficulty.NORMAL) {
+            int[] scaledAchievePoints = achievement.scaleAchievePointsToDifficulty(achievement.getNormalAchievePoints(), difficulty);
+            int scaledAchievementLevel = achievement.calculateAchievementLevel(scaledAchievePoints, theScore);
 
-            curAchieveEndBoundary = potentialAchievePoints[i] + partitionNum;
-            //If score is in the Boundary, choose from achievement Collection
-            if (theScore >= potentialAchievePoints[i] &&
-            theScore < curAchieveEndBoundary) {
-                achievementLevel = i;
-            }
-
-            //check on last loop, case far larger than expected
-            if (i == potentialAchievePoints.length - 1) {
-                if (theScore > potentialAchievePoints[i]) {
-                    achievementLevel = i;
-                }
-            }
+            achievement.setAchievementLevel(scaledAchievementLevel);
         }
 
+        return achievement;
     }
+
     public int getCurAchievementLevel() {
         return achievementLevel;
     }
 
-    public void setPotentialAchievePoint(int playerCount, int poorScore, int greatScore) {
-        potentialAchievePoints = new int[NUM_ACHIEVEMENTS];
+    // TODO: remove deprecated method after difficulty selection is implemented on UI-side. currently, this can only get achievePoints at Normal difficulty.
+    public static int[] getStaticPotentialAchievePoint(int playerCount, GameConfig gameConfig) {
+        int potentialScore = 0;
+        int poorScore = gameConfig.getPoorScore();
+        int greatScore = gameConfig.getGreatScore();
+        Achievement potentialAchievement = new Achievement(playerCount, potentialScore, gameConfig.getPoorScore(), gameConfig.getGreatScore());
+        potentialAchievement.calculateNormalAchievePoints(playerCount, poorScore, greatScore);
+        return potentialAchievement.getNormalAchievePoints();
+    }
+
+    // Calculates potential achievement points given playerCount, gameConfig, and difficulty. Removes the need to explicitly declare a collective score.
+    // Useful for showing list of possible scores for a specified difficulty.
+    public static int[] getStaticAchievePointsByDifficulty(int playerCount, GameConfig gameConfig, Difficulty difficulty) {
+        int potentialScore = 0;
+        int poorScore = gameConfig.getPoorScore();
+        int greatScore = gameConfig.getGreatScore();
+        Achievement potentialAchievement = makeScaledAchievement(playerCount, potentialScore, poorScore, greatScore, difficulty);
+        int[] normalAchievePoints = potentialAchievement.getNormalAchievePoints();
+
+        return potentialAchievement.scaleAchievePointsToDifficulty(normalAchievePoints, difficulty);
+    }
+
+    private int[] getNormalAchievePoints() {
+        return normalAchievePoints;
+    }
+
+    // calculates and returns achievement point thresholds according to NORMAL difficulty, without any difficulty scaling.
+    private int[] calculateNormalAchievePoints(int playerCount, int poorScore, int greatScore) {
+        int[] normalAchievePoints = new int[NUM_ACHIEVEMENTS];
 
         int lowestAchieve = playerCount * poorScore;
         int highestAchieve = playerCount * greatScore;
@@ -71,29 +90,68 @@ public class Achievement {
             //Set the Boundary for calculation purpose
             curAchieveLocation = lowestAchieve + partitionMultiplier;
 
-            potentialAchievePoints[i] = curAchieveLocation;
+            normalAchievePoints[i] = curAchieveLocation;
         }
+
+        return normalAchievePoints;
     }
 
-    // Calculates potential achievement points given playerCount and gameConfig, removing the need to explicitly declare a collective score.
-    // Useful for showing list of possible scores.
-    public static int[] getStaticPotentialAchievePoint(int playerCount, GameConfig gameConfig) {
-        int potentialScore = 0;
-        int poorScore = gameConfig.getPoorScore();
-        int greatScore = gameConfig.getGreatScore();
-        Achievement potentialAchievement = makeAchievement(playerCount, potentialScore, poorScore, greatScore);
-        potentialAchievement.setPotentialAchievePoint(playerCount, poorScore, greatScore);
-        return potentialAchievement.getPotentialAchievePoint();
+    // scales NORMAL-level achievePoints to specified difficulty. returns int[] with scaled point thresholds.
+    private int[] scaleAchievePointsToDifficulty(int[] normalAchievePoints, Difficulty difficulty) {
+        if (difficulty == Difficulty.NORMAL) {
+            return normalAchievePoints;
+        }
+
+        int[] scaledAchievePoints = new int[NUM_ACHIEVEMENTS];
+        for (int i = 0; i < normalAchievePoints.length; i++) {
+            switch(difficulty) {
+                case EASY:
+                    scaledAchievePoints[i] = (int) (normalAchievePoints[i] * EASY_SCALE_FACTOR);
+                    break;
+                case HARD:
+                    scaledAchievePoints[i] = (int) (normalAchievePoints[i] * HARD_SCALE_FACTOR);
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected difficulty when calculating Achievement: " + difficulty);
+            }
+        }
+
+        return scaledAchievePoints;
     }
 
-    public int[] getPotentialAchievePoint() {
-        return potentialAchievePoints;
+    private void setAchievementLevel(int achievementLevel) {
+        this.achievementLevel = achievementLevel;
     }
 
-    public static Achievement makeAchievement(int playerCount, int theScore, int poorScore, int greatScore) {
-        Achievement achievement = new Achievement();
-        achievement.setCurAchievement(playerCount, theScore, poorScore, greatScore);
-        return achievement;
+    private int calculateAchievementLevel(int[] potentialAchievePoints, int theScore) {
+        int achievementLevel = 0;
+
+        int curAchieveEndBoundary = 0;
+        for (int i = 0; i < potentialAchievePoints.length; i++) {
+
+            //check on first loop, for Special worst achievement
+            if (i == 0) {
+                if (theScore <= potentialAchievePoints[0]) {
+                    achievementLevel = SPECIAL_WORST_ACHIEVE;
+                }
+            }
+
+            curAchieveEndBoundary = potentialAchievePoints[i] + partitionNum;
+            //If score is in the Boundary, choose from achievement Collection
+            if (theScore >= potentialAchievePoints[i] &&
+                    theScore < curAchieveEndBoundary) {
+                achievementLevel = i;
+            }
+
+            //check on last loop, case far larger than expected
+            if (i == potentialAchievePoints.length - 1) {
+                if (theScore > potentialAchievePoints[i]) {
+                    achievementLevel = i;
+                }
+            }
+        }
+
+        return achievementLevel;
     }
 
 }
