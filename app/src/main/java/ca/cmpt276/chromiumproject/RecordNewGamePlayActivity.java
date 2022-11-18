@@ -50,7 +50,6 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     public static final String TAG_NUMBER_FORMAT_EXCEPTION = "Catch NumberFormatException";
     public static final String TAG_ILLEGAL_ARGUMENT_EXCEPTION = "Catch IllegalArgumentException";
     public static final int REQUEST_CODE_PLAYER_SCORE_INPUT = 101;
-    public static final int REQUEST_CODE_PLAYER_POSITION = 102;
 
     private GameManager gameManager;
     private GameRecord gameRecord;
@@ -242,32 +241,6 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
                         System.out.println("ACITIVTY TEST SUCCESS");
                     }
-
-                    /*switch(resultCode) {
-                        case REQUEST_CODE_PLAYER_SCORE_INPUT:
-                            int newUserInputPlayerScore = SinglePlayerActivity.getPlayerResultMsg(data);
-                            int userPosition = SinglePlayerActivity.getPositionOfPlayer(data);
-                            playerListData.set(userPosition, newUserInputPlayerScore);
-                            Log.i("PlayerListPart", "Activity SUCCESSFUL.");
-
-                            System.out.println("ACITIVTY TEST SUCCESS");
-
-                            if (resultCode == Activity.RESULT_OK) {
-                                int newUserInputPlayerScore = SinglePlayerActivity.getPlayerResultMsg(data);
-                                int userPosition = SinglePlayerActivity.getPositionOfPlayer(data);
-                                playerListData.set(userPosition, newUserInputPlayerScore);
-                                Log.i("PlayerListPart", "Activity SUCCESSFUL.");
-
-                                System.out.println("ACITIVTY TEST SUCCESS");
-                            } else {
-                                Log.i("PlayerListPart", "It has been CANCELED.");
-                            }
-                    }*/
-                    //code 101 for Key for user input player score data
-                    /*if (result.getResultCode() == REQUEST_CODE_PLAYER_SCORE_INPUT) {
-                        int newUserInputPlayerScore = data.getIntExtra("test",3);
-
-                    }*/
                 }
             }
     );
