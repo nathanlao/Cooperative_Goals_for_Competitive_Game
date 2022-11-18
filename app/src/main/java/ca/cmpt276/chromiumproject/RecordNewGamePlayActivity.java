@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import ca.cmpt276.chromiumproject.model.Difficulty;
 import ca.cmpt276.chromiumproject.model.GameConfig;
 import ca.cmpt276.chromiumproject.model.GameManager;
 import ca.cmpt276.chromiumproject.model.GameRecord;
@@ -141,6 +142,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                 // save updated gameConfigs list to SharedPrefs
                 MainActivity.saveGameConfigs(this, gameManager);
                 Toast.makeText(this, R.string.toast_save_game_record, Toast.LENGTH_SHORT).show();
+                setUpEarnedAchievement();
                 finish();
 
                 return true;

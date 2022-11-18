@@ -44,7 +44,6 @@ public class EarnedAchievementActivity extends AppCompatActivity {
     private GameManager gameManager;
     private GameRecord gameRecord;
     private GameConfig gameConfig;
-    private int gameConfigPosition;
     MediaPlayer cheeringAudio;
 
     public static Intent makeEarnedAchievementIntent(Context c, int gameConfigPosition) {
@@ -53,9 +52,10 @@ public class EarnedAchievementActivity extends AppCompatActivity {
         return intent;
     }
 
-    private void extractDataFromIntent(){
+    private int extractDataFromIntent(){
         Intent intent = getIntent();
-        gameConfigPosition = intent.getIntExtra("gameConfigPosition", DEFAULT_VALUE);
+        int position = intent.getIntExtra(GAME_CONFIG_POSITION, DEFAULT_VALUE);
+        return position;
     }
 
     @Override
@@ -64,7 +64,7 @@ public class EarnedAchievementActivity extends AppCompatActivity {
         setContentView(R.layout.activity_earned_achievement);
         setTitle(getString(R.string.earned_achievement));
 
-        extractDataFromIntent();
+        int gameConfigPosition = extractDataFromIntent();
         setText(gameConfigPosition);
 
 
