@@ -32,6 +32,7 @@ import ca.cmpt276.chromiumproject.model.Achievement;
 import ca.cmpt276.chromiumproject.model.GameConfig;
 import ca.cmpt276.chromiumproject.model.GameManager;
 
+
 /**
  * ViewAchievementActivity gets list of possible achievements you can achieve,
  * as well as potential achievable point list passed down from intent,
