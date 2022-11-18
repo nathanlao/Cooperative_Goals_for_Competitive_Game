@@ -129,6 +129,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
             if (intConvertedUserInput > 0) {
                 updatePlayerListData(intConvertedUserInput);
                 populatePlayersListView();
+                calibrateCombinedScore();
             }
         }
     }
@@ -152,12 +153,22 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                 }
             }
             if (curSize < userIntInput) {
-                for (int i = 0; i < curSize; i++) {
-                    tempListData.add(playerListData.get(i));
+                for (int i = 0; i < userIntInput; i++) {
+                    if (i < curSize) {
+                        tempListData.add(playerListData.get(i));
+                    }
+                    else {
+                        tempListData.add(0);
+                    }
                 }
             }
 
-            playerListData = tempListData;
+            playerListData = new ArrayList<>();
+            for (int i = 0; i < tempListData.size(); i++) {
+                int tempValue = tempListData.get(i);
+                playerListData.add(tempValue);
+            }
+            //playerListData = tempListData;
         }
     }
 
