@@ -239,9 +239,19 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                         playerListData.set(userPosition, newUserInputPlayerScore);
                         Log.i("PlayerListPart", "Activity SUCCESSFUL.");
                     }
+                    calibrateCombinedScore();
                 }
             }
     );
+    private void calibrateCombinedScore() {
+        int tempCombScore = 0;
+        for (int i = 0; i < playerListData.size(); i++) {
+            tempCombScore += playerListData.get(i);
+        }
+
+        String theCombText = Integer.toString(tempCombScore);
+        combinedScore.setText(theCombText);
+    }
 
     private void setUpDifficultyButtons() {
         Button normalBtn = findViewById(R.id.btnSelectNormal);
