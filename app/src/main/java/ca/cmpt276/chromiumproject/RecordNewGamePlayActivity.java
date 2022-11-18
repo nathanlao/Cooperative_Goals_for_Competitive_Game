@@ -1,10 +1,15 @@
 package ca.cmpt276.chromiumproject;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -17,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -41,6 +47,8 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
     public static final String TAG_NUMBER_FORMAT_EXCEPTION = "Catch NumberFormatException";
     public static final String TAG_ILLEGAL_ARGUMENT_EXCEPTION = "Catch IllegalArgumentException";
+    public static final int REQUEST_CODE_PLAYER_SCORE_INPUT = 101;
+    public static final int REQUEST_CODE_PLAYER_POSITION = 102;
 
     private GameManager gameManager;
     private GameRecord gameRecord;
@@ -75,6 +83,8 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         extractPositionFromIntent();
         
         setUpTextMonitor();
+
+        playerListClickSetUp();
 
     }
 
@@ -179,7 +189,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                 itemView = getLayoutInflater().inflate(R.layout.player_view, parent, false);
             }
 
-            String curPlayerName = "Player #" + Integer.toString(position + 1);
+            String curPlayerName = "Player #" + Integer.toString(position);
 
             TextView curPlayerNameText = itemView.findViewById(R.id.item_player_name);
             curPlayerNameText.setText(curPlayerName);
@@ -196,6 +206,67 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
             return itemView;
         }
     }
+    private void playerListClickSetUp() {
+        ListView playersViewList = findViewById(R.id.listViewSinglePlayer);
+        playersViewList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
+                int clickedPos = position;
+                int theSinglePlayerScore = playerListData.get(position);
+
+                Intent intent = SinglePlayerActivity.makeIntent(RecordNewGamePlayActivity.this,
+                        clickedPos,
+                        theSinglePlayerScore);
+                playerActivityResultLauncher.launch(intent);
+            }
+        });
+    }
+    ActivityResultLauncher<Intent> playerActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    Intent data = result.getData();
+                    int resultCode = result.getResultCode();
+
+                    if (resultCode == REQUEST_CODE_PLAYER_SCORE_INPUT) {
+                        int newUserInputPlayerScore = SinglePlayerActivity.getPlayerResultMsg(data);
+                        int userPosition = SinglePlayerActivity.getPositionOfPlayer(data);
+                        playerListData.set(userPosition, newUserInputPlayerScore);
+                        Log.i("PlayerListPart", "Activity SUCCESSFUL.");
+
+                        System.out.println("ACITIVTY TEST SUCCESS");
+                    }
+
+                    /*switch(resultCode) {
+                        case REQUEST_CODE_PLAYER_SCORE_INPUT:
+                            int newUserInputPlayerScore = SinglePlayerActivity.getPlayerResultMsg(data);
+                            int userPosition = SinglePlayerActivity.getPositionOfPlayer(data);
+                            playerListData.set(userPosition, newUserInputPlayerScore);
+                            Log.i("PlayerListPart", "Activity SUCCESSFUL.");
+
+                            System.out.println("ACITIVTY TEST SUCCESS");
+
+                            if (resultCode == Activity.RESULT_OK) {
+                                int newUserInputPlayerScore = SinglePlayerActivity.getPlayerResultMsg(data);
+                                int userPosition = SinglePlayerActivity.getPositionOfPlayer(data);
+                                playerListData.set(userPosition, newUserInputPlayerScore);
+                                Log.i("PlayerListPart", "Activity SUCCESSFUL.");
+
+                                System.out.println("ACITIVTY TEST SUCCESS");
+                            } else {
+                                Log.i("PlayerListPart", "It has been CANCELED.");
+                            }
+                    }*/
+                    //code 101 for Key for user input player score data
+                    /*if (result.getResultCode() == REQUEST_CODE_PLAYER_SCORE_INPUT) {
+                        int newUserInputPlayerScore = data.getIntExtra("test",3);
+
+                    }*/
+                }
+            }
+    );
 
     private void setUpDifficultyButtons() {
         Button normalBtn = findViewById(R.id.btnSelectNormal);
@@ -340,4 +411,11 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         }
         return false;
     }
+
+    /*@Override
+    protected void onResume() {
+        super.onResume();
+
+        populatePlayersListView();
+    }*/
 }
