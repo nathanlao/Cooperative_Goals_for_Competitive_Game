@@ -29,10 +29,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
 import ca.cmpt276.chromiumproject.model.Achievement;
+import ca.cmpt276.chromiumproject.model.Difficulty;
 import ca.cmpt276.chromiumproject.model.GameConfig;
 import ca.cmpt276.chromiumproject.model.GameManager;
 import ca.cmpt276.chromiumproject.model.GameRecord;
@@ -53,6 +55,8 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     private GameManager gameManager;
     private GameRecord gameRecord;
     private GameConfig gameConfigs;
+
+    private Difficulty selectedDifficulty;
 
     private int gameConfigPosition;
 
@@ -275,27 +279,22 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         setDifficultyButtonsGray();
 
         normalBtn.setOnClickListener(v -> {
+            selectedDifficulty = Difficulty.NORMAL;
             setDifficultyButtonsGray();
             normalBtn.setBackgroundColor(Color.BLUE);
-            // TODO: Testing purpose, delete later
-            Toast.makeText(RecordNewGamePlayActivity.this, "Testing: normal", Toast.LENGTH_SHORT).show();
         });
 
         easyBtn.setOnClickListener(v -> {
+            selectedDifficulty = Difficulty.EASY;
             setDifficultyButtonsGray();
             easyBtn.setBackgroundColor(Color.GREEN);
-            // TODO: Testing purpose, delete later
-            Toast.makeText(RecordNewGamePlayActivity.this, "Testing: easy", Toast.LENGTH_SHORT).show();
         });
 
         hardBtn.setOnClickListener(v -> {
+            selectedDifficulty = Difficulty.HARD;
             setDifficultyButtonsGray();
             hardBtn.setBackgroundColor(Color.RED);
-            // TODO: Testing purpose, delete later
-            Toast.makeText(RecordNewGamePlayActivity.this, "Testing: hard", Toast.LENGTH_SHORT).show();
         });
-
-        // TODO: throw error if no difficulty is selected for new game play save
     }
 
     private void setDifficultyButtonsGray() {
@@ -334,6 +333,10 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case R.id.action_save:
+                // Validate difficulty buttons. Display error if no difficulty is selected.
+                if (checkNullSelectedDifficulty()) {
+                    return false;
+                }
 
                 // Take user input
                 setupGameRecordInput();
@@ -342,6 +345,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                 if (checkEmptyInput() || checkInvalidInput()) {
                     return false;
                 }
+
                 // save updated gameConfigs list to SharedPrefs
                 MainActivity.saveGameConfigs(this, gameManager);
                 Toast.makeText(this, R.string.toast_save_game_record, Toast.LENGTH_SHORT).show();
@@ -359,7 +363,6 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     }
 
     private void setupGameRecordInput() {
-
         // Take user input and get current gameConfig
         int numberOfPlayersNum = 0;
         int combinedScoreNum = 0;
@@ -381,7 +384,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
         // Add game record to the record list in gameConfig
         try {
-            gameRecord = new GameRecord(numberOfPlayersNum, combinedScoreNum, gameConfigs.getPoorScore(), gameConfigs.getGreatScore());
+            gameRecord = new GameRecord(numberOfPlayersNum, combinedScoreNum, gameConfigs.getPoorScore(), gameConfigs.getGreatScore(), selectedDifficulty);
             gameConfigs.addGameRecord(gameRecord);
         } catch (IllegalArgumentException ex) {
             Log.d(TAG_ILLEGAL_ARGUMENT_EXCEPTION, "IllegalArgumentException caught: number of players must be greater than 0");
@@ -412,10 +415,11 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         return false;
     }
 
-    /*@Override
-    protected void onResume() {
-        super.onResume();
-
-        populatePlayersListView();
-    }*/
+    private boolean checkNullSelectedDifficulty() {
+        if (selectedDifficulty == null) {
+            Toast.makeText(this, getString(R.string.null_difficulty_selected_error), Toast.LENGTH_LONG).show();
+            return true;
+        }
+        return false;
+    }
 }
