@@ -63,7 +63,9 @@ public class ViewAchievementActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_achievement);
 
-        achievementCollections = getResources().getStringArray(R.array.achievement_names);
+        //achievementCollections = getResources().getStringArray(R.array.achievement_names);
+        setTheme();
+        achievementCollections = getAchievementNames(theme);
         TextView enterTextNum = findViewById(R.id.textViewEnterMsg);
         enterTextNum.setText(R.string.num_player_text);
 
@@ -75,7 +77,27 @@ public class ViewAchievementActivity extends AppCompatActivity {
         extractDataFromIntent();
         setUpInitialButtonBehaviour();
         setUpTextMonitor();
-        setTheme();
+
+    }
+
+    private String[] getAchievementNames(String theme) {
+        String[] themeOptions = getResources().getStringArray(R.array.theme_names);
+        switch (theme) {
+            case "Adventurer":
+                achievementCollections = getResources().getStringArray(R.array.achievement_names);
+
+            case "Enchanted Forest":
+                //TODO: access the right themes
+                achievementCollections = getResources().getStringArray(R.array.achievement_names);
+
+            case "Dark Fantasy":
+                //TODO: access the right themes
+                achievementCollections = getResources().getStringArray(R.array.achievement_names);
+
+            default:
+                achievementCollections = getResources().getStringArray(R.array.achievement_names);
+        }
+        return achievementCollections;
     }
 
     @Override
