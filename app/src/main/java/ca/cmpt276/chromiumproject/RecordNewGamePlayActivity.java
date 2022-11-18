@@ -189,7 +189,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         if (isNewGamePlay) {
             // Add new game record to the record list in gameConfig
             try {
-                gameRecord = new GameRecord(numberOfPlayersNum, combinedScoreNum, gameConfigs.getPoorScore(), gameConfigs.getGreatScore());
+                gameRecord = new GameRecord(numberOfPlayersNum, combinedScoreNum, gameConfigs.getPoorScore(), gameConfigs.getGreatScore(), selectedDifficulty);
             } catch (IllegalArgumentException ex) {
                 Log.d(TAG_ILLEGAL_ARGUMENT_EXCEPTION, "IllegalArgumentException caught: number of players must be greater than 0");
             }
@@ -199,7 +199,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                 gameRecord = gameConfigs.getGameRecordByIndex(GamePlayPosition);
 
                 // TODO: Need to change gameRecord fields (combinedScoreNum) when score calculator part is done
-                gameRecord.setGameRecordFields(numberOfPlayersNum, combinedScoreNum, gameConfigs.getPoorScore(), gameConfigs.getGreatScore());
+                gameRecord.editGameRecordValues(numberOfPlayersNum, combinedScoreNum, gameConfigs.getPoorScore(), gameConfigs.getGreatScore(), selectedDifficulty);
 
             } catch (IllegalArgumentException ex) {
                 Log.d(TAG_ILLEGAL_ARGUMENT_EXCEPTION, "IllegalArgumentException caught: number of players must be greater than 0");

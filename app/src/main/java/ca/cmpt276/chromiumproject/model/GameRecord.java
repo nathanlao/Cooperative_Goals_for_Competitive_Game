@@ -42,7 +42,6 @@ public class GameRecord {
         return difficulty;
     }
 
-    // TODO: please use this to edit GameRecord values!! :]
     public void editGameRecordValues(int numPlayers, int combinedScore, int poorScore, int greatScore, Difficulty difficulty) {
         this.numPlayers = numPlayers;
         this.combinedScore = combinedScore;
