@@ -146,7 +146,6 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                 // Take user input
                 setupGameRecordInput();
 
-
                 // save updated gameConfigs list to SharedPrefs
                 MainActivity.saveGameConfigs(this, gameManager);
                 Toast.makeText(this, R.string.toast_save_game_record, Toast.LENGTH_SHORT).show();
@@ -270,7 +269,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
         switch(currentSelectedDifficulty) {
             case NORMAL:
-                // Assign values to global selectedDifficulty, to avoid when gameRecord work on null selectedDifficulty
+                // Assign values to global selectedDifficulty, to avoid gameRecord working on null selectedDifficulty
                 selectedDifficulty = Difficulty.NORMAL;
                 normalBtn.setBackgroundColor(Color.BLUE);
                 break;
