@@ -84,9 +84,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         setUpDifficultyButtons();
 
         extractPositionFromIntent();
-        
-        //setUpTextMonitor();
-        //replacing TextMonitor
+
         setUpButtonForTextMonitoring();
 
         playerListClickSetUp();
@@ -95,29 +93,9 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
     private void setUpButtonForTextMonitoring() {
         Button numPlayerSetButton = findViewById(R.id.buttonNumPlayerSet);
-        numPlayerSetButton.setText("Set");
+        numPlayerSetButton.setText(getString(R.string.button_set_player_count));
         numPlayerSetButton.setOnClickListener(view -> {
             renewPlayerList();
-        });
-    }
-
-    //Monitor input change on NumPlayer Edit text
-    private void setUpTextMonitor() {
-        numPlayers.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                renewPlayerList();
-            }
         });
     }
 
@@ -180,18 +158,6 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
             }
             //playerListData = tempListData;
         }
-    }
-
-    private boolean isNewPlayerList() {
-        boolean theResult = true;
-
-        for(int i = 0; i < playerListData.size(); i++) {
-            if (playerListData.get(i) != 0) {
-                theResult = false;
-            }
-        }
-
-        return theResult;
     }
 
     private void populatePlayersListView() {
