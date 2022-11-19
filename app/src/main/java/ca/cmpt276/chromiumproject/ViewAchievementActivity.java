@@ -86,17 +86,16 @@ public class ViewAchievementActivity extends AppCompatActivity {
         switch (theme) {
             case "Adventurer":
                 achievementCollections = getResources().getStringArray(R.array.achievement_names);
+                return achievementCollections;
 
             case "Enchanted Forest":
-                //TODO: access the right themes
-                achievementCollections = getResources().getStringArray(R.array.achievement_names);
+                achievementCollections = getResources().getStringArray(R.array.enchanted_forest_achievement_names);
+                return achievementCollections;
 
             case "Dark Fantasy":
                 //TODO: access the right themes
                 achievementCollections = getResources().getStringArray(R.array.achievement_names);
-
-            default:
-                achievementCollections = getResources().getStringArray(R.array.achievement_names);
+                return achievementCollections;
         }
         return achievementCollections;
     }
@@ -143,7 +142,18 @@ public class ViewAchievementActivity extends AppCompatActivity {
 
     private void includeSpecialAchievement() {
         actualAchievementList = new ArrayList<String>(Arrays.asList(achievementCollections));
-        actualAchievementList.add(0, getString(R.string.special_achievement));
+        switch (theme) {
+            case "Adventurer":
+                actualAchievementList.add(0, getString(R.string.special_achievement));
+
+            case "Enchanted Forest":
+                actualAchievementList.add(0, getString(R.string.enchanted_forest_special_achievement));
+
+            case "Dark Fantasy":
+                //TODO: access the right themes
+                actualAchievementList.add(0, getString(R.string.special_achievement));
+        }
+
         actualScoreList =
                 new ArrayList<Integer>(Arrays.stream(potentialScoreCollections).boxed().collect(Collectors.toList()));
         actualScoreList.add(0, potentialScoreCollections[0]);
@@ -165,6 +175,7 @@ public class ViewAchievementActivity extends AppCompatActivity {
     }
 
     private void setUpTextMonitor() {
+        achievementCollections = getAchievementNames(theme);
         numPlayerText = findViewById(R.id.editTextNumberPlayer);
         numPlayerText.addTextChangedListener(new TextWatcher() {
             @Override
