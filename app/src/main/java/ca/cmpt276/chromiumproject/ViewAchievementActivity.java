@@ -208,6 +208,7 @@ public class ViewAchievementActivity extends AppCompatActivity {
             selectedDifficulty = Difficulty.HARD;
             resetDifficultyButtonColor();
             hardBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
+            updateAchievementListView();
         });
     }
 
