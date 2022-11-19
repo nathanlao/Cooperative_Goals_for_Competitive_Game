@@ -72,6 +72,8 @@
     <string name="enter_player_info">Enter Score of Player #</string>
     <string name="confirm_save_info">Confirm Score</string>
     <string name="single_player_title">Enter Individual Score</string>
+    <string name="achievement_level_congratulations_message">Congratulations! Your team has earned achievement level: %1$s! Woohoo!</string>
+    <string name="earned_achievement">Earned Achievement</string>
 
     <!-- Strings used for Achievement -->
     <string-array name="achievement_names">
@@ -84,4 +86,17 @@
         <item>World Conqueror</item>
         <item>Creator of the Game</item>
     </string-array>
+
+    <!-- Strings used for 2nd Achievement Theme-->
+    <string-array name="enchanted_forest_achievement_names">
+        <item>Young Sprout</item>
+        <item>Sparkling fairy</item>
+        <item>Forest Gnome</item>
+        <item>Formidable Beast</item>
+        <item>Brave Warrior</item>
+        <item>Magical Guardian</item>
+        <item>Mighty Dragon</item>
+        <item>Ruler of the Enchanted Forest</item>
+    </string-array>
+
 </resources>
