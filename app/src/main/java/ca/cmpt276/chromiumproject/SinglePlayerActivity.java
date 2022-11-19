@@ -1,5 +1,6 @@
 package ca.cmpt276.chromiumproject;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -29,6 +30,8 @@ public class SinglePlayerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_player);
+
+        setUpBackButton();
 
         extractDataFromIntent();
         setUpUserInterface();
@@ -74,5 +77,10 @@ public class SinglePlayerActivity extends AppCompatActivity {
     }
     public static int getPositionOfPlayer (Intent intent) {
         return intent.getIntExtra(POSITION_OF_THE_PLAYER, 0);
+    }
+
+    private void setUpBackButton() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 }

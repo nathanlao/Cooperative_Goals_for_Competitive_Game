@@ -71,6 +71,7 @@
     <!-- Strings used for SinglePlayerAcitivity -->
     <string name="enter_player_info">Enter Score of Player #</string>
     <string name="confirm_save_info">Confirm Score</string>
+    <string name="single_player_title">Enter Individual Score</string>
 
     <!-- Strings used for Achievement -->
     <string-array name="achievement_names">
