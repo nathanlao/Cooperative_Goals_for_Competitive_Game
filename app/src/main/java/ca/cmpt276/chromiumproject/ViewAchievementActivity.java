@@ -71,8 +71,8 @@ public class ViewAchievementActivity extends AppCompatActivity {
         setUpDifficultyButtons();
         setUpBackButton();
 
+        registerDifficultyButtonsOnClick();
         extractDataFromIntent();
-        setUpInitialButtonBehaviour();
         setUpNumPlayersTextWatcher();
     }
 
@@ -92,13 +92,6 @@ public class ViewAchievementActivity extends AppCompatActivity {
         normalBtn = findViewById(R.id.btnSelectNormal);
         easyBtn = findViewById(R.id.btnSelectEasy);
         hardBtn = findViewById(R.id.btnSelectHard);
-    }
-
-    private void setUpInitialButtonBehaviour() {
-        // Initially click on button display toast message to notify user to enter playerCount
-        normalBtn.setOnClickListener(v -> Toast.makeText(ViewAchievementActivity.this, R.string.toast_enter_number_of_players, Toast.LENGTH_SHORT).show());
-        easyBtn.setOnClickListener(v -> Toast.makeText(ViewAchievementActivity.this, R.string.toast_enter_number_of_players, Toast.LENGTH_SHORT).show());
-        hardBtn.setOnClickListener(v -> Toast.makeText(ViewAchievementActivity.this, R.string.toast_enter_number_of_players, Toast.LENGTH_SHORT).show());
     }
 
     private void setUpBackButton() {
@@ -149,34 +142,39 @@ public class ViewAchievementActivity extends AppCompatActivity {
 
     private void updateAchievementListView() {
         ListView achieveList = findViewById(R.id.listViewAchieveCollection);
-        String textBoxString = numPlayerText.getText().toString();
-        int textBoxIntNumPlayer = 0;
 
-        //checkEmpty
-        if (TextUtils.isEmpty(textBoxString)) {
-            achieveList.setAdapter(null);
+        // only show ListView if numPlayers is not empty and difficulty has been selected
+        if (!checkDifficultyNotSelected() && !checkNumPlayersEmpty()) {
+            int numPlayersInput = Integer.parseInt(numPlayerText.getText().toString());
 
-            // Reset button color and clear the list to avoid mistaken display
-            resetDifficultyButtonColor();
-            actualAchievementList.clear();
-        }
-        if (!TextUtils.isEmpty(textBoxString)) {
-            textBoxIntNumPlayer = Integer.parseInt(textBoxString);
-            //case of 0
-            if (textBoxIntNumPlayer == 0) {
+            if (checkInvalidNumPlayers(numPlayersInput)) {
                 achieveList.setAdapter(null);
-                Toast.makeText(this, R.string.zero_player_msg, Toast.LENGTH_SHORT).show();
-            }
-            if (textBoxIntNumPlayer > 0) {
-                potentialScoreCollections = Achievement.getStaticPotentialAchievePoint(textBoxIntNumPlayer, gameConfigs);
-
+            } else {
+                potentialScoreCollections = Achievement.getStaticAchievePointsByDifficulty(numPlayersInput, gameConfigs, selectedDifficulty);
                 includeSpecialAchievement();
-
-                // TODO: Comment out populateAchievements(), now have to click difficult buttons
-                // populateAchievements();
-                registerDifficultyButtonsOnClick();
+                populateAchievements();
             }
+
+        } else {
+            achieveList.setAdapter(null);
         }
+    }
+
+    private boolean checkNumPlayersEmpty() {
+        String numPlayersInput = numPlayerText.getText().toString();
+        return TextUtils.isEmpty(numPlayersInput);
+    }
+
+    private boolean checkDifficultyNotSelected() {
+        return selectedDifficulty == null;
+    }
+
+    private boolean checkInvalidNumPlayers(int numPlayers) {
+        if (numPlayers <= 0) {
+            Toast.makeText(this, R.string.zero_player_msg, Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return false;
     }
 
     private void setUpEnterNumPlayersInput() {
@@ -193,72 +191,23 @@ public class ViewAchievementActivity extends AppCompatActivity {
 
     private void registerDifficultyButtonsOnClick() {
         normalBtn.setOnClickListener(v -> {
-            switch (v.getId()) {
-                case R.id.btnSelectNormal:
-                    String textBoxString = numPlayerText.getText().toString();
-
-                    // Set button color
-                    if (TextUtils.isEmpty(textBoxString)) {
-                        Toast.makeText(this, R.string.toast_enter_number_of_players, Toast.LENGTH_SHORT).show();
-                        normalBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
-                    } else {
-                        normalBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
-                        easyBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
-                        hardBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
-
-                        // TODO: Testing purpose, delete later
-                        Toast.makeText(ViewAchievementActivity.this, "Testing: normal", Toast.LENGTH_SHORT).show();
-
-                        // TODO: Adapt normal level calculation into achievement listView by clicking normal button
-                        populateAchievements();
-                    }
-                    break;
-            }
+            selectedDifficulty = Difficulty.NORMAL;
+            resetDifficultyButtonColor();
+            normalBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
+            updateAchievementListView();
         });
 
         easyBtn.setOnClickListener(v -> {
-            switch (v.getId()) {
-                case R.id.btnSelectEasy:
-                    String textBoxString = numPlayerText.getText().toString();
-                    if (TextUtils.isEmpty(textBoxString)) {
-                        Toast.makeText(this, R.string.toast_enter_number_of_players, Toast.LENGTH_SHORT).show();
-                        easyBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
-                    } else {
-                        normalBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
-                        easyBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
-                        hardBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
-
-                        // TODO: Testing purpose, delete later
-                        Toast.makeText(ViewAchievementActivity.this, "Testing: easy", Toast.LENGTH_SHORT).show();
-
-                        // TODO: Adapt easy level calculation into achievement listView by clicking easy button
-                        populateAchievements();
-                    }
-                    break;
-            }
+            selectedDifficulty = Difficulty.EASY;
+            resetDifficultyButtonColor();
+            easyBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
+            updateAchievementListView();
         });
 
         hardBtn.setOnClickListener(v -> {
-            switch (v.getId()) {
-                case R.id.btnSelectHard:
-                    String textBoxString = numPlayerText.getText().toString();
-                    if (TextUtils.isEmpty(textBoxString)) {
-                        Toast.makeText(this, R.string.toast_enter_number_of_players, Toast.LENGTH_SHORT).show();
-                        hardBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
-                    } else {
-                        normalBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
-                        easyBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
-                        hardBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
-
-                        // TODO: Testing purpose, delete later
-                        Toast.makeText(ViewAchievementActivity.this, "Testing: hard", Toast.LENGTH_SHORT).show();
-
-                        // TODO: Adapt hard level calculation into achievement listView by clicking hard button
-                        populateAchievements();
-                    }
-
-                    break;
-            }
+            selectedDifficulty = Difficulty.HARD;
+            resetDifficultyButtonColor();
+            hardBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
         });
     }
 
