@@ -39,12 +39,6 @@ public class AchievementSettingsActivity extends AppCompatActivity {
 
         settingsRadioGroup = (RadioGroup) findViewById(R.id.radioGroup);
         createRadioButtons();
-//        RadioButton adventurerThemeBtn = (RadioButton) findViewById(R.id.theme1RadioButton);
-//        RadioButton enchantedForestThemeBtn = (RadioButton) findViewById(R.id.theme2RadioButton);
-//        //TODO add 3rd radio btn
-//
-//        setUpRadioBtnClick(adventurerThemeBtn);
-//        setUpRadioBtnClick(enchantedForestThemeBtn);
 
     }
 
@@ -61,18 +55,6 @@ public class AchievementSettingsActivity extends AppCompatActivity {
     }
 
 
-
-//    private void setUpRadioBtnClick(RadioButton btn) {
-//        btn.setOnClickListener(new View.OnClickListener(){
-//
-//            @Override
-//            public void onClick(View view) {
-//                //TODO: double check if the toast message works
-//                Toast.makeText(AchievementSettingsActivity.this, "Theme Changed: " + btn.getText(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
-//
     private void saveTheme(String theme) {
         SharedPreferences prefs = this.getSharedPreferences(APP_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();

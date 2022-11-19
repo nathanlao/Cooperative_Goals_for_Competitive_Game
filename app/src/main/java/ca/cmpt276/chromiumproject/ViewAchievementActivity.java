@@ -26,6 +26,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import ca.cmpt276.chromiumproject.model.Achievement;
@@ -143,16 +144,16 @@ public class ViewAchievementActivity extends AppCompatActivity {
     private void includeSpecialAchievement() {
         achievementCollections = getAchievementNames(theme);
         actualAchievementList = new ArrayList<String>(Arrays.asList(achievementCollections));
-        switch (theme) {
-            case "Adventurer":
-                actualAchievementList.add(0, getString(R.string.special_achievement));
+        String[] themeOptions = getResources().getStringArray(R.array.theme_names);
 
-            case "Enchanted Forest":
-                actualAchievementList.add(0, getString(R.string.enchanted_forest_special_achievement));
-
-            case "Dark Fantasy":
-                //TODO: access the right themes
-                int one;
+        if (Objects.equals(theme, themeOptions[0])) {
+            actualAchievementList.add(0, getString(R.string.special_achievement));
+        }
+        else if (Objects.equals(theme, themeOptions[1])) {
+            actualAchievementList.add(0, getString(R.string.enchanted_forest_special_achievement));
+        }
+        else if (Objects.equals(theme, themeOptions[2])) {
+            actualAchievementList.add(0, getString(R.string.special_achievement));
         }
 
         actualScoreList =
@@ -366,5 +367,13 @@ public class ViewAchievementActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         setTheme();
+        setUpButtonField();
+
+        setUpBackButton();
+
+        extractDataFromIntent();
+        setUpInitialButtonBehaviour();
+        setUpTextMonitor();
+
     }
 }
