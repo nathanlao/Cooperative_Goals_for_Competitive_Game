@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +28,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import ca.cmpt276.chromiumproject.model.Achievement;
+import ca.cmpt276.chromiumproject.model.Difficulty;
 import ca.cmpt276.chromiumproject.model.GameConfig;
 import ca.cmpt276.chromiumproject.model.GameManager;
 
@@ -51,6 +51,8 @@ public class ViewAchievementActivity extends AppCompatActivity {
     private int[] potentialScoreCollections = {};
     private List<Integer> actualScoreList;
 
+    private Difficulty selectedDifficulty;
+
     private EditText numPlayerText;
     private Button normalBtn;
     private Button easyBtn;
@@ -61,18 +63,17 @@ public class ViewAchievementActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_achievement);
 
+        // get string array of Achievement titles from strings.xml
         achievementCollections = getResources().getStringArray(R.array.achievement_names);
-        TextView enterTextNum = findViewById(R.id.textViewEnterMsg);
-        enterTextNum.setText(R.string.num_player_text);
 
-        numPlayerText = findViewById(R.id.editTextNumberPlayer);
-        setUpButtonField();
-
+        // set-up views
+        setUpEnterNumPlayersInput();
+        setUpDifficultyButtons();
         setUpBackButton();
 
         extractDataFromIntent();
         setUpInitialButtonBehaviour();
-        setUpTextMonitor();
+        setUpNumPlayersTextWatcher();
     }
 
     @Override
@@ -87,7 +88,7 @@ public class ViewAchievementActivity extends AppCompatActivity {
         }
     }
 
-    private void setUpButtonField() {
+    private void setUpDifficultyButtons() {
         normalBtn = findViewById(R.id.btnSelectNormal);
         easyBtn = findViewById(R.id.btnSelectEasy);
         hardBtn = findViewById(R.id.btnSelectHard);
@@ -128,28 +129,25 @@ public class ViewAchievementActivity extends AppCompatActivity {
         gameConfigs = gameManager.getGameConfigByIndex(gameConfigPosition);
     }
 
-    private void setUpTextMonitor() {
+    private void setUpNumPlayersTextWatcher() {
         numPlayerText = findViewById(R.id.editTextNumberPlayer);
         numPlayerText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                //calibrateNewAchievement();
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                //calibrateNewAchievement();
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                calibrateNewAchievement();
+                updateAchievementListView();
             }
         });
     }
 
-    private void calibrateNewAchievement() {
-
+    private void updateAchievementListView() {
         ListView achieveList = findViewById(R.id.listViewAchieveCollection);
         String textBoxString = numPlayerText.getText().toString();
         int textBoxIntNumPlayer = 0;
@@ -159,7 +157,7 @@ public class ViewAchievementActivity extends AppCompatActivity {
             achieveList.setAdapter(null);
 
             // Reset button color and clear the list to avoid mistaken display
-            resetDifficultyButtonColor(normalBtn, easyBtn, hardBtn);
+            resetDifficultyButtonColor();
             actualAchievementList.clear();
         }
         if (!TextUtils.isEmpty(textBoxString)) {
@@ -176,18 +174,24 @@ public class ViewAchievementActivity extends AppCompatActivity {
 
                 // TODO: Comment out populateAchievements(), now have to click difficult buttons
                 // populateAchievements();
-                setUpDifficultyButton(normalBtn, easyBtn, hardBtn);
+                registerDifficultyButtonsOnClick();
             }
         }
     }
 
-    private void resetDifficultyButtonColor(Button normalBtn, Button easyBtn, Button hardBtn) {
+    private void setUpEnterNumPlayersInput() {
+        TextView enterTextNum = findViewById(R.id.textViewEnterMsg);
+        enterTextNum.setText(R.string.num_player_text);
+        numPlayerText = findViewById(R.id.editTextNumberPlayer);
+    }
+
+    private void resetDifficultyButtonColor() {
         normalBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
         easyBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
         hardBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
     }
 
-    private void setUpDifficultyButton(Button normalBtn, Button easyBtn, Button hardBtn) {
+    private void registerDifficultyButtonsOnClick() {
         normalBtn.setOnClickListener(v -> {
             switch (v.getId()) {
                 case R.id.btnSelectNormal:
