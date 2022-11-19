@@ -85,10 +85,20 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
         extractPositionFromIntent();
         
-        setUpTextMonitor();
+        //setUpTextMonitor();
+        //replacing TextMonitor
+        setUpButtonForTextMonitoring();
 
         playerListClickSetUp();
 
+    }
+
+    private void setUpButtonForTextMonitoring() {
+        Button numPlayerSetButton = findViewById(R.id.buttonNumPlayerSet);
+        numPlayerSetButton.setText("Set");
+        numPlayerSetButton.setOnClickListener(view -> {
+            renewPlayerList();
+        });
     }
 
     //Monitor input change on NumPlayer Edit text

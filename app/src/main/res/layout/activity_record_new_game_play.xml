@@ -157,4 +157,12 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.89" />
 
+    <Button
+        android:id="@+id/buttonNumPlayerSet"
+        android:layout_width="69dp"
+        android:layout_height="42dp"
+        android:text="Set"
+        app:layout_constraintBottom_toBottomOf="@+id/numPlayersInput"
+        app:layout_constraintEnd_toEndOf="@+id/numPlayersInput" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
