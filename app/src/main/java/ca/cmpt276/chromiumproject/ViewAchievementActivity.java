@@ -141,6 +141,7 @@ public class ViewAchievementActivity extends AppCompatActivity {
     }
 
     private void includeSpecialAchievement() {
+        achievementCollections = getAchievementNames(theme);
         actualAchievementList = new ArrayList<String>(Arrays.asList(achievementCollections));
         switch (theme) {
             case "Adventurer":
@@ -151,7 +152,7 @@ public class ViewAchievementActivity extends AppCompatActivity {
 
             case "Dark Fantasy":
                 //TODO: access the right themes
-                actualAchievementList.add(0, getString(R.string.special_achievement));
+                int one;
         }
 
         actualScoreList =

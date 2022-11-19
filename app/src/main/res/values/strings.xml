@@ -49,7 +49,7 @@
     <!-- Strings used for View Achievement Screen -->
     <string name="achievement_level_title">Achievement Levels</string>
     <string name="special_achievement">Toddler\'s Baby Step</string>
-    <string name="enchanted_forest_special_achievement">Young Sprout</string>
+    <string name="enchanted_forest_special_achievement">Little Seedling</string>
     <string name="display_required_score">Required Score: </string>
     <string name="display_earned_by_score">Earned by Score: </string>
     <string name="display_special_achievement">"Special Achievement: \n%s"</string>
