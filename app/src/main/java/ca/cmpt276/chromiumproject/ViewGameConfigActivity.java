@@ -200,7 +200,7 @@ public class ViewGameConfigActivity extends AppCompatActivity {
                 } else if (Objects.equals(theme, themeOptions[1])) {
                     achievementTitle = getString(R.string.enchanted_forest_special_achievement);
                 } else if (Objects.equals(theme, themeOptions[2])) {
-                    achievementTitle = getString(R.string.special_achievement);
+                    achievementTitle = "hi";//getString(R.string.special_achievement);
                 }
             } else {
                 achievementTitle = achievementNames[currentRecord.getAchievementLevel()];
