@@ -9,14 +9,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,7 +30,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.cmpt276.chromiumproject.model.Achievement;
 import ca.cmpt276.chromiumproject.model.Difficulty;
 import ca.cmpt276.chromiumproject.model.GameConfig;
 import ca.cmpt276.chromiumproject.model.GameManager;
@@ -59,10 +55,10 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
     private int gameConfigPosition;
 
-    private TextView numPlayers;
+    private TextView numPlayersInput;
     private TextView combinedScore;
 
-    private List<Integer> playerListData;
+    private List<Integer> playerScoreList;
 
     public static Intent makeRecordIntent(Context context, int position) {
         Intent intent =  new Intent(context, RecordNewGamePlayActivity.class);
@@ -85,13 +81,13 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
         extractPositionFromIntent();
 
-        setUpButtonForTextMonitoring();
+        setUpNumPlayerSetButton();
 
         playerListClickSetUp();
 
     }
 
-    private void setUpButtonForTextMonitoring() {
+    private void setUpNumPlayerSetButton() {
         Button numPlayerSetButton = findViewById(R.id.buttonNumPlayerSet);
         numPlayerSetButton.setText(getString(R.string.button_set_player_count));
         numPlayerSetButton.setOnClickListener(view -> {
@@ -101,7 +97,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
     private void renewPlayerList() {
         ListView playersViewList = findViewById(R.id.listViewSinglePlayer);
-        String userInputPlayerNumbers = numPlayers.getText().toString();
+        String userInputPlayerNumbers = numPlayersInput.getText().toString();
         int intConvertedUserInput = 0;
         //checkEmpty
         if (TextUtils.isEmpty(userInputPlayerNumbers)) {
@@ -126,24 +122,24 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         List<Integer> tempListData = new ArrayList<>();
 
         //modified to preserve data once Player size changes
-        if (playerListData == null) {
-            playerListData = new ArrayList<>();
+        if (playerScoreList == null) {
+            playerScoreList = new ArrayList<>();
 
             for (int i = 0; i < userIntInput; i++) {
-                playerListData.add(0);
+                playerScoreList.add(0);
             }
         }
-        else if (playerListData != null) {
-            int curSize = playerListData.size();
+        else if (playerScoreList != null) {
+            int curSize = playerScoreList.size();
             if (curSize > userIntInput) {
                 for (int i = 0; i < userIntInput; i++) {
-                    tempListData.add(playerListData.get(i));
+                    tempListData.add(playerScoreList.get(i));
                 }
             }
             if (curSize < userIntInput) {
                 for (int i = 0; i < userIntInput; i++) {
                     if (i < curSize) {
-                        tempListData.add(playerListData.get(i));
+                        tempListData.add(playerScoreList.get(i));
                     }
                     else {
                         tempListData.add(0);
@@ -151,10 +147,10 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                 }
             }
 
-            playerListData = new ArrayList<>();
+            playerScoreList = new ArrayList<>();
             for (int i = 0; i < tempListData.size(); i++) {
                 int tempValue = tempListData.get(i);
-                playerListData.add(tempValue);
+                playerScoreList.add(tempValue);
             }
             //playerListData = tempListData;
         }
@@ -168,7 +164,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     }
     private class PlayerListAdapter extends ArrayAdapter<Integer> {
         public PlayerListAdapter() {
-            super(RecordNewGamePlayActivity.this, R.layout.player_view, playerListData);
+            super(RecordNewGamePlayActivity.this, R.layout.player_view, playerScoreList);
         }
 
         @NonNull
@@ -185,7 +181,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
             TextView curPlayerNameText = itemView.findViewById(R.id.item_player_name);
             curPlayerNameText.setText(curPlayerName);
 
-            int curPlayerScore = playerListData.get(position);
+            int curPlayerScore = playerScoreList.get(position);
             TextView curPlayerScoreText = itemView.findViewById(R.id.item_player_input_score);
 
             String curPlayerScoreMsg = getString(R.string.player_score_info);
@@ -203,9 +199,9 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
                 int clickedPos = position;
-                int theSinglePlayerScore = playerListData.get(position);
+                int theSinglePlayerScore = playerScoreList.get(position);
 
-                Intent intent = SinglePlayerActivity.makeIntent(RecordNewGamePlayActivity.this,
+                Intent intent = SetSinglePlayerScoreActivity.makeIntent(RecordNewGamePlayActivity.this,
                         clickedPos,
                         theSinglePlayerScore);
                 playerActivityResultLauncher.launch(intent);
@@ -221,9 +217,9 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                     int resultCode = result.getResultCode();
 
                     if (resultCode == REQUEST_CODE_PLAYER_SCORE_INPUT) {
-                        int newUserInputPlayerScore = SinglePlayerActivity.getPlayerResultMsg(data);
-                        int userPosition = SinglePlayerActivity.getPositionOfPlayer(data);
-                        playerListData.set(userPosition, newUserInputPlayerScore);
+                        int newUserInputPlayerScore = SetSinglePlayerScoreActivity.getPlayerResultMsg(data);
+                        int userPosition = SetSinglePlayerScoreActivity.getPositionOfPlayer(data);
+                        playerScoreList.set(userPosition, newUserInputPlayerScore);
                         Log.i("PlayerListPart", "Activity SUCCESSFUL.");
                     }
                     calibrateCombinedScore();
@@ -232,8 +228,8 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     );
     private void calibrateCombinedScore() {
         int tempCombScore = 0;
-        for (int i = 0; i < playerListData.size(); i++) {
-            tempCombScore += playerListData.get(i);
+        for (int i = 0; i < playerScoreList.size(); i++) {
+            tempCombScore += playerScoreList.get(i);
         }
 
         String theCombText = Integer.toString(tempCombScore);
@@ -281,7 +277,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     }
 
     private void setUpInputFields() {
-        numPlayers = findViewById(R.id.numPlayersInput);
+        numPlayersInput = findViewById(R.id.numPlayersInput);
         combinedScore = findViewById(R.id.combinedScoreInput);
     }
 
@@ -337,7 +333,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         int combinedScoreNum = 0;
         gameConfigs = gameManager.getGameConfigByIndex(gameConfigPosition);
 
-        String  numberOfPlayersStr = numPlayers.getText().toString();
+        String  numberOfPlayersStr = numPlayersInput.getText().toString();
         try {
             numberOfPlayersNum = Integer.parseInt(numberOfPlayersStr);
         } catch (NumberFormatException ex) {
@@ -361,7 +357,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     }
 
     private boolean checkEmptyInput() {
-        String numOfPlayersStr = numPlayers.getText().toString();
+        String numOfPlayersStr = numPlayersInput.getText().toString();
         String combinedScoreStr = combinedScore.getText().toString();
 
         if (numOfPlayersStr.matches("")) {
@@ -375,7 +371,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     }
 
     private boolean checkInvalidInput() {
-        String numOfPlayersStr = numPlayers.getText().toString();
+        String numOfPlayersStr = numPlayersInput.getText().toString();
 
         if (numOfPlayersStr.matches("0")) {
             Toast.makeText(this, R.string.check_invalid_number_of_player, Toast.LENGTH_LONG).show();
@@ -395,5 +391,12 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        renewPlayerList();
+
     }
 }

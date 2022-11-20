@@ -13,7 +13,7 @@ import android.widget.TextView;
 //SinglePlayerActivity records new user input to be saved back to
 //RecordNewGamePlayActivity, inside of its Players List View,
 //altering the value whenever required.
-public class SinglePlayerActivity extends AppCompatActivity {
+public class SetSinglePlayerScoreActivity extends AppCompatActivity {
 
     private static final String SAVED_PLAYER_INPUT =
             "ca.cmpt276.chromiumproject - Saved integer input value by the user";
@@ -37,7 +37,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
     }
 
     public static Intent makeIntent (Context context, int curPos, int playerInput) {
-        Intent intent = new Intent(context, SinglePlayerActivity.class);
+        Intent intent = new Intent(context, SetSinglePlayerScoreActivity.class);
 
         intent.putExtra(POSITION_OF_THE_PLAYER, curPos);
         intent.putExtra(SAVED_PLAYER_INPUT, playerInput);

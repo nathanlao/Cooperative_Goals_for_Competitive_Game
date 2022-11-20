@@ -5,7 +5,7 @@
     android:id="@+id/textViewEnterScore"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SinglePlayerActivity">
+    tools:context=".SetSinglePlayerScoreActivity">
 
     <TextView
         android:id="@+id/textViewEnterScoreMsg"

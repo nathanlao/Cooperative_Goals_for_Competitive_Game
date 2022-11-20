@@ -14,7 +14,7 @@
         android:theme="@style/Theme.Chromiumproject"
         tools:targetApi="31">
         <activity
-            android:name=".SinglePlayerActivity"
+            android:name=".SetSinglePlayerScoreActivity"
             android:exported="false"
             android:label="@string/single_player_title"
             android:parentActivityName=".RecordNewGamePlayActivity">
