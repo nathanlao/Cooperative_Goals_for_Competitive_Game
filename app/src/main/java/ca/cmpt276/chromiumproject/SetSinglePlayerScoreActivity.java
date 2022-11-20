@@ -3,7 +3,6 @@ package ca.cmpt276.chromiumproject;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,7 +22,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_PLAYER_SCORE_INPUT = 101;
 
     private int extractedPlayerScore;
-    private int currentPosition;
+    private int playerPosition;
 
 
     @Override
@@ -49,12 +48,12 @@ public class SinglePlayerActivity extends AppCompatActivity {
     public void extractDataFromIntent() {
         Intent intent = getIntent();
         extractedPlayerScore = intent.getIntExtra(SAVED_PLAYER_INPUT, 0);
-        currentPosition = intent.getIntExtra(POSITION_OF_THE_PLAYER, 0);
+        playerPosition = intent.getIntExtra(POSITION_OF_THE_PLAYER, 0);
     }
     public void setUpUserInterface() {
         TextView enterMsgText = findViewById(R.id.textViewEnterScoreMsg);
         enterMsgText.setText(getString(R.string.enter_player_info) +
-                (currentPosition + 1));
+                (playerPosition + 1));
 
         EditText userInputScoreEdit = findViewById(R.id.editTextSinglePlayer);
         userInputScoreEdit.setText(Integer.toString(extractedPlayerScore));
@@ -63,10 +62,10 @@ public class SinglePlayerActivity extends AppCompatActivity {
         singlePlayerSaveButton.setText(getString(R.string.confirm_save_info));
         singlePlayerSaveButton.setOnClickListener(view -> {
             Intent intent = new Intent();
-            //EditText userInputScoreEdit2 = findViewById(R.id.editTextSinglePlayer);
+
             String savedUserIntInput = userInputScoreEdit.getText().toString();
             intent.putExtra(SAVED_PLAYER_INPUT, Integer.valueOf(savedUserIntInput));
-            intent.putExtra(POSITION_OF_THE_PLAYER, currentPosition);
+            intent.putExtra(POSITION_OF_THE_PLAYER, playerPosition);
             setResult(REQUEST_CODE_PLAYER_SCORE_INPUT, intent);
             finish();
         });
