@@ -192,7 +192,6 @@ public class ViewGameConfigActivity extends AppCompatActivity {
             String achievementTitle = null;
             // check if Special Worst Achievement
             if (achievementLevel == Achievement.SPECIAL_WORST_ACHIEVE) {
-                //achievementTitle = getString(R.string.special_achievement);
                 String[] themeOptions = getResources().getStringArray(R.array.theme_names);
 
                 if (Objects.equals(theme, themeOptions[0])) {

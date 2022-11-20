@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 import ca.cmpt276.chromiumproject.model.Achievement;
 import ca.cmpt276.chromiumproject.model.GameConfig;
 import ca.cmpt276.chromiumproject.model.GameManager;
@@ -40,6 +42,7 @@ public class EarnedAchievementActivity extends AppCompatActivity {
     private static int SPLASH_TIME = 10*1000;
 
     private TextView earnedAchievementTxt;
+    private String[] achievementCollections;
 
     private GameManager gameManager;
     private GameRecord gameRecord;
@@ -105,26 +108,55 @@ public class EarnedAchievementActivity extends AppCompatActivity {
        earnedAchievementTxt  = findViewById(R.id.earnedAchievementTxt);
        earnedAchievementTxt.setText(getResources().getString(R.string.achievement_level_congratulations_message, getAchievementLevel(gameConfigPosition)));
     }
+    
 
     private String getAchievementLevel(int gameConfigPosition) {
-        String[] achievementNames = getResources().getStringArray(R.array.achievement_names);
+        String theme = AchievementSettingsActivity.getTheme(EarnedAchievementActivity.this);
+        String[] achievementNames = getAchievementNames(theme);
 
         gameManager = GameManager.getInstance();
         gameConfig = gameManager.getGameConfigByIndex(gameConfigPosition);
         int gameRecordPosition = gameConfig.getNumGameRecords();
         gameRecord = gameConfig.getGameRecords().get(gameRecordPosition-1);
         int achievementLevel = gameRecord.getAchievementLevel();
-        String achievementTitle;
+        String achievementTitle = null;
         // check if Special Worst Achievement
         //TODO: refactor for different themes
         if (achievementLevel == Achievement.SPECIAL_WORST_ACHIEVE) {
-            achievementTitle = getString(R.string.special_achievement);
+                //achievementTitle = getString(R.string.special_achievement);
+                String[] themeOptions = getResources().getStringArray(R.array.theme_names);
+
+                if (Objects.equals(theme, themeOptions[0])) {
+                    achievementTitle = getString(R.string.special_achievement);
+                } else if (Objects.equals(theme, themeOptions[1])) {
+                    achievementTitle = getString(R.string.enchanted_forest_special_achievement);
+                } else if (Objects.equals(theme, themeOptions[2])) {
+                    achievementTitle = "hi";//getString(R.string.special_achievement);
+                }
         } else {
             achievementTitle = achievementNames[achievementLevel];
         }
-        String achievementTitleString = achievementTitle;
 
-        return achievementTitleString;
+        return achievementTitle;
+    }
+
+    private String[] getAchievementNames(String theme) {
+        String[] themeOptions = getResources().getStringArray(R.array.theme_names);
+        switch (theme) {
+            case "Adventurer":
+                achievementCollections = getResources().getStringArray(R.array.achievement_names);
+                return achievementCollections;
+
+            case "Enchanted Forest":
+                achievementCollections = getResources().getStringArray(R.array.enchanted_forest_achievement_names);
+                return achievementCollections;
+
+            case "Dark Fantasty":
+                //TODO: access the right themes
+                achievementCollections = getResources().getStringArray(R.array.achievement_names);
+                return achievementCollections;
+        }
+        return achievementCollections;
     }
 
     private void runAnimation(ImageView fireworks, int xTranslation, int yTranslation) {
