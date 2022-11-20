@@ -396,7 +396,11 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        renewPlayerList();
+        //renewPlayerList();
+        if (playerScoreList != null) {
+
+            populatePlayersListView();
+        }
 
     }
 }

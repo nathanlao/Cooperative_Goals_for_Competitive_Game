@@ -37,7 +37,8 @@
         <activity
             android:name=".RecordNewGamePlayActivity"
             android:exported="false"
-            android:label="@string/record_new_game_title" />
+            android:label="@string/record_new_game_title"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ViewGameConfigActivity"
             android:exported="false"
