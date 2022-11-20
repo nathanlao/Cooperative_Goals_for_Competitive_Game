@@ -149,6 +149,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                 // save updated gameConfigs list to SharedPrefs
                 MainActivity.saveGameConfigs(this, gameManager);
                 Toast.makeText(this, R.string.toast_save_game_record, Toast.LENGTH_SHORT).show();
+                setUpEarnedAchievement();
                 finish();
 
                 return true;
@@ -226,6 +227,11 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    public void setUpEarnedAchievement(){
+        Intent i = EarnedAchievementActivity.makeEarnedAchievementIntent(RecordNewGamePlayActivity.this, gameConfigPosition);
+        startActivity(i);
     }
 
     private boolean checkNullSelectedDifficulty() {

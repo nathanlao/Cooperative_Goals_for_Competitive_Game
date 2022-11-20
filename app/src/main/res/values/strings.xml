@@ -35,6 +35,7 @@
     <string name="number_players_view">Number of Players:</string>
     <string name="combined_score_view">Combined Score:</string>
     <string name="achievement_level_view">Level:</string>
+    <string name="difficulty_level_view">Difficulty:</string>
     <string name="toast_save_game_record">Game Record Saved!</string>
     <string name="toast_check_empty_num_players">All fields cannot be empty, please enter the number of players</string>
     <string name="toast_check_empty_combine_score">All fields cannot be empty, please enter the combined score</string>
@@ -65,7 +66,8 @@
     <string name="select_button_easy">Easy</string>
     <string name="select_button_hard">Hard</string>
     <string name="toast_enter_number_of_players">All fields can not be empty! Please enter the number of players</string>
-
+    <string name="achievement_level_congratulations_message">Congratulations! Your team has earned achievement level: %1$s! Woohoo!</string>
+    <string name="earned_achievement">Earned Achievement</string>
 
     <!-- Strings used for Achievement -->
     <string-array name="achievement_names">
@@ -78,4 +80,28 @@
         <item>World Conqueror</item>
         <item>Creator of the Game</item>
     </string-array>
+    
+    <!-- Strings used for 2nd Achievement Theme-->
+    <string-array name="enchanted_forest_achievement_names">
+        <item>Young Sprout</item>
+        <item>Sparkling fairy</item>
+        <item>Forest Gnome</item>
+        <item>Formidable Beast</item>
+        <item>Brave Warrior</item>
+        <item>Magical Guardian</item>
+        <item>Mighty Dragon</item>
+        <item>Ruler of the Enchanted Forest</item>
+    </string-array>
+
+    <string-array name="achievement_dark_tribe">
+        <item>Mindless Baby Goblin</item>
+        <item>Clueless Troll Kid</item>
+        <item>Reckless Ogre</item>
+        <item>Elite Orc Leader</item>
+        <item>Corrupted High Elf</item>
+        <item>Vicious Dracula</item>
+        <item>Twisted Dragon Lord</item>
+        <item>Demon Master</item>
+    </string-array>
+
 </resources>

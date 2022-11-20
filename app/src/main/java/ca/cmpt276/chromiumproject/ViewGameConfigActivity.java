@@ -210,7 +210,9 @@ public class ViewGameConfigActivity extends AppCompatActivity {
             }
             achievementMsg += " " + achievementTitle;
 
-            // Fill the view creationTime, number players, combined score and achievement level
+            String difficultyMsg = currentRecord.getDifficulty().name();
+
+            // Fill the view creationTime, number players, combined score, achievement level and difficulty
             TextView creationTimeView = gamePlayedView.findViewById(R.id.txtGameCreationTime);
             creationTimeView.setText(currentRecord.getCreationTimeString());
 
@@ -222,6 +224,9 @@ public class ViewGameConfigActivity extends AppCompatActivity {
 
             TextView achievementView = gamePlayedView.findViewById(R.id.txtAchievementLevel);
             achievementView.setText(achievementMsg);
+
+            TextView difficultyView = gamePlayedView.findViewById(R.id.txtDifficultyLevel);
+            difficultyView.setText(difficultyMsg);
 
            return gamePlayedView;
         }
