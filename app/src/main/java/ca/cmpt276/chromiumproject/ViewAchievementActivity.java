@@ -70,7 +70,6 @@ public class ViewAchievementActivity extends AppCompatActivity {
 
         // get string array of Achievement titles from strings.xml
         achievementCollections = getResources().getStringArray(R.array.achievement_names);
-        //achievementCollections = getResources().getStringArray(R.array.achievement_names);
         setTheme();
         achievementCollections = getAchievementNames(theme);
         TextView enterTextNum = findViewById(R.id.textViewEnterMsg);
@@ -97,9 +96,8 @@ public class ViewAchievementActivity extends AppCompatActivity {
                 achievementCollections = getResources().getStringArray(R.array.enchanted_forest_achievement_names);
                 return achievementCollections;
 
-            case "Dark Fantasy":
-                //TODO: access the right themes
-                achievementCollections = getResources().getStringArray(R.array.achievement_names);
+            case "Dark Tribe":
+                achievementCollections = getResources().getStringArray(R.array.achievement_dark_tribe);
                 return achievementCollections;
         }
         return achievementCollections;
@@ -150,7 +148,7 @@ public class ViewAchievementActivity extends AppCompatActivity {
             actualAchievementList.add(0, getString(R.string.enchanted_forest_special_achievement));
         }
         else if (Objects.equals(theme, themeOptions[2])) {
-            actualAchievementList.add(0, getString(R.string.special_achievement));
+            actualAchievementList.add(0, getString(R.string.dark_tribe_special_achievement));
         }
 
         actualScoreList =

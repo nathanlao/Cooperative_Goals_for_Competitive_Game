@@ -17,6 +17,10 @@ import android.widget.Toast;
 
 import java.util.Objects;
 
+/**Achievement Settings allows users to choose which theme they would like to view their Achievement Levels with.
+ * Selecting a theme changes the achievement levels in the list of past games played for all past games in all game configs,
+ * the achievement names shown in the View Achievement Screen and the Earned Achievement pop up message.
+ */
 public class AchievementSettingsActivity extends AppCompatActivity {
 
     private static final String APP_PREFS = "AppPrefs";
@@ -98,8 +102,6 @@ public class AchievementSettingsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case R.id.action_save_achievement_settings:
-//                int radioID = settingsRadioGroup.getCheckedRadioButtonId();
-//                checkedRadioButton = findViewById(radioID);
 
                 String savedTheme = getTheme(AchievementSettingsActivity.this);
                 saveTheme(savedTheme);

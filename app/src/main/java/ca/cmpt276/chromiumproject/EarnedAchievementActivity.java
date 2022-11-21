@@ -121,17 +121,17 @@ public class EarnedAchievementActivity extends AppCompatActivity {
         int achievementLevel = gameRecord.getAchievementLevel();
         String achievementTitle = null;
         // check if Special Worst Achievement
-        //TODO: refactor for different themes
+
         if (achievementLevel == Achievement.SPECIAL_WORST_ACHIEVE) {
-                //achievementTitle = getString(R.string.special_achievement);
                 String[] themeOptions = getResources().getStringArray(R.array.theme_names);
 
+                //using if statements rather than case due to == operator not working properly with strings
                 if (Objects.equals(theme, themeOptions[0])) {
                     achievementTitle = getString(R.string.special_achievement);
                 } else if (Objects.equals(theme, themeOptions[1])) {
                     achievementTitle = getString(R.string.enchanted_forest_special_achievement);
                 } else if (Objects.equals(theme, themeOptions[2])) {
-                    achievementTitle = "hi";//getString(R.string.special_achievement);
+                    achievementTitle = getString(R.string.dark_tribe_special_achievement);
                 }
         } else {
             achievementTitle = achievementNames[achievementLevel];
@@ -151,9 +151,8 @@ public class EarnedAchievementActivity extends AppCompatActivity {
                 achievementCollections = getResources().getStringArray(R.array.enchanted_forest_achievement_names);
                 return achievementCollections;
 
-            case "Dark Fantasty":
-                //TODO: access the right themes
-                achievementCollections = getResources().getStringArray(R.array.achievement_names);
+            case "Dark Tribe":
+                achievementCollections = getResources().getStringArray(R.array.achievement_dark_tribe);
                 return achievementCollections;
         }
         return achievementCollections;

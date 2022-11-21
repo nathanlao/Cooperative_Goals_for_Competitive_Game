@@ -3,7 +3,7 @@
     <string-array name="theme_names">
         <item>Adventurer</item>
         <item>Enchanted Forest</item>
-        <item>Dark Fantasy</item>
+        <item>Dark Tribe</item>
     </string-array>
 
     <string name="default_theme">Adventurer</string>

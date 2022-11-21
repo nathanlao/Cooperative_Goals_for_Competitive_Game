@@ -199,7 +199,7 @@ public class ViewGameConfigActivity extends AppCompatActivity {
                 } else if (Objects.equals(theme, themeOptions[1])) {
                     achievementTitle = getString(R.string.enchanted_forest_special_achievement);
                 } else if (Objects.equals(theme, themeOptions[2])) {
-                    achievementTitle = "hi";//getString(R.string.special_achievement);
+                    achievementTitle = getString(R.string.dark_tribe_special_achievement);
                 }
             } else {
                 achievementTitle = achievementNames[currentRecord.getAchievementLevel()];
@@ -239,9 +239,8 @@ public class ViewGameConfigActivity extends AppCompatActivity {
                 achievementCollections = getResources().getStringArray(R.array.enchanted_forest_achievement_names);
                 return achievementCollections;
 
-            case "Dark Fantasty":
-                //TODO: access the right themes
-                achievementCollections = getResources().getStringArray(R.array.achievement_names);
+            case "Dark Tribe":
+                achievementCollections = getResources().getStringArray(R.array.achievement_dark_tribe);
                 return achievementCollections;
         }
         return achievementCollections;
