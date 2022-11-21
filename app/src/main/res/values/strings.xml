@@ -86,7 +86,7 @@
         <item>World Conqueror</item>
         <item>Creator of the Game</item>
     </string-array>
-
+    
     <!-- Strings used for 2nd Achievement Theme-->
     <string-array name="enchanted_forest_achievement_names">
         <item>Young Sprout</item>
@@ -97,6 +97,17 @@
         <item>Magical Guardian</item>
         <item>Mighty Dragon</item>
         <item>Forest Majesty</item>
+    </string-array>
+
+    <string-array name="achievement_dark_tribe">
+        <item>Mindless Baby Goblin</item>
+        <item>Clueless Troll Kid</item>
+        <item>Reckless Ogre</item>
+        <item>Elite Orc Leader</item>
+        <item>Corrupted High Elf</item>
+        <item>Vicious Dracula</item>
+        <item>Twisted Dragon Lord</item>
+        <item>Demon Master</item>
     </string-array>
 
 </resources>
