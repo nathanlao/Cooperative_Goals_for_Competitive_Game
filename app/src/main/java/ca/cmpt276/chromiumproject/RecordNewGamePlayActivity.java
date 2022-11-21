@@ -76,7 +76,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
         gameManager = GameManager.getInstance();
 
-        setUpInputFields();
+        setUpTextFields();
         setUpDifficultyButtons();
 
         extractPositionFromIntent();
@@ -276,9 +276,9 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
-    private void setUpInputFields() {
+    private void setUpTextFields() {
         numPlayersInput = findViewById(R.id.numPlayersInput);
-        combinedScore = findViewById(R.id.combinedScoreInput);
+        combinedScore = findViewById(R.id.textViewCombiendScore);
     }
 
     private void extractPositionFromIntent() {

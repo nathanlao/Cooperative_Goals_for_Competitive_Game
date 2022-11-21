@@ -55,25 +55,8 @@
         android:layout_marginStart="24dp"
         android:text="@string/combined_score"
         app:layout_constraintBottom_toTopOf="@+id/guideline9"
-        app:layout_constraintEnd_toStartOf="@+id/combinedScoreInput"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline8" />
-
-    <EditText
-        android:id="@+id/combinedScoreInput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:ems="10"
-        android:inputType="number"
-        android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline9"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline8"
-        tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/btnSelectNormal"
@@ -164,5 +147,20 @@
         android:text="Set"
         app:layout_constraintBottom_toBottomOf="@+id/numPlayersInput"
         app:layout_constraintEnd_toEndOf="@+id/numPlayersInput" />
+
+    <TextView
+        android:id="@+id/textViewCombiendScore"
+        android:layout_width="210dp"
+        android:layout_height="39dp"
+        android:layout_marginEnd="24dp"
+        android:text="0"
+        android:textAlignment="center"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline8"
+        app:layout_constraintVertical_bias="0.514" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
