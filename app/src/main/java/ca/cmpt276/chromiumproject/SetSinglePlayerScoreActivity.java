@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 //SinglePlayerActivity records new user input to be saved back to
 //RecordNewGamePlayActivity, inside of its Players List View,
@@ -61,13 +63,16 @@ public class SetSinglePlayerScoreActivity extends AppCompatActivity {
         Button singlePlayerSaveButton = findViewById(R.id.buttonSingleScoreConfirm);
         singlePlayerSaveButton.setText(getString(R.string.confirm_save_info));
         singlePlayerSaveButton.setOnClickListener(view -> {
-            Intent intent = new Intent();
+            if (!checkPlayerScoreEmpty()) {
 
-            String savedUserIntInput = userInputScoreEdit.getText().toString();
-            intent.putExtra(SAVED_PLAYER_INPUT, Integer.valueOf(savedUserIntInput));
-            intent.putExtra(POSITION_OF_THE_PLAYER, playerPosition);
-            setResult(REQUEST_CODE_PLAYER_SCORE_INPUT, intent);
-            finish();
+                Intent intent = new Intent();
+
+                String savedUserIntInput = userInputScoreEdit.getText().toString();
+                intent.putExtra(SAVED_PLAYER_INPUT, Integer.valueOf(savedUserIntInput));
+                intent.putExtra(POSITION_OF_THE_PLAYER, playerPosition);
+                setResult(REQUEST_CODE_PLAYER_SCORE_INPUT, intent);
+                finish();
+            }
         });
     }
 
@@ -81,5 +86,11 @@ public class SetSinglePlayerScoreActivity extends AppCompatActivity {
     private void setUpBackButton() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    private boolean checkPlayerScoreEmpty() {
+        EditText userInputScoreEdit = findViewById(R.id.editTextSinglePlayer);
+        String playerScoreText = userInputScoreEdit.getText().toString();
+        return TextUtils.isEmpty(playerScoreText);
     }
 }
