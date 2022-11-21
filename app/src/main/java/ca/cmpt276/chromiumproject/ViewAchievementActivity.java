@@ -195,14 +195,14 @@ public class ViewAchievementActivity extends AppCompatActivity {
         normalBtn.setOnClickListener(v -> {
             selectedDifficulty = Difficulty.NORMAL;
             resetDifficultyButtonColor();
-            normalBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
+            normalBtn.setBackgroundColor(Color.BLUE);
             updateAchievementListView();
         });
 
         easyBtn.setOnClickListener(v -> {
             selectedDifficulty = Difficulty.EASY;
             resetDifficultyButtonColor();
-            easyBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
+            easyBtn.setBackgroundColor(Color.GREEN);
             updateAchievementListView();
         });
 
