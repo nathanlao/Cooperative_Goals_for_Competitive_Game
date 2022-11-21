@@ -43,16 +43,6 @@ public class Achievement {
         return achievementLevel;
     }
 
-    // TODO: remove deprecated method after difficulty selection is implemented on UI-side. currently, this can only get achievePoints at Normal difficulty.
-    public static int[] getStaticPotentialAchievePoint(int playerCount, GameConfig gameConfig) {
-        int potentialScore = 0;
-        int poorScore = gameConfig.getPoorScore();
-        int greatScore = gameConfig.getGreatScore();
-        Achievement potentialAchievement = new Achievement(playerCount, potentialScore, gameConfig.getPoorScore(), gameConfig.getGreatScore());
-        potentialAchievement.calculateNormalAchievePoints(playerCount, poorScore, greatScore);
-        return potentialAchievement.getNormalAchievePoints();
-    }
-
     // Calculates potential achievement points given playerCount, gameConfig, and difficulty. Removes the need to explicitly declare a collective score.
     // Useful for showing list of possible scores for a specified difficulty.
     public static int[] getStaticAchievePointsByDifficulty(int playerCount, GameConfig gameConfig, Difficulty difficulty) {
