@@ -147,12 +147,14 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                 }
             }
 
-            playerScoreList = new ArrayList<>();
-            for (int i = 0; i < tempListData.size(); i++) {
-                int tempValue = tempListData.get(i);
-                playerScoreList.add(tempValue);
+            if (curSize != userIntInput) {
+                playerScoreList = new ArrayList<>();
+                for (int i = 0; i < tempListData.size(); i++) {
+                    int tempValue = tempListData.get(i);
+                    playerScoreList.add(tempValue);
+                }
             }
-            //playerListData = tempListData;
+
         }
     }
 
