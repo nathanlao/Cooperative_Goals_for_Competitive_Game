@@ -14,6 +14,15 @@
         android:theme="@style/Theme.Chromiumproject"
         tools:targetApi="31">
         <activity
+            android:name=".SetSinglePlayerScoreActivity"
+            android:exported="false"
+            android:label="@string/single_player_title"
+            android:parentActivityName=".RecordNewGamePlayActivity">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".EarnedAchievementActivity"
             android:exported="false" />
         <activity
@@ -28,7 +37,8 @@
         <activity
             android:name=".RecordNewGamePlayActivity"
             android:exported="false"
-            android:label="@string/record_new_game_title" />
+            android:label="@string/record_new_game_title"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ViewGameConfigActivity"
             android:exported="false"
