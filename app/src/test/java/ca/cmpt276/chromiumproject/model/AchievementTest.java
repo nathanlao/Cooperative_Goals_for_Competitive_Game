@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Disabled;
 
+// TODO: Class level comment
 class AchievementTest {
 
     @org.junit.jupiter.api.Test
@@ -335,10 +336,5 @@ class AchievementTest {
         GameConfig gameConfig = new GameConfig("TestGame", 1, 100);
         assertThrows(NullPointerException.class,
                 () -> Achievement.getStaticAchievePointsByDifficulty(1, gameConfig, null));
-    }
-    @Disabled("Disable test until get clarity from team: Refer to TODO in Achievement model class")
-    @org.junit.jupiter.api.Test
-    void testGetStaticPotentialAchievePoint() {
-        fail();
     }
 }
