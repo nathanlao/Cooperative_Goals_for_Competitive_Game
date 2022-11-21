@@ -94,8 +94,6 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         extractGameConfigPositionFromIntent();
         extractPastGamePositionFromIntent();
 
-        extractPositionFromIntent();
-
         setUpNumPlayerSetButton();
 
         playerListClickSetUp();
@@ -467,7 +465,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                 setDifficultyButtonsGray();
         }
 
-        numPlayers.setText(String.valueOf(currentGamePlay.getNumPlayers()));
+        numPlayersInput.setText(String.valueOf(currentGamePlay.getNumPlayers()));
 
         // TODO: Need to change this when score calculator part is done
         combinedScore.setText(String.valueOf(currentGamePlay.getCombinedScore()));
