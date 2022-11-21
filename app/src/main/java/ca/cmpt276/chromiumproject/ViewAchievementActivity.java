@@ -86,7 +86,6 @@ public class ViewAchievementActivity extends AppCompatActivity {
     }
 
     private String[] getAchievementNames(String theme) {
-        String[] themeOptions = getResources().getStringArray(R.array.theme_names);
         switch (theme) {
             case "Adventurer":
                 achievementCollections = getResources().getStringArray(R.array.achievement_names);
@@ -329,6 +328,7 @@ public class ViewAchievementActivity extends AppCompatActivity {
         registerDifficultyButtonsOnClick();
         extractDataFromIntent();
         setUpNumPlayersTextWatcher();
+        updateAchievementListView();
 
     }
 }
