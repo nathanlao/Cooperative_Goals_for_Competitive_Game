@@ -10,12 +10,12 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/item_req"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="0dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="0dp"
         android:layout_toEndOf="@+id/item_req"
         android:text="Score here"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/item_achievement"
@@ -28,19 +28,19 @@
         android:layout_marginEnd="0dp"
         android:layout_toEndOf="@+id/imageView"
         android:text="Achieve here"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="93dp"
-        android:layout_height="84dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="13dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="8dp"
         android:adjustViewBounds="true"
-        android:maxWidth="140dp"
-        android:maxHeight="140dp"
+        android:maxWidth="80dp"
+        android:maxHeight="80dp"
         app:srcCompat="?android:attr/fingerprintAuthDrawable" />
 
     <TextView
@@ -52,6 +52,6 @@
         android:layout_marginTop="19dp"
         android:layout_toEndOf="@+id/imageView"
         android:text="Required Score:"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
 
 </RelativeLayout>

@@ -54,6 +54,9 @@
     <!-- Strings used for View Achievement Screen -->
     <string name="achievement_level_title">Achievement Levels</string>
     <string name="special_achievement">Toddler\'s Baby Step</string>
+    <string name="enchanted_forest_special_achievement">Little Seedling</string>
+    <string name="dark_tribe_special_achievement">Small Shadow Monster</string>
+
     <string name="display_required_score">Required Score: </string>
     <string name="display_earned_by_score">Earned by Score: </string>
     <string name="display_special_achievement">"Special Achievement: \n%s"</string>
@@ -81,6 +84,12 @@
     <!-- Strings used for EarnedAchievementActivity -->
     <string name="achievement_level_congratulations_message">Congratulations! Your team has earned achievement level: %1$s! Woohoo!</string>
     <string name="earned_achievement">Earned Achievement</string>
+    <string name="achievement_settings_title">achievement settings title</string>
+    <string name="achievement_settings_activity_title">Achievement Settings</string>
+    <string name="adventurer">Adventurer</string>
+    <string name="enchanted_forest">Enchanted Forest</string>
+    <string name="select_theme">Select Theme:</string>
+    <string name="save_achievement_settings">save achievement settings</string>
 
 
     <!-- Strings used for Achievement -->
@@ -104,7 +113,7 @@
         <item>Brave Warrior</item>
         <item>Magical Guardian</item>
         <item>Mighty Dragon</item>
-        <item>Ruler of the Enchanted Forest</item>
+        <item>Forest Majesty</item>
     </string-array>
 
     <string-array name="achievement_dark_tribe">
