@@ -6,6 +6,8 @@ import android.content.Context;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import ca.cmpt276.chromiumproject.AchievementSettingsActivity;
 
@@ -24,6 +26,7 @@ public class GameRecord {
     private String creationTime;
 
     private Difficulty difficulty;
+    private List<Integer> playerScoreList;
 
     private String theme;
 
@@ -37,6 +40,7 @@ public class GameRecord {
         this.numPlayers = numPlayers;
         this.combinedScore = combinedScore;
         this.difficulty = difficulty;
+        playerScoreList = new ArrayList<>();
 
         creationTime = LocalDateTime.now().format(DT_FORMAT);
         Achievement theAchievement = makeScaledAchievement(numPlayers, combinedScore, poorScore, greatScore, difficulty);
@@ -48,7 +52,6 @@ public class GameRecord {
         return difficulty;
     }
 
-    // TODO: please use this to edit GameRecord values!! :]
     public void editGameRecordValues(int numPlayers, int combinedScore, int poorScore, int greatScore, Difficulty difficulty) {
         this.numPlayers = numPlayers;
         this.combinedScore = combinedScore;
@@ -77,5 +80,13 @@ public class GameRecord {
 
     public void setGameRecordTheme(String achievementSettingsTheme){
         theme = achievementSettingsTheme;
+    }
+
+    public List<Integer> getPlayerScoreList() {
+        return playerScoreList;
+    }
+
+    public void addPlayerScore(int score) {
+        playerScoreList.add(score);
     }
 }
