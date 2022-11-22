@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- reference: https://www.codebrainer.com/blog/13-designs-for-buttons-every-android-beginner-should-know -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <corners android:radius="20dp"/>
+            <solid android:color="@color/purple_200"/>
+            <padding android:top="0dp"/>
+            <padding android:bottom="0dp"/>
+        </shape>
+    </item>
+</selector>
