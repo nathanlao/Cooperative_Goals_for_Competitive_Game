@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_bkg"
     tools:context=".ViewGameConfigActivity">
 
     <androidx.constraintlayout.widget.Guideline
@@ -22,6 +23,10 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/edit_game_configuration"
+        app:cornerRadius="8dp"
+        app:icon="@android:drawable/ic_menu_manage"
+        app:iconSize="20dp"
+        app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -36,6 +41,10 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/delete_game_configuration"
+        app:cornerRadius="8dp"
+        app:icon="@android:drawable/ic_delete"
+        app:iconSize="20dp"
+        app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -50,6 +59,10 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/record_a_new_game_play"
+        app:cornerRadius="8dp"
+        app:icon="@android:drawable/ic_menu_edit"
+        app:iconSize="20dp"
+        app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -89,8 +102,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2"
-        app:layout_constraintVertical_bias="0.526" >
-    </ListView>
+        app:layout_constraintVertical_bias="0.526" />
 
     <Button
         android:id="@+id/achievementBtn"
@@ -98,7 +110,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/view_achievements"
+        app:cornerRadius="8dp"
+        app:icon="@android:drawable/btn_star"
+        app:iconSize="20dp"
+        app:iconTint="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/pastGamesTxt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
