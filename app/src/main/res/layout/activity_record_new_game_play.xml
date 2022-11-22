@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:label="@string/record_a_new_game_play_label"
+    android:background="@drawable/gradient_bkg"
     tools:context=".RecordNewGamePlayActivity">
 
     <TextView

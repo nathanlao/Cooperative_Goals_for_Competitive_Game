@@ -75,10 +75,13 @@
     <string name="confirm_save_info">Confirm Score</string>
     <string name="single_player_title">Enter Individual Score</string>
     <string name="score_input_error_msg">Please enter a valid score!</string>
+    <string name="enter_score_of_player">Enter Score of Player</string>
+    <string name="confirm_score">Confirm Score</string>
 
     <!-- Strings used for EarnedAchievementActivity -->
     <string name="achievement_level_congratulations_message">Congratulations! Your team has earned achievement level: %1$s! Woohoo!</string>
     <string name="earned_achievement">Earned Achievement</string>
+
 
     <!-- Strings used for Achievement -->
     <string-array name="achievement_names">
