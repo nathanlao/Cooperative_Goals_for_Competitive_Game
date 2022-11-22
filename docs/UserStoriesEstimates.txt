@@ -1,0 +1,9 @@
+Unit of 1 work = Effort of creating button with click listener
+
+Brief User Story  |  Estimated work amount
+1. Create JUnit test for most error prone Class  |  50 of Work
+2. Implement game difficulty buttons and factor to achievement calculation  |  50 of Work
+3. Accept multiple player score inputs in Record New Game Activity  |  45 of Work
+4. Implement Achievement Settings  |  40 of Work
+5. Implement Friendly UI  |  20 of Work
+6. Enable editing already played games to correct or change  |  15 of Work
