@@ -10,57 +10,58 @@
 
   <TextView
       android:id="@+id/txtAddName"
-      android:layout_width="42dp"
-      android:layout_height="18dp"
-      android:layout_marginStart="8dp"
-      android:layout_marginTop="24dp"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="16dp"
+      android:layout_marginTop="128dp"
       android:text="@string/name"
       android:textColor="#3F51B5"
       android:textStyle="bold"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.111"
+      app:layout_constraintHorizontal_bias="0"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintVertical_bias="0.145" />
+      app:layout_constraintVertical_bias="0" />
 
   <TextView
       android:id="@+id/txtAddPoorScore"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginStart="8dp"
-      android:layout_marginTop="24dp"
+      android:layout_marginStart="16dp"
+      android:layout_marginTop="64dp"
       android:text="@string/poor_score"
       android:textColor="#3F51B5"
       android:textStyle="bold"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.12"
+      app:layout_constraintHorizontal_bias="0.0"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/txtAddName"
-      app:layout_constraintVertical_bias="0.056" />
+      app:layout_constraintVertical_bias="0.0" />
 
   <TextView
       android:id="@+id/txtAddGreatScore"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginStart="8dp"
-      android:layout_marginTop="24dp"
+      android:layout_marginStart="16dp"
+      android:layout_marginTop="64dp"
       android:text="@string/great_score"
       android:textColor="#3F51B5"
       android:textStyle="bold"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.121"
+      app:layout_constraintHorizontal_bias="0.0"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/txtAddPoorScore"
-      app:layout_constraintVertical_bias="0.063" />
+      app:layout_constraintVertical_bias="0.0" />
 
   <EditText
       android:id="@+id/editAddPoorScore"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="16dp"
+      android:layout_marginStart="4dp"
+      android:layout_marginTop="32dp"
       android:ems="10"
       android:inputType="numberSigned"
       android:textAlignment="center"
@@ -68,35 +69,36 @@
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toEndOf="@+id/txtAddPoorScore"
       app:layout_constraintTop_toBottomOf="@+id/editAddName"
-      app:layout_constraintVertical_bias="0.011"
+      app:layout_constraintVertical_bias="0"
       tools:ignore="Autofill,LabelFor" />
-
-  <EditText
-      android:id="@+id/editAddGreatScore"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="16dp"
-      android:ems="10"
-      android:inputType="numberSigned"
-      android:textAlignment="center"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.474"
-      app:layout_constraintStart_toEndOf="@+id/txtAddGreatScore"
-      app:layout_constraintTop_toBottomOf="@+id/editAddPoorScore"
-      app:layout_constraintVertical_bias="0.035" />
 
   <EditText
       android:id="@+id/editAddName"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      android:layout_marginTop="110dp"
       android:ems="10"
       android:inputType="textPersonName"
       android:textAlignment="center"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.63"
-      app:layout_constraintStart_toEndOf="@+id/txtAddName"
+      app:layout_constraintStart_toEndOf="@+id/txtAddPoorScore"
       app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintVertical_bias="0.16" />
+      app:layout_constraintVertical_bias="0.0" />
+
+  <EditText
+      android:id="@+id/editAddGreatScore"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="4dp"
+      android:layout_marginTop="40dp"
+      android:ems="10"
+      android:inputType="numberSigned"
+      android:textAlignment="center"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toEndOf="@+id/txtAddGreatScore"
+      app:layout_constraintTop_toBottomOf="@+id/editAddPoorScore"
+      app:layout_constraintVertical_bias="0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
