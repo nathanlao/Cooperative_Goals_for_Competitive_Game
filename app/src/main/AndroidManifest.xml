@@ -16,8 +16,7 @@
         <activity
             android:name=".SetSinglePlayerScoreActivity"
             android:exported="false"
-            android:label="@string/single_player_title"
-            android:parentActivityName=".RecordNewGamePlayActivity">
+            android:label="@string/single_player_title">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
