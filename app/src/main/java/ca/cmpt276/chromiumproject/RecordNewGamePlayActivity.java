@@ -245,9 +245,6 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                         int userPosition = SetSinglePlayerScoreActivity.getPositionOfPlayer(data);
                         playerScoreList.set(userPosition, newUserInputPlayerScore);
 
-                        // Save the player score arraylist by share preference
-                        savePlayScoreList(playerScoreList);
-
                         Log.i("PlayerListPart", "Activity SUCCESSFUL.");
                     }
                     calibrateCombinedScore();
@@ -375,7 +372,13 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
             // Add new game record to the record list in gameConfig
             try {
                 gameRecord = new GameRecord(numberOfPlayersNum, combinedScoreNum, gameConfigs.getPoorScore(), gameConfigs.getGreatScore(), selectedDifficulty);
+
+                // Copy over the player score list into gameRecord's playerScoreList
+                for (int playerScore : playerScoreList) {
+                    gameRecord.addPlayerScore(playerScore);
+                }
                 gameConfigs.addGameRecord(gameRecord);
+
             } catch (IllegalArgumentException ex) {
                 Log.d(TAG_ILLEGAL_ARGUMENT_EXCEPTION, "IllegalArgumentException caught: number of players must be greater than 0");
             }
@@ -481,27 +484,8 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         numPlayersInput.setText(String.valueOf(currentGamePlay.getNumPlayers()));
         combinedScore.setText(String.valueOf(currentGamePlay.getCombinedScore()));
 
-        playerScoreList = getPlayScoreList();
+        playerScoreList = currentGamePlay.getPlayerScoreList();
         populatePlayersListView();
-    }
-
-    @SuppressLint("ApplySharedPref")
-    private void savePlayScoreList(List<Integer> playerScoreList) {
-        SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(playerScoreList);
-        editor.putString(SAVED_PLAYER_SCORE_LIST, json);
-        editor.commit();
-    }
-
-    private List<Integer> getPlayScoreList() {
-        // get arrayList of individual player score
-        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = prefs.getString(SAVED_PLAYER_SCORE_LIST, null);
-        Type type = new TypeToken<ArrayList<Integer>>() {}.getType();
-        return gson.fromJson(json, type);
     }
 
     @Override
