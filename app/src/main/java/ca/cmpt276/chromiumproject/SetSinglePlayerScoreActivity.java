@@ -64,7 +64,6 @@ public class SetSinglePlayerScoreActivity extends AppCompatActivity {
         singlePlayerSaveButton.setText(getString(R.string.confirm_save_info));
         singlePlayerSaveButton.setOnClickListener(view -> {
             if (!checkPlayerScoreEmpty()) {
-
                 Intent intent = new Intent();
 
                 String savedUserIntInput = userInputScoreEdit.getText().toString();
@@ -72,6 +71,8 @@ public class SetSinglePlayerScoreActivity extends AppCompatActivity {
                 intent.putExtra(POSITION_OF_THE_PLAYER, playerPosition);
                 setResult(REQUEST_CODE_PLAYER_SCORE_INPUT, intent);
                 finish();
+            } else {
+                Toast.makeText(SetSinglePlayerScoreActivity.this, R.string.score_input_error_msg, Toast.LENGTH_LONG).show();
             }
         });
     }
