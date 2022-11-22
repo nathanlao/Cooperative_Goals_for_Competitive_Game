@@ -25,6 +25,9 @@
             android:name=".EarnedAchievementActivity"
             android:exported="false" />
         <activity
+            android:name=".AchievementSettingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ViewAchievementActivity"
             android:exported="false"
             android:label="@string/achievement_level_title"

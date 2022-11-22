@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import ca.cmpt276.chromiumproject.model.Achievement;
 import ca.cmpt276.chromiumproject.model.GameConfig;
@@ -41,6 +42,7 @@ public class ViewGameConfigActivity extends AppCompatActivity {
 
     private List<GameRecord> gameRecords = new ArrayList<>();
     ArrayAdapter<GameRecord> adapter;
+    private String[] achievementCollections;
 
     private TextView noPastGamesText;
 
@@ -190,7 +192,8 @@ public class ViewGameConfigActivity extends AppCompatActivity {
            }
 
            GameRecord currentRecord = gameRecords.get(position);
-           String[] achievementNames = getResources().getStringArray(R.array.achievement_names);
+           String theme = AchievementSettingsActivity.getTheme(ViewGameConfigActivity.this);
+           String[] achievementNames = getAchievementNames(theme);
 
             // String msg with associated retrieved values
             String numOfPlayersMsg = getString(R.string.number_players_view);
@@ -201,10 +204,18 @@ public class ViewGameConfigActivity extends AppCompatActivity {
 
             String achievementMsg = getString(R.string.achievement_level_view);
             int achievementLevel = currentRecord.getAchievementLevel();
-            String achievementTitle;
+            String achievementTitle = null;
             // check if Special Worst Achievement
             if (achievementLevel == Achievement.SPECIAL_WORST_ACHIEVE) {
-                achievementTitle = getString(R.string.special_achievement);
+                String[] themeOptions = getResources().getStringArray(R.array.theme_names);
+
+                if (Objects.equals(theme, themeOptions[0])) {
+                    achievementTitle = getString(R.string.special_achievement);
+                } else if (Objects.equals(theme, themeOptions[1])) {
+                    achievementTitle = getString(R.string.enchanted_forest_special_achievement);
+                } else if (Objects.equals(theme, themeOptions[2])) {
+                    achievementTitle = getString(R.string.dark_tribe_special_achievement);
+                }
             } else {
                 achievementTitle = achievementNames[currentRecord.getAchievementLevel()];
             }
@@ -230,5 +241,22 @@ public class ViewGameConfigActivity extends AppCompatActivity {
 
            return gamePlayedView;
         }
+    }
+
+    private String[] getAchievementNames(String theme) {
+        switch (theme) {
+            case "Adventurer":
+                achievementCollections = getResources().getStringArray(R.array.achievement_names);
+                return achievementCollections;
+
+            case "Enchanted Forest":
+                achievementCollections = getResources().getStringArray(R.array.enchanted_forest_achievement_names);
+                return achievementCollections;
+
+            case "Dark Tribe":
+                achievementCollections = getResources().getStringArray(R.array.achievement_dark_tribe);
+                return achievementCollections;
+        }
+        return achievementCollections;
     }
 }
