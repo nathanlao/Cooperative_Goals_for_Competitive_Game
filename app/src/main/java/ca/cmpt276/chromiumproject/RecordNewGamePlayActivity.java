@@ -496,7 +496,13 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         numPlayersInput.setText(String.valueOf(currentGamePlay.getNumPlayers()));
         combinedScore.setText(String.valueOf(currentGamePlay.getCombinedScore()));
 
+        // Get player score list from current gameRecord
         playerScoreList = currentGamePlay.getPlayerScoreList();
+
+        // Update on playerScoreList based on input player count
+        String userInputPlayerNumbers = numPlayersInput.getText().toString();
+        int intConvertedUserInput = Integer.parseInt(userInputPlayerNumbers);
+        updatePlayerListData(intConvertedUserInput);
         populatePlayersListView();
     }
 
