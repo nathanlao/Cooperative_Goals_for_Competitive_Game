@@ -11,8 +11,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -29,7 +31,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import ca.cmpt276.chromiumproject.model.Difficulty;
@@ -49,6 +56,9 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     public static final String TAG_NUMBER_FORMAT_EXCEPTION = "Catch NumberFormatException";
     public static final String TAG_ILLEGAL_ARGUMENT_EXCEPTION = "Catch IllegalArgumentException";
     private static final int REQUEST_CODE_PLAYER_SCORE_INPUT = 101;
+
+    public static final String PREFS_NAME = "AppPrefs";
+    private static final String SAVED_PLAYER_SCORE_LIST = "Saved PlayerScoreList";
 
     private GameManager gameManager;
     private GameRecord gameRecord;
@@ -177,6 +187,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         ListView playersViewList = findViewById(R.id.listViewSinglePlayer);
         playersViewList.setAdapter(adapterPlayersList);
     }
+
     private class PlayerListAdapter extends ArrayAdapter<Integer> {
         public PlayerListAdapter() {
             super(RecordNewGamePlayActivity.this, R.layout.player_view, playerScoreList);
@@ -209,20 +220,18 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     }
     private void playerListClickSetUp() {
         ListView playersViewList = findViewById(R.id.listViewSinglePlayer);
-        playersViewList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        playersViewList.setOnItemClickListener((parent, viewClicked, position, id) -> {
+            int clickedPos = position;
+            int theSinglePlayerScore = playerScoreList.get(position);
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
-                int clickedPos = position;
-                int theSinglePlayerScore = playerScoreList.get(position);
+            Intent intent = SetSinglePlayerScoreActivity.makeIntent(RecordNewGamePlayActivity.this,
+                    clickedPos,
+                    theSinglePlayerScore);
+            playerActivityResultLauncher.launch(intent);
 
-                Intent intent = SetSinglePlayerScoreActivity.makeIntent(RecordNewGamePlayActivity.this,
-                        clickedPos,
-                        theSinglePlayerScore);
-                playerActivityResultLauncher.launch(intent);
-            }
         });
     }
+
     ActivityResultLauncher<Intent> playerActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -235,12 +244,17 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                         int newUserInputPlayerScore = SetSinglePlayerScoreActivity.getPlayerResultMsg(data);
                         int userPosition = SetSinglePlayerScoreActivity.getPositionOfPlayer(data);
                         playerScoreList.set(userPosition, newUserInputPlayerScore);
+
+                        // Save the player score arraylist by share preference
+                        savePlayScoreList(playerScoreList);
+
                         Log.i("PlayerListPart", "Activity SUCCESSFUL.");
                     }
                     calibrateCombinedScore();
                 }
             }
     );
+
     private void calibrateCombinedScore() {
         int tempCombScore = 0;
         for (int i = 0; i < playerScoreList.size(); i++) {
@@ -370,7 +384,6 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                 // Get current game record and edit it
                 gameRecord = gameConfigs.getGameRecordByIndex(GamePlayPosition);
 
-                // TODO: Need to change gameRecord fields (combinedScoreNum) when score calculator part is done
                 gameRecord.editGameRecordValues(numberOfPlayersNum, combinedScoreNum, gameConfigs.getPoorScore(), gameConfigs.getGreatScore(), selectedDifficulty);
                 gameConfigs.setGameRecordByIndex(GamePlayPosition, gameRecord);
             } catch (IllegalArgumentException ex) {
@@ -466,9 +479,29 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         }
 
         numPlayersInput.setText(String.valueOf(currentGamePlay.getNumPlayers()));
-
-        // TODO: Need to change this when score calculator part is done
         combinedScore.setText(String.valueOf(currentGamePlay.getCombinedScore()));
+
+        playerScoreList = getPlayScoreList();
+        populatePlayersListView();
+    }
+
+    @SuppressLint("ApplySharedPref")
+    private void savePlayScoreList(List<Integer> playerScoreList) {
+        SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(playerScoreList);
+        editor.putString(SAVED_PLAYER_SCORE_LIST, json);
+        editor.commit();
+    }
+
+    private List<Integer> getPlayScoreList() {
+        // get arrayList of individual player score
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = prefs.getString(SAVED_PLAYER_SCORE_LIST, null);
+        Type type = new TypeToken<ArrayList<Integer>>() {}.getType();
+        return gson.fromJson(json, type);
     }
 
     @Override
