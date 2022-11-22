@@ -229,7 +229,6 @@ public class ViewGameConfigActivity extends AppCompatActivity {
     }
 
     private String[] getAchievementNames(String theme) {
-
         switch (theme) {
             case "Adventurer":
                 achievementCollections = getResources().getStringArray(R.array.achievement_names);
