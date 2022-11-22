@@ -327,6 +327,11 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                     return false;
                 }
 
+                // Validate set button (PlayerScoreList must be not null)
+                if (checkNullPlayerScoreList()) {
+                    return false;
+                }
+
                 // Take user input
                 setupGameRecordInput();
 
@@ -413,6 +418,14 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
         if (numOfPlayersStr.matches("0")) {
             Toast.makeText(this, R.string.check_invalid_number_of_player, Toast.LENGTH_LONG).show();
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkNullPlayerScoreList() {
+        if (playerScoreList == null) {
+            Toast.makeText(this, R.string.toast_set_single_player_score, Toast.LENGTH_LONG).show();
             return true;
         }
         return false;
