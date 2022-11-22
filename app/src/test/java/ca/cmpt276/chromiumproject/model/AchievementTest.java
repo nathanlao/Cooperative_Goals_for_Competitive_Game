@@ -3,8 +3,12 @@ package ca.cmpt276.chromiumproject.model;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Disabled;
-
-// TODO: Class level comment
+/*
+* Achievement Test contains unit test for achievement object creation,
+* boundary analysis test for each achievement level, tested on single and multiple
+* players, and also test on static factory method that scale the the achievement
+* points by difficulty.
+ */
 class AchievementTest {
 
     @org.junit.jupiter.api.Test
