@@ -89,7 +89,6 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
     private void setUpNumPlayerSetButton() {
         Button numPlayerSetButton = findViewById(R.id.buttonNumPlayerSet);
-        numPlayerSetButton.setText(getString(R.string.button_set_player_count));
         numPlayerSetButton.setOnClickListener(view -> {
             renewPlayerList();
         });
