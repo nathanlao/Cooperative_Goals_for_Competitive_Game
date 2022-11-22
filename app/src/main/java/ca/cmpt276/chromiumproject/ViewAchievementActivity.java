@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -92,6 +93,7 @@ public class ViewAchievementActivity extends AppCompatActivity {
         normalBtn = findViewById(R.id.btnSelectNormal);
         easyBtn = findViewById(R.id.btnSelectEasy);
         hardBtn = findViewById(R.id.btnSelectHard);
+        resetDifficultyButtonColor();
     }
 
     private void setUpBackButton() {
@@ -184,23 +186,23 @@ public class ViewAchievementActivity extends AppCompatActivity {
     }
 
     private void resetDifficultyButtonColor() {
-        normalBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
-        easyBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
-        hardBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
+        normalBtn.setBackgroundColor(Color.GRAY);
+        easyBtn.setBackgroundColor(Color.GRAY);
+        hardBtn.setBackgroundColor(Color.GRAY);
     }
 
     private void registerDifficultyButtonsOnClick() {
         normalBtn.setOnClickListener(v -> {
             selectedDifficulty = Difficulty.NORMAL;
             resetDifficultyButtonColor();
-            normalBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
+            normalBtn.setBackgroundColor(Color.BLUE);
             updateAchievementListView();
         });
 
         easyBtn.setOnClickListener(v -> {
             selectedDifficulty = Difficulty.EASY;
             resetDifficultyButtonColor();
-            easyBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
+            easyBtn.setBackgroundColor(Color.GREEN);
             updateAchievementListView();
         });
 
