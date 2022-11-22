@@ -42,6 +42,7 @@
 
     <!-- Strings used for Record Game Screen -->
     <string name="record_new_game_title">Record New Game Play</string>
+    <string name="edit_game_play_title">Edit Game Play in</string>
     <string name="number_of_players">Number of Players:</string>
     <string name="combined_score">Combined Score:</string>
     <string name="check_invalid_number_of_player">Number of players must be greater than 0</string>
@@ -84,6 +85,7 @@
     <!-- Strings used for EarnedAchievementActivity -->
     <string name="achievement_level_congratulations_message">Congratulations! Your team has earned achievement level: %1$s! Woohoo!</string>
     <string name="earned_achievement">Earned Achievement</string>
+    <string name="toast_set_single_player_score">Must set individual player score. Please press set button</string>
     <string name="skip">Skip</string>
     <string name="achievement_settings_title">achievement settings title</string>
     <string name="achievement_settings_activity_title">Achievement Settings</string>
