@@ -81,6 +81,7 @@
     <!-- Strings used for EarnedAchievementActivity -->
     <string name="achievement_level_congratulations_message">Congratulations! Your team has earned achievement level: %1$s! Woohoo!</string>
     <string name="earned_achievement">Earned Achievement</string>
+    <string name="skip">Skip</string>
 
 
     <!-- Strings used for Achievement -->
