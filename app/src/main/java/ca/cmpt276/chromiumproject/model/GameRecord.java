@@ -4,6 +4,8 @@ import static ca.cmpt276.chromiumproject.model.Achievement.makeScaledAchievement
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * GameRecord stores contains information about a game session that has been played
@@ -20,6 +22,7 @@ public class GameRecord {
     private String creationTime;
 
     private Difficulty difficulty;
+    private List<Integer> playerScoreList;
 
     private static final DateTimeFormatter DT_FORMAT = DateTimeFormatter.ofPattern("MMM d @ h:mm a");
 
@@ -31,6 +34,7 @@ public class GameRecord {
         this.numPlayers = numPlayers;
         this.combinedScore = combinedScore;
         this.difficulty = difficulty;
+        playerScoreList = new ArrayList<>();
 
         creationTime = LocalDateTime.now().format(DT_FORMAT);
         Achievement theAchievement = makeScaledAchievement(numPlayers, combinedScore, poorScore, greatScore, difficulty);
@@ -66,5 +70,13 @@ public class GameRecord {
 
     public int getAchievementLevel() {
         return achievementLevel;
+    }
+
+    public List<Integer> getPlayerScoreList() {
+        return playerScoreList;
+    }
+
+    public void addPlayerScore(int score) {
+        playerScoreList.add(score);
     }
 }
