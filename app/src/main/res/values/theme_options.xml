@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="theme_names">
+        <item>Adventurer</item>
+        <item>Enchanted Forest</item>
+        <item>Dark Tribe</item>
+    </string-array>
+
+    <string name="default_theme">Adventurer</string>
+
+</resources>
