@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,12 +27,14 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import ca.cmpt276.chromiumproject.model.Achievement;
 import ca.cmpt276.chromiumproject.model.Difficulty;
 import ca.cmpt276.chromiumproject.model.GameConfig;
 import ca.cmpt276.chromiumproject.model.GameManager;
+
 
 /**
  * ViewAchievementActivity gets list of possible achievements you can achieve,
@@ -59,6 +62,8 @@ public class ViewAchievementActivity extends AppCompatActivity {
     private Button easyBtn;
     private Button hardBtn;
 
+    private String theme;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +71,10 @@ public class ViewAchievementActivity extends AppCompatActivity {
 
         // get string array of Achievement titles from strings.xml
         achievementCollections = getResources().getStringArray(R.array.achievement_names);
+        setTheme();
+        achievementCollections = getAchievementNames(theme);
+        TextView enterTextNum = findViewById(R.id.textViewEnterMsg);
+        enterTextNum.setText(R.string.num_player_text);
 
         // set-up views
         setUpEnterNumPlayersInput();
@@ -77,12 +86,39 @@ public class ViewAchievementActivity extends AppCompatActivity {
         setUpNumPlayersTextWatcher();
     }
 
+    private String[] getAchievementNames(String theme) {
+        switch (theme) {
+            case "Adventurer":
+                achievementCollections = getResources().getStringArray(R.array.achievement_names);
+                return achievementCollections;
+
+            case "Enchanted Forest":
+                achievementCollections = getResources().getStringArray(R.array.enchanted_forest_achievement_names);
+                return achievementCollections;
+
+            case "Dark Tribe":
+                achievementCollections = getResources().getStringArray(R.array.achievement_dark_tribe);
+                return achievementCollections;
+        }
+        return achievementCollections;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_view_achievement, menu);
+        return true;
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case android.R.id.home:
                 finish();
                 return true;
+
+            case R.id.action_achievement_settings:
+                Intent i = AchievementSettingsActivity.makeAchievementSettingsIntent(ViewAchievementActivity.this);
+                startActivity(i);
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -102,8 +138,20 @@ public class ViewAchievementActivity extends AppCompatActivity {
     }
 
     private void includeSpecialAchievement() {
+        achievementCollections = getAchievementNames(theme);
         actualAchievementList = new ArrayList<String>(Arrays.asList(achievementCollections));
-        actualAchievementList.add(0, getString(R.string.special_achievement));
+        String[] themeOptions = getResources().getStringArray(R.array.theme_names);
+
+        if (Objects.equals(theme, themeOptions[0])) {
+            actualAchievementList.add(0, getString(R.string.special_achievement));
+        }
+        else if (Objects.equals(theme, themeOptions[1])) {
+            actualAchievementList.add(0, getString(R.string.enchanted_forest_special_achievement));
+        }
+        else if (Objects.equals(theme, themeOptions[2])) {
+            actualAchievementList.add(0, getString(R.string.dark_tribe_special_achievement));
+        }
+
         actualScoreList =
                 new ArrayList<Integer>(Arrays.stream(potentialScoreCollections).boxed().collect(Collectors.toList()));
         actualScoreList.add(0, potentialScoreCollections[0]);
@@ -125,6 +173,7 @@ public class ViewAchievementActivity extends AppCompatActivity {
     }
 
     private void setUpNumPlayersTextWatcher() {
+        achievementCollections = getAchievementNames(theme);
         numPlayerText = findViewById(R.id.editTextNumberPlayer);
         numPlayerText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -265,5 +314,23 @@ public class ViewAchievementActivity extends AppCompatActivity {
 
             return itemView;
         }
+    }
+
+    public void setTheme() {
+        theme = AchievementSettingsActivity.getTheme(ViewAchievementActivity.this);
+    }
+
+    protected void onResume() {
+        super.onResume();
+        setTheme();
+        setUpEnterNumPlayersInput();
+        setUpDifficultyButtons();
+        setUpBackButton();
+
+        registerDifficultyButtonsOnClick();
+        extractDataFromIntent();
+        setUpNumPlayersTextWatcher();
+        updateAchievementListView();
+
     }
 }

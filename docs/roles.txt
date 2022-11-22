@@ -1,3 +1,9 @@
+Scrum roles for iteration 2:
+    - Scrum Master: jwa362 (Jay)
+    - Repository Manager: gla93 (Nathan)
+    - Product Owner: kel7 (Kayla)
+    - Team Member: cza95 (Chel)
+
 Scrum roles for iteration 1:
     - Scrum Master: gla93 (Nathan)
     - Repository Manager: kel7 (Kayla)
