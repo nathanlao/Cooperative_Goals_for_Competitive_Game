@@ -7,11 +7,12 @@
     android:background="@drawable/fireworks"
     tools:context=".EarnedAchievementActivity">
 
+
     <Button
         android:id="@+id/skipBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Skip"
+        android:text="@string/skip"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.95"
@@ -21,8 +22,8 @@
 
     <TextView
         android:id="@+id/earnedAchievementTxt"
-        android:layout_width="309dp"
-        android:layout_height="152dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="#FFFFFF"
         android:textAlignment="center"
         android:textSize="20sp"
@@ -34,26 +35,30 @@
 
     <ImageView
         android:id="@+id/fireworksAnimation"
-        android:layout_width="235dp"
-        android:layout_height="182dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHeight_percent="0.45"
+        app:layout_constraintHorizontal_bias="0.059"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.916"
+        app:layout_constraintVertical_bias="0.865"
+        app:layout_constraintWidth_percent="0.45"
         app:srcCompat="@drawable/transparent_fireworks2" />
 
     <ImageView
         android:id="@+id/fireworksAnimation2"
-        android:layout_width="235dp"
-        android:layout_height="182dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHeight_percent="0.45"
+        app:layout_constraintHorizontal_bias="0.94"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.916"
+        app:layout_constraintVertical_bias="0.865"
+        app:layout_constraintWidth_percent="0.45"
         app:srcCompat="@drawable/transparent_fireworks2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
