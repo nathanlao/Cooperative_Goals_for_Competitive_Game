@@ -329,12 +329,4 @@ class AchievementTest {
         assertArrayEquals(new int[] {12, 166, 320, 473, 627, 781, 935, 1088}, multiPLayersHardList);
 
     }
-
-    @Disabled("Disable test until get clarity from team: scaleAchievePointsToDifficulty() couldn't reach default case")
-    @org.junit.jupiter.api.Test
-    void testThrowsGetStaticAchievePointsByDifficulty() {
-        GameConfig gameConfig = new GameConfig("TestGame", 1, 100);
-        assertThrows(NullPointerException.class,
-                () -> Achievement.getStaticAchievePointsByDifficulty(1, gameConfig, null));
-    }
 }

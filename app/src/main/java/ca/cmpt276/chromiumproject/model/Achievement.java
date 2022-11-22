@@ -101,8 +101,6 @@ public class Achievement {
                 case HARD:
                     scaledAchievePoints[i] = (int) (normalAchievePoints[i] * HARD_SCALE_FACTOR);
                     break;
-                default:
-                    throw new IllegalStateException("Unexpected difficulty when calculating Achievement: " + difficulty);
             }
         }
 
