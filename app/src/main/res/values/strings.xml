@@ -70,10 +70,13 @@
     <string name="select_button_hard">Hard</string>
     <string name="toast_enter_number_of_players">All fields can not be empty! Please enter the number of players</string>
 
-    <!-- Strings used for SinglePlayerAcitivity -->
+    <!-- Strings used for SinglePlayerActivity -->
     <string name="enter_player_info">Enter Score of Player #</string>
     <string name="confirm_save_info">Confirm Score</string>
     <string name="single_player_title">Enter Individual Score</string>
+    <string name="score_input_error_msg">Please enter a valid score!</string>
+
+    <!-- Strings used for EarnedAchievementActivity -->
     <string name="achievement_level_congratulations_message">Congratulations! Your team has earned achievement level: %1$s! Woohoo!</string>
     <string name="earned_achievement">Earned Achievement</string>
 
