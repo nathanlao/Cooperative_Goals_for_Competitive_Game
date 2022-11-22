@@ -48,7 +48,8 @@
     <string name="null_difficulty_selected_error">Please select a difficulty</string>
     <string name="player_score_info">Player Score is:</string>
     <string name="player_id_info">Player #</string>
-    <string name="button_set_player_count">Set</string>
+    <string name="set_button_label">Set</string>
+    <string name="default_combined_score">-</string>
 
     <!-- Strings used for View Achievement Screen -->
     <string name="achievement_level_title">Achievement Levels</string>
