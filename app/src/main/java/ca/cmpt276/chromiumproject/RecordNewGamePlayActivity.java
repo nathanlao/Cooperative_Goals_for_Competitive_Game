@@ -392,8 +392,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
             try {
                 // Get current game record and edit it
                 gameRecord = gameConfigs.getGameRecordByIndex(GamePlayPosition);
-
-                gameRecord.editGameRecordValues(numberOfPlayersNum, combinedScoreNum, gameConfigs.getPoorScore(), gameConfigs.getGreatScore(), selectedDifficulty);
+                gameRecord.editGameRecordValues(numberOfPlayersNum, combinedScoreNum, gameConfigs.getPoorScore(), gameConfigs.getGreatScore(), selectedDifficulty, playerScoreList);
                 gameConfigs.setGameRecordByIndex(GamePlayPosition, gameRecord);
             } catch (IllegalArgumentException ex) {
                 Log.d(TAG_ILLEGAL_ARGUMENT_EXCEPTION, "IllegalArgumentException caught: number of players must be greater than 0");
