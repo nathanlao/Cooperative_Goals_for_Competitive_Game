@@ -10,8 +10,6 @@ import android.os.Handler;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -49,6 +47,9 @@ public class EarnedAchievementActivity extends AppCompatActivity {
     private GameConfig gameConfig;
     MediaPlayer cheeringAudio;
 
+    ImageView fireworks1;
+    ImageView fireworks2;
+
     public static Intent makeEarnedAchievementIntent(Context c, int gameConfigPosition) {
         Intent intent = new Intent(c, EarnedAchievementActivity.class);
         intent.putExtra(GAME_CONFIG_POSITION, gameConfigPosition);
@@ -71,8 +72,8 @@ public class EarnedAchievementActivity extends AppCompatActivity {
         setText(gameConfigPosition);
 
 
-        ImageView fireworks1 = findViewById(R.id.fireworksAnimation);
-        ImageView fireworks2 = findViewById(R.id.fireworksAnimation2);
+        fireworks1 = findViewById(R.id.fireworksAnimation);
+        fireworks2 = findViewById(R.id.fireworksAnimation2);
 
         runAnimation(fireworks1, FIREWORKS1_X_TRANSLATION, FIREWORKS1_Y_TRANSLATION);
         runAnimation(fireworks2, FIREWORKS2_X_TRANSLATION, FIREWORKS2_Y_TRANSLATION);
@@ -81,7 +82,20 @@ public class EarnedAchievementActivity extends AppCompatActivity {
 
         setUpTimeLimit();
         setUpSkipBtn();
+        setUpReplayBtn();
 
+    }
+
+    private void setUpReplayBtn() {
+        Button replayBtn = (Button) findViewById(R.id.replayBtn);
+        replayBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                runAnimation(fireworks1, FIREWORKS1_X_TRANSLATION, FIREWORKS1_Y_TRANSLATION);
+                runAnimation(fireworks2, FIREWORKS2_X_TRANSLATION, FIREWORKS2_Y_TRANSLATION);
+            }
+        });
     }
 
     private void setUpTimeLimit() {
