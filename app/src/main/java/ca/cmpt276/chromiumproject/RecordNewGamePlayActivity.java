@@ -11,19 +11,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -31,12 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import ca.cmpt276.chromiumproject.model.Difficulty;
@@ -56,9 +49,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     public static final String TAG_NUMBER_FORMAT_EXCEPTION = "Catch NumberFormatException";
     public static final String TAG_ILLEGAL_ARGUMENT_EXCEPTION = "Catch IllegalArgumentException";
     private static final int REQUEST_CODE_PLAYER_SCORE_INPUT = 101;
-
-    public static final String PREFS_NAME = "AppPrefs";
-    private static final String SAVED_PLAYER_SCORE_LIST = "Saved PlayerScoreList";
+    private static final int REQUEST_CODE_CAMERA_ACTION = 1;
 
     private GameManager gameManager;
     private GameRecord gameRecord;
@@ -108,7 +99,30 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
         playerListClickSetUp();
 
+        setUpTakePhotoButton();
     }
+
+    private void setUpTakePhotoButton() {
+        Button takePhoto = findViewById(R.id.btnTakePhoto);
+        takePhoto.setOnClickListener(v -> {
+            // Launch image capture action to take photo
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            takePhotoResultLauncher.launch(intent);
+        });
+    }
+
+    ActivityResultLauncher<Intent> takePhotoResultLauncher =
+            registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        Intent data = result.getData();
+                        int resultCode = result.getResultCode();
+
+                        if (resultCode == REQUEST_CODE_CAMERA_ACTION && data != null) {
+                           // TODO: Retrieve data from camera intent
+                        }
+                    }
+            );
 
     private void setUpNumPlayerSetButton() {
         Button numPlayerSetButton = findViewById(R.id.buttonNumPlayerSet);
@@ -303,7 +317,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
     private void setUpTextFields() {
         numPlayersInput = findViewById(R.id.numPlayersInput);
-        combinedScore = findViewById(R.id.textViewCombiendScore);
+        combinedScore = findViewById(R.id.textViewCombinedScore);
     }
 
     @Override
