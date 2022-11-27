@@ -59,6 +59,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
     public static final String PREFS_NAME = "AppPrefs";
     private static final String SAVED_PLAYER_SCORE_LIST = "Saved PlayerScoreList";
+    public static final int DEFAULT_PLAYER_COUNT = 2;
 
     private GameManager gameManager;
     private GameRecord gameRecord;
@@ -108,6 +109,16 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
         playerListClickSetUp();
 
+        initializeNewGameNumPlayer();
+    }
+
+    private void initializeNewGameNumPlayer() {
+        String theDefaultPlayerCount = Integer.toString(DEFAULT_PLAYER_COUNT);
+
+        if (isNewGamePlay) {
+            numPlayersInput.setText(theDefaultPlayerCount);
+            renewPlayerList();
+        }
     }
 
     private void setUpNumPlayerSetButton() {
