@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -24,10 +25,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,11 +103,11 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
         playerListClickSetUp();
 
-        setUpTakePhotoButton();
+        setUpTakePhotoFAB();
     }
 
-    private void setUpTakePhotoButton() {
-        Button takePhoto = findViewById(R.id.btnTakePhoto);
+    private void setUpTakePhotoFAB() {
+        FloatingActionButton takePhoto = findViewById(R.id.fabTakePhoto);
         takePhoto.setOnClickListener(v -> {
             // Launch image capture action to take photo
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -120,8 +124,10 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                             Intent data = result.getData();
                             int resultCode = result.getResultCode();
 
-                            if (resultCode == REQUEST_CODE_CAMERA_ACTION && data != null) {
-                               // TODO: Retrieve data from camera intent
+                            if (resultCode == RESULT_OK && data != null) {
+                                ImageView gamePlayImage = findViewById(R.id.imgGamePlay);
+                                Bitmap image = (Bitmap) data.getExtras().get("data");
+                                gamePlayImage.setImageBitmap(image);
                             }
                         }
                     }
