@@ -62,6 +62,10 @@ public class GameRecord {
         this.achievementLevel = theAchievement.getCurAchievementLevel();
     }
 
+    public void setPlayerScoreList(List<Integer> playerScoreList) {
+        this.playerScoreList = playerScoreList;
+    }
+
     public int getNumPlayers() {
         return numPlayers;
     }
