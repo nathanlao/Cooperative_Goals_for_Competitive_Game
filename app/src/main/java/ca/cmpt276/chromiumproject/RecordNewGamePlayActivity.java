@@ -53,7 +53,6 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     public static final String TAG_NUMBER_FORMAT_EXCEPTION = "Catch NumberFormatException";
     public static final String TAG_ILLEGAL_ARGUMENT_EXCEPTION = "Catch IllegalArgumentException";
     private static final int REQUEST_CODE_PLAYER_SCORE_INPUT = 101;
-    private static final int REQUEST_CODE_CAMERA_ACTION = 1;
 
     private GameManager gameManager;
     private GameRecord gameRecord;
@@ -109,9 +108,14 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     private void setUpTakePhotoFAB() {
         FloatingActionButton takePhoto = findViewById(R.id.fabTakePhoto);
         takePhoto.setOnClickListener(v -> {
-            // Launch image capture action to take photo
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            cameraActivityResultLauncher.launch(intent);
+            String userInputPlayerNumbers = numPlayersInput.getText().toString();
+            if (TextUtils.isEmpty(userInputPlayerNumbers)) {
+                Toast.makeText(this, R.string.toast_set_number_of_players, Toast.LENGTH_SHORT).show();
+            } else {
+                // Launch image capture action to take photo
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraActivityResultLauncher.launch(intent);
+            }
         });
     }
 
