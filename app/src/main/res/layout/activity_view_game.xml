@@ -176,6 +176,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:text="@string/no_past_games_played"
+        android:textColor="#455A64"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
