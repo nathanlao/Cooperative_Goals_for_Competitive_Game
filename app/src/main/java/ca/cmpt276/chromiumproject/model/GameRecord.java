@@ -52,15 +52,18 @@ public class GameRecord {
         return difficulty;
     }
 
-    public void editGameRecordValues(int numPlayers, int combinedScore, int poorScore, int greatScore, Difficulty difficulty, List<Integer> playerScoreList) {
+    public void editGameRecordValues(int numPlayers, int combinedScore, int poorScore, int greatScore, Difficulty difficulty) {
         this.numPlayers = numPlayers;
         this.combinedScore = combinedScore;
         this.difficulty = difficulty;
-        this.playerScoreList = playerScoreList;
 
         // recalculate the achievement level based on the new difficulty
         Achievement theAchievement = makeScaledAchievement(numPlayers, combinedScore, poorScore, greatScore, difficulty);
         this.achievementLevel = theAchievement.getCurAchievementLevel();
+    }
+
+    public void setPlayerScoreList(List<Integer> playerScoreList) {
+        this.playerScoreList = playerScoreList;
     }
 
     public int getNumPlayers() {
