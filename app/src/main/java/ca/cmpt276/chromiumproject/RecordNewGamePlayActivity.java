@@ -107,19 +107,22 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         takePhoto.setOnClickListener(v -> {
             // Launch image capture action to take photo
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            takePhotoResultLauncher.launch(intent);
+            cameraActivityResultLauncher.launch(intent);
         });
     }
 
-    ActivityResultLauncher<Intent> takePhotoResultLauncher =
+    ActivityResultLauncher<Intent> cameraActivityResultLauncher =
             registerForActivityResult(
                     new ActivityResultContracts.StartActivityForResult(),
-                    result -> {
-                        Intent data = result.getData();
-                        int resultCode = result.getResultCode();
+                    new ActivityResultCallback<ActivityResult>() {
+                        @Override
+                        public void onActivityResult(ActivityResult result) {
+                            Intent data = result.getData();
+                            int resultCode = result.getResultCode();
 
-                        if (resultCode == REQUEST_CODE_CAMERA_ACTION && data != null) {
-                           // TODO: Retrieve data from camera intent
+                            if (resultCode == REQUEST_CODE_CAMERA_ACTION && data != null) {
+                               // TODO: Retrieve data from camera intent
+                            }
                         }
                     }
             );
