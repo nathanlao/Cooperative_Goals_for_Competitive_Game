@@ -30,7 +30,7 @@
     <string name="past_games">Past Games</string>
     <string name="record_a_new_game_play_label">Record a New Game Play</string>
     <string name="delete_game_configuration">Delete Game Configuration</string>
-    <string name="view_achievements">View Achievement</string>
+    <string name="view_achievements">View Achievement Levels</string>
     <string name="achievement_statistics">Achievement Statistics</string>
     <string name="delete_msg">Game Config: \"%s\" has been deleted!</string>
     <string name="number_players_view">Number of Players:</string>
