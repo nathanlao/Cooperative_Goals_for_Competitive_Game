@@ -109,7 +109,10 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         FloatingActionButton takePhoto = findViewById(R.id.fabTakePhoto);
         takePhoto.setOnClickListener(v -> {
             String userInputPlayerNumbers = numPlayersInput.getText().toString();
-            if (TextUtils.isEmpty(userInputPlayerNumbers)) {
+            String combinedScoreStr = combinedScore.getText().toString();
+
+            // Validate if user has enter number of players or has enter the score
+            if (TextUtils.isEmpty(userInputPlayerNumbers) || combinedScoreStr.matches(getString(R.string.default_combined_score))) {
                 Toast.makeText(this, R.string.toast_set_number_of_players, Toast.LENGTH_SHORT).show();
             } else {
                 // Launch image capture action to take photo
