@@ -80,8 +80,8 @@ public class EarnedAchievementActivity extends AppCompatActivity {
         cheeringAudio = MediaPlayer.create(EarnedAchievementActivity.this, R.raw.cheering_audio);
         cheeringAudio.start();
 
-        setUpTimeLimit();
-        setUpSkipBtn();
+
+        setUpEndBtn();
         setUpReplayBtn();
 
     }
@@ -98,18 +98,10 @@ public class EarnedAchievementActivity extends AppCompatActivity {
         });
     }
 
-    private void setUpTimeLimit() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                finish();
-            }
-        }, SPLASH_TIME);
-    }
 
-    private void setUpSkipBtn() {
-        Button skipBtn = (Button)findViewById(R.id.skipBtn);
-        skipBtn.setOnClickListener(new View.OnClickListener() {
+    private void setUpEndBtn() {
+        Button endBtn = (Button)findViewById(R.id.skipBtn);
+        endBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 cheeringAudio.stop();
@@ -176,15 +168,16 @@ public class EarnedAchievementActivity extends AppCompatActivity {
         //animation tutorial: https://stackoverflow.com/questions/12983681/translateanimation-on-imageview-android
         //and https://stackoverflow.com/questions/20608073/how-to-rotate-imageview-from-its-centre-position
 
-        int xPosition = fireworks.getLeft();
-        int yPosition = fireworks.getTop();
+
+        int xPosition = 0;
+        int yPosition = 0;
 
         AnimationSet animationSet = new AnimationSet(false);
 
         //translation animation
         Animation translateAnimation = new TranslateAnimation(xPosition, xPosition+ xTranslation, yPosition, yPosition+ yTranslation);
         translateAnimation.setDuration(ANIMATION_DURATION);
-        translateAnimation.setFillAfter(true);
+        translateAnimation.setFillAfter(false);
         translateAnimation.setFillEnabled(true);
         translateAnimation.setAnimationListener(new Animation.AnimationListener() {
 
@@ -207,5 +200,6 @@ public class EarnedAchievementActivity extends AppCompatActivity {
 
 
         fireworks.startAnimation(animationSet);
+
     }
 }
