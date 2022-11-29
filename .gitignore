@@ -13,3 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# additional files to ignore
+/.idea/deploymentTargetDropdown.xml
+/.idea/misc.xml
