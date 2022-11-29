@@ -1,5 +1,6 @@
 package ca.cmpt276.chromiumproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -7,6 +8,8 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -48,6 +51,7 @@ public class EarnedAchievementActivity extends AppCompatActivity {
     private GameRecord gameRecord;
     private GameConfig gameConfig;
     MediaPlayer cheeringAudio;
+    private int gameConfigPosition;
 
     public static Intent makeEarnedAchievementIntent(Context c, int gameConfigPosition) {
         Intent intent = new Intent(c, EarnedAchievementActivity.class);
@@ -67,7 +71,7 @@ public class EarnedAchievementActivity extends AppCompatActivity {
         setContentView(R.layout.activity_earned_achievement);
         setTitle(getString(R.string.earned_achievement));
 
-        int gameConfigPosition = extractDataFromIntent();
+        gameConfigPosition = extractDataFromIntent();
         setText(gameConfigPosition);
 
 
@@ -79,7 +83,6 @@ public class EarnedAchievementActivity extends AppCompatActivity {
         cheeringAudio = MediaPlayer.create(EarnedAchievementActivity.this, R.raw.cheering_audio);
         cheeringAudio.start();
 
-        setUpTimeLimit();
         setUpSkipBtn();
 
     }
@@ -105,7 +108,7 @@ public class EarnedAchievementActivity extends AppCompatActivity {
     }
 
     private void setText(int gameConfigPosition) {
-       earnedAchievementTxt  = findViewById(R.id.earnedAchievementTxt);
+       earnedAchievementTxt = findViewById(R.id.earnedAchievementTxt);
        earnedAchievementTxt.setText(getResources().getString(R.string.achievement_level_congratulations_message, getAchievementLevel(gameConfigPosition)));
     }
     
@@ -193,5 +196,31 @@ public class EarnedAchievementActivity extends AppCompatActivity {
 
 
         fireworks.startAnimation(animationSet);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_earned_achievement, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()) {
+
+            case R.id.action_achievement_settings:
+                Intent i = AchievementSettingsActivity.makeAchievementSettingsIntent(EarnedAchievementActivity.this);
+                startActivity(i);
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    protected void onResume() {
+        super.onResume();
+        setText(gameConfigPosition);
+
+
     }
 }
