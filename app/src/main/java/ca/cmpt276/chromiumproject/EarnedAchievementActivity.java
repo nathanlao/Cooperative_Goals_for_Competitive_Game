@@ -94,13 +94,10 @@ public class EarnedAchievementActivity extends AppCompatActivity {
     }
 
     private void setUpSkipBtn() {
-        Button skipBtn = (Button)findViewById(R.id.skipBtn);
-        skipBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cheeringAudio.stop();
-                finish();
-            }
+        Button skipBtn = findViewById(R.id.skipBtn);
+        skipBtn.setOnClickListener(view -> {
+            cheeringAudio.stop();
+            finish();
         });
     }
 
@@ -141,7 +138,6 @@ public class EarnedAchievementActivity extends AppCompatActivity {
     }
 
     private String[] getAchievementNames(String theme) {
-        String[] themeOptions = getResources().getStringArray(R.array.theme_names);
         switch (theme) {
             case "Adventurer":
                 achievementCollections = getResources().getStringArray(R.array.achievement_names);
