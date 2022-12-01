@@ -77,7 +77,6 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     private List<Integer> shadowPlayerScoreList;
 
     private boolean isNewGamePlay;
-    private boolean isInitialEditUsed = false;
 
     public static Intent makeRecordIntent(Context context, int position) {
         Intent intent =  new Intent(context, RecordNewGamePlayActivity.class);
@@ -125,8 +124,6 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     private void initializeAllPlayerList() {
         int theDefaultInteger = Integer.parseInt(numPlayersInput.getText().toString());
 
-
-
         if (isNewGamePlay) {
             playerScoreList = new ArrayList<>();
             shadowPlayerScoreList = new ArrayList<>();
@@ -136,21 +133,14 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                 shadowPlayerScoreList.add(0);
             }
         }
-        else {
-
-            shadowPlayerScoreList = new ArrayList<>();
-            for (int i = 0; i < theDefaultInteger; i++) {
-                shadowPlayerScoreList.add(playerScoreList.get(i));
-            }
-        }
 
         renewPlayerList();
-
-        System.out.println(shadowPlayerScoreList);
     }
     private void initializeShadowPlayer() {
         int theDefaultInteger = Integer.parseInt(numPlayersInput.getText().toString());
+
         shadowPlayerScoreList = new ArrayList<>();
+
         if (!isNewGamePlay) {
             for (int i = 0; i < theDefaultInteger; i++) {
                 shadowPlayerScoreList.add(playerScoreList.get(i));
@@ -191,10 +181,6 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     private void updatePlayerListData(int userIntInput) {
         List<Integer> tempListData = new ArrayList<>();
 
-
-        if (shadowPlayerScoreList == null) {
-            shadowPlayerScoreList = new ArrayList<>();
-        }
         //Check shadow list first
         //If it's actually big as user input, add if not
         int shadowSize = shadowPlayerScoreList.size();
@@ -218,14 +204,11 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                     tempListData.add(playerScoreList.get(i));
                 }
                 else {
-                    //tempListData.add(0);
-
                     tempListData.add(shadowPlayerScoreList.get(i));
-
                 }
             }
         }
-        System.out.println("#1 " + shadowPlayerScoreList);
+
         if (curSize != userIntInput) {
             playerScoreList = new ArrayList<>();
             for (int i = 0; i < tempListData.size(); i++) {
@@ -240,8 +223,6 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                 int tempValue = playerScoreList.get(i);
                 shadowPlayerScoreList.set(i, tempValue);
             }
-
-            System.out.println("#2 " + shadowPlayerScoreList);
         }
 
     }
