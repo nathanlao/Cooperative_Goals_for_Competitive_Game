@@ -19,6 +19,7 @@ public class Achievement {
     private int partitionNum = 0;
 
     public static final int SPECIAL_WORST_ACHIEVE = -1;
+    public static final int SPECIAL_OVER_ACHIEVE = -2;
 
     // default constructor makes an Achievement at NORMAL difficulty -> scores required to earn an achievement level is 100% of the usual amount
     public Achievement(int playerCount, int theScore, int poorScore, int greatScore) {
@@ -147,7 +148,7 @@ public class Achievement {
         if (achievementLevel < normalAchievePoints.length - 1) {
             return achievementLevel + 1;
         } else {
-            return achievementLevel;
+            return SPECIAL_OVER_ACHIEVE;
         }
     }
 }
