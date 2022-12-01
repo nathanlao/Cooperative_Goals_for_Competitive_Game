@@ -56,6 +56,17 @@ public class GameManager implements Iterable<GameConfig>{
     }
 
     public void deleteGameConfig(GameConfig targetConfig) {
+        // free up any Bitmap photos from memory
+        if (targetConfig.hasValidPhoto()) {
+            targetConfig.deletePhoto();
+        }
+
+        for (GameRecord record : targetConfig.getGameRecords()) {
+            if (record.hasValidPhoto()) {
+                record.deletePhoto();
+            }
+        }
+
         gameConfigs.remove(targetConfig);
     }
 }
