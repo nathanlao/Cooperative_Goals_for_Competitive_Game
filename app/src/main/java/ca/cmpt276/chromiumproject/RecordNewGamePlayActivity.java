@@ -120,7 +120,6 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
         if (isNewGamePlay) {
             numPlayersInput.setText(theDefaultPlayerCount);
-            renewPlayerList();
         }
     }
     private void initializeAllPlayerList() {
@@ -135,6 +134,8 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                 shadowPlayerScoreList.add(0);
             }
         }
+
+        renewPlayerList();
     }
 
     private void setUpNumPlayerSetButton() {
