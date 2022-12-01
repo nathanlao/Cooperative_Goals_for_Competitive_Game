@@ -1,7 +1,5 @@
 package ca.cmpt276.chromiumproject.model;
 
-import android.graphics.Bitmap;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +10,7 @@ import java.util.List;
  *  Use setConfigValues() to set its fields
  */
 
-public class GameConfig {
+public class GameConfig extends PhotoContainer{
     private String name;
     private int poorScore;
     private int greatScore;
