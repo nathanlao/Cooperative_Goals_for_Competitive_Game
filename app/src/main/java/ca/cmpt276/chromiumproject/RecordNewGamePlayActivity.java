@@ -202,36 +202,19 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                 playerScoreList.add(tempValue);
             }
 
-            //After finalizing player score, backup to shadow scores
-                /*if (shadowPlayerScoreList != null) {
-                    for (int i = 0; i < playerScoreList.size(); i++) {
-                        int tempValue = playerScoreList.get(i);
-                        //shadowPlayerScoreList.set(i, tempValue);
-                    }
-                }*/
-
-            if (shadowPlayerScoreList == null) {
-                shadowPlayerScoreList = new ArrayList<>();
-
-                for (int i = 0; i < playerScoreList.size(); i++) {
-                    int tempValue = playerScoreList.get(i);
-                    shadowPlayerScoreList.add(tempValue);
+            //edit shadow list, either add or and copy values
+            //from new set player list
+            int shadowSize = shadowPlayerScoreList.size();
+            int theSizeDifference = userIntInput - shadowSize;
+            if (userIntInput > shadowSize) {
+                for (int i = 0; i < theSizeDifference; i++) {
+                    shadowPlayerScoreList.add(0);
                 }
             }
-            else if (shadowPlayerScoreList != null) {
-                int shadowSize = shadowPlayerScoreList.size();
-                int theSizeDifference = userIntInput - shadowSize;
-                if (userIntInput > shadowSize) {
-                    for (int i = 0; i < theSizeDifference; i++) {
-                        shadowPlayerScoreList.add(0);
-                    }
-                }
 
-                for (int i = 0; i < playerScoreList.size(); i++) {
-                    int tempValue = playerScoreList.get(i);
-                    shadowPlayerScoreList.set(i, tempValue);
-                }
-
+            for (int i = 0; i < playerScoreList.size(); i++) {
+                int tempValue = playerScoreList.get(i);
+                shadowPlayerScoreList.set(i, tempValue);
             }
 
         }
