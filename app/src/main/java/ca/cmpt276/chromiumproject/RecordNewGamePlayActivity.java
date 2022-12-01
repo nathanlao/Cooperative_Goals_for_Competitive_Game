@@ -109,8 +109,13 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     private void setUpDefaultImage() {
         ImageView gamePlayImage = findViewById(R.id.imgGamePlay);
 
-        if (gameRecord.hasValidPhoto()) {
-            gamePlayImage.setImageBitmap(gameRecord.getPhoto());
+        if (!isNewGamePlay) {
+            GameRecord currentGamePlay = gameConfigs.getGameRecordByIndex(gamePlayPosition);
+            if (currentGamePlay.hasValidPhoto()) {
+                gamePlayImage.setImageBitmap(gameRecord.getPhoto());
+            } else {
+                gamePlayImage.setImageResource(R.drawable.no_image_available);
+            }
         } else {
             gamePlayImage.setImageResource(R.drawable.no_image_available);
         }
@@ -508,6 +513,8 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         gameConfigs = gameManager.getGameConfigByIndex(gameConfigPosition);
         GameRecord currentGamePlay = gameConfigs.getGameRecordByIndex(gamePlayPosition);
         Difficulty currentSelectedDifficulty = currentGamePlay.getDifficulty();
+
+        setUpDefaultImage();
 
         switch(currentSelectedDifficulty) {
             case NORMAL:
