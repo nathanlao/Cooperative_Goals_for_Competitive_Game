@@ -102,7 +102,13 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
         playerListClickSetUp();
 
+        setUpDefaultImage();
         setUpTakePhotoFAB();
+    }
+
+    private void setUpDefaultImage() {
+        ImageView gamePlayImage = findViewById(R.id.imgGamePlay);
+        gamePlayImage.setImageResource(R.drawable.no_image_available);
     }
 
     private void setUpTakePhotoFAB() {
