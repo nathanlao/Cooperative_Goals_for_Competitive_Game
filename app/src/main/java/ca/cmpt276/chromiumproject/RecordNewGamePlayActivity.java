@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -152,9 +153,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
     private void setUpNumPlayerSetButton() {
         Button numPlayerSetButton = findViewById(R.id.buttonNumPlayerSet);
-        numPlayerSetButton.setOnClickListener(view -> {
-            renewPlayerList();
-        });
+        numPlayerSetButton.setOnClickListener(view -> renewPlayerList());
     }
 
     private void renewPlayerList() {
@@ -241,7 +240,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
             }
 
             String curPlayerName = getString(R.string.player_id_info)
-                    + Integer.toString(position + 1);
+                    + (position + 1);
 
             TextView curPlayerNameText = itemView.findViewById(R.id.item_player_name);
             curPlayerNameText.setText(curPlayerName);
@@ -260,11 +259,10 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     private void playerListClickSetUp() {
         ListView playersViewList = findViewById(R.id.listViewSinglePlayer);
         playersViewList.setOnItemClickListener((parent, viewClicked, position, id) -> {
-            int clickedPos = position;
             int theSinglePlayerScore = playerScoreList.get(position);
 
             Intent intent = SetSinglePlayerScoreActivity.makeIntent(RecordNewGamePlayActivity.this,
-                    clickedPos,
+                    position,
                     theSinglePlayerScore);
             playerActivityResultLauncher.launch(intent);
 
@@ -338,7 +336,9 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
     private void setUpBackButton() {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     private void setUpTextFields() {
@@ -353,6 +353,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         return true;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
