@@ -112,7 +112,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         playerListClickSetUp();
 
         initializeNewGameNumPlayer();
-        initializeShadowPlayerList();
+        initializeAllPlayerList();
     }
 
     private void initializeNewGameNumPlayer() {
@@ -124,14 +124,14 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         }
     }
 
-    private void initializeShadowPlayerList() {
-        int getDefaultInteger = Integer.parseInt(numPlayersInput.getText().toString());
+    private void initializeAllPlayerList() {
+        int theDefaultInteger = Integer.parseInt(numPlayersInput.getText().toString());
 
         if (isNewGamePlay) {
             playerScoreList = new ArrayList<>();
             shadowPlayerScoreList = new ArrayList<>();
 
-            for (int i = 0; i < getDefaultInteger; i++) {
+            for (int i = 0; i < theDefaultInteger; i++) {
                 playerScoreList.add(0);
                 shadowPlayerScoreList.add(0);
             }
