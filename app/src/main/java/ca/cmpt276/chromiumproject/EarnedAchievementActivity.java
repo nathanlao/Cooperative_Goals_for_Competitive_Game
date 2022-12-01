@@ -1,5 +1,6 @@
 package ca.cmpt276.chromiumproject;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -7,6 +8,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -37,11 +39,11 @@ public class EarnedAchievementActivity extends AppCompatActivity {
     public static final int FIREWORKS2_X_TRANSLATION = -600;
     public static final int FIREWORKS2_Y_TRANSLATION = -600;
     public static final String GAME_CONFIG_POSITION = "game config position";
-    private static final String EXTRA_RECORD_GAME_POSITION = "String" ;
     public static final int DEFAULT_VALUE = 0;
     private static int SPLASH_TIME = 10*1000;
 
     private TextView earnedAchievementTxt;
+    private TextView earnedNextAchievementTxt;
     private String[] achievementCollections;
 
     private GameManager gameManager;
@@ -65,6 +67,9 @@ public class EarnedAchievementActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_earned_achievement);
+
+        gameManager = GameManager.getInstance();
+
         setTitle(getString(R.string.earned_achievement));
 
         int gameConfigPosition = extractDataFromIntent();
@@ -102,40 +107,66 @@ public class EarnedAchievementActivity extends AppCompatActivity {
     }
 
     private void setText(int gameConfigPosition) {
-       earnedAchievementTxt  = findViewById(R.id.earnedAchievementTxt);
-       earnedAchievementTxt.setText(getResources().getString(R.string.achievement_level_congratulations_message, getAchievementLevel(gameConfigPosition)));
+       earnedAchievementTxt = findViewById(R.id.earnedAchievementTxt);
+       earnedAchievementTxt.setText(getResources().getString(R.string.achievement_level_congratulations_message,
+               getAchievementLevel(gameConfigPosition)));
+
+       earnedNextAchievementTxt = findViewById(R.id.earnedNextAchievementTxt);
+       earnedNextAchievementTxt.setText(getResources().getString(R.string.next_achievement_level_message,
+               getNextAchievementLevel(gameConfigPosition)));
     }
-    
+
+    private void getCurrentGameRecord(int gameConfigPosition) {
+        // Retrieve current gameConfig
+        gameConfig = gameManager.getGameConfigByIndex(gameConfigPosition);
+        // GameRecord position would be the last position in list
+        int gameRecordPosition = gameConfig.getNumGameRecords();
+        gameRecord = gameConfig.getGameRecords().get(gameRecordPosition - 1);
+    }
 
     private String getAchievementLevel(int gameConfigPosition) {
         String theme = AchievementSettingsActivity.getTheme(EarnedAchievementActivity.this);
         String[] achievementNames = getAchievementNames(theme);
 
-        gameManager = GameManager.getInstance();
-        gameConfig = gameManager.getGameConfigByIndex(gameConfigPosition);
-        int gameRecordPosition = gameConfig.getNumGameRecords();
-        gameRecord = gameConfig.getGameRecords().get(gameRecordPosition-1);
+        getCurrentGameRecord(gameConfigPosition);
         int achievementLevel = gameRecord.getAchievementLevel();
+
+        return getAchievementTitle(theme, achievementNames, achievementLevel);
+    }
+
+    private String getNextAchievementLevel(int gameConfigPosition) {
+        String theme = AchievementSettingsActivity.getTheme(EarnedAchievementActivity.this);
+        String[] achievementNames = getAchievementNames(theme);
+
+        getCurrentGameRecord(gameConfigPosition);
+        int nextAchievementLevel = gameRecord.getNextAchievementLevel();
+
+        return getAchievementTitle(theme, achievementNames, nextAchievementLevel);
+    }
+
+    @Nullable
+    private String getAchievementTitle(String theme, String[] achievementNames, int nextAchievementLevel) {
         String achievementTitle = null;
+
         // check if Special Worst Achievement
+        if (nextAchievementLevel == Achievement.SPECIAL_WORST_ACHIEVE) {
 
-        if (achievementLevel == Achievement.SPECIAL_WORST_ACHIEVE) {
-                String[] themeOptions = getResources().getStringArray(R.array.theme_names);
+            // set themes to achievementTitle
+            String[] themeOptions = getResources().getStringArray(R.array.theme_names);
 
-                //using if statements rather than case due to == operator not working properly with strings
-                if (Objects.equals(theme, themeOptions[0])) {
-                    achievementTitle = getString(R.string.special_achievement);
-                } else if (Objects.equals(theme, themeOptions[1])) {
-                    achievementTitle = getString(R.string.enchanted_forest_special_achievement);
-                } else if (Objects.equals(theme, themeOptions[2])) {
-                    achievementTitle = getString(R.string.dark_tribe_special_achievement);
-                }
+            if (Objects.equals(theme, themeOptions[0])) {
+                achievementTitle = getString(R.string.special_achievement);
+            } else if (Objects.equals(theme, themeOptions[1])) {
+                achievementTitle = getString(R.string.enchanted_forest_special_achievement);
+            } else if (Objects.equals(theme, themeOptions[2])) {
+                achievementTitle = getString(R.string.dark_tribe_special_achievement);
+            }
         } else {
-            achievementTitle = achievementNames[achievementLevel];
+            achievementTitle = achievementNames[nextAchievementLevel];
         }
-
         return achievementTitle;
     }
+
 
     private String[] getAchievementNames(String theme) {
         switch (theme) {

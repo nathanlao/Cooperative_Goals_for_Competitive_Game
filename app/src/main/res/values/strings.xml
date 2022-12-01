@@ -86,6 +86,7 @@
 
     <!-- Strings used for EarnedAchievementActivity -->
     <string name="achievement_level_congratulations_message">Congratulations! Your team has earned achievement level: %1$s! Woohoo!</string>
+    <string name="next_achievement_level_message">Keep going for the next level: %1$s!</string>
     <string name="earned_achievement">Earned Achievement</string>
     <string name="toast_set_single_player_score">Must set individual player score. Please press set button</string>
     <string name="skip">Skip</string>
