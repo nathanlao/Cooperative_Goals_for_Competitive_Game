@@ -112,7 +112,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         if (!isNewGamePlay) {
             GameRecord currentGamePlay = gameConfig.getGameRecordByIndex(gamePlayPosition);
             if (currentGamePlay.hasValidPhoto()) {
-                gamePlayImage.setImageBitmap(gameRecord.getPhoto());
+                gamePlayImage.setImageBitmap(currentGamePlay.getPhoto());
             } else {
                 gamePlayImage.setImageResource(R.drawable.no_image_available);
             }
