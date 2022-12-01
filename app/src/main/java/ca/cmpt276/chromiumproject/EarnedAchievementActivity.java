@@ -73,8 +73,8 @@ public class EarnedAchievementActivity extends AppCompatActivity {
         setTitle(getString(R.string.earned_achievement));
 
         int gameConfigPosition = extractDataFromIntent();
-        setText(gameConfigPosition);
-
+        setAchievementLevelText(gameConfigPosition);
+        setNextAchievementLevelText(gameConfigPosition);
 
         ImageView fireworks1 = findViewById(R.id.fireworksAnimation);
         ImageView fireworks2 = findViewById(R.id.fireworksAnimation2);
@@ -106,14 +106,22 @@ public class EarnedAchievementActivity extends AppCompatActivity {
         });
     }
 
-    private void setText(int gameConfigPosition) {
+    private void setAchievementLevelText(int gameConfigPosition) {
        earnedAchievementTxt = findViewById(R.id.earnedAchievementTxt);
        earnedAchievementTxt.setText(getResources().getString(R.string.achievement_level_congratulations_message,
                getAchievementLevel(gameConfigPosition)));
+    }
 
-       earnedNextAchievementTxt = findViewById(R.id.earnedNextAchievementTxt);
-       earnedNextAchievementTxt.setText(getResources().getString(R.string.next_achievement_level_message,
-               getNextAchievementLevel(gameConfigPosition)));
+    private void setNextAchievementLevelText(int gameConfigPosition) {
+        earnedNextAchievementTxt = findViewById(R.id.earnedNextAchievementTxt);
+
+        int achievementLevel = gameRecord.getNextAchievementLevel();
+        if (achievementLevel == Achievement.SPECIAL_OVER_ACHIEVE) {
+            earnedNextAchievementTxt.setText(R.string.earned_highest_achievement_message);
+        } else {
+            earnedNextAchievementTxt.setText(getResources().getString(R.string.next_achievement_level_message,
+                    getNextAchievementLevel(gameConfigPosition)));
+         }
     }
 
     private void getCurrentGameRecord(int gameConfigPosition) {
