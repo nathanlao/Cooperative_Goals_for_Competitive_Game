@@ -74,8 +74,10 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     private TextView combinedScore;
 
     private List<Integer> playerScoreList;
+    private List<Integer> shadowPlayerScoreList;
 
     private boolean isNewGamePlay;
+    private boolean isInitialEditUsed = false;
 
     public static Intent makeRecordIntent(Context context, int position) {
         Intent intent =  new Intent(context, RecordNewGamePlayActivity.class);
@@ -110,6 +112,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         playerListClickSetUp();
 
         initializeNewGameNumPlayer();
+        initializeShadowPlayerList();
     }
 
     private void initializeNewGameNumPlayer() {
@@ -118,6 +121,20 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         if (isNewGamePlay) {
             numPlayersInput.setText(theDefaultPlayerCount);
             renewPlayerList();
+        }
+    }
+
+    private void initializeShadowPlayerList() {
+        int getDefaultInteger = Integer.parseInt(numPlayersInput.getText().toString());
+
+        if (isNewGamePlay) {
+            playerScoreList = new ArrayList<>();
+            shadowPlayerScoreList = new ArrayList<>();
+
+            for (int i = 0; i < getDefaultInteger; i++) {
+                playerScoreList.add(0);
+                shadowPlayerScoreList.add(0);
+            }
         }
     }
 
@@ -157,12 +174,15 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         //modified to preserve data once Player size changes
         if (playerScoreList == null) {
             playerScoreList = new ArrayList<>();
+            //shadowPlayerScoreList = new ArrayList<>();
 
             for (int i = 0; i < userIntInput; i++) {
                 playerScoreList.add(0);
+                //shadowPlayerScoreList.add(0);
             }
         }
         else if (playerScoreList != null) {
+
             int curSize = playerScoreList.size();
             if (curSize > userIntInput) {
                 for (int i = 0; i < userIntInput; i++) {
@@ -175,7 +195,14 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                         tempListData.add(playerScoreList.get(i));
                     }
                     else {
-                        tempListData.add(0);
+                        //tempListData.add(0);
+
+                        if (shadowPlayerScoreList == null) {
+                            tempListData.add(0);
+                        }
+                        else {
+                            tempListData.add(shadowPlayerScoreList.get(i));
+                        }
                     }
                 }
             }
@@ -186,6 +213,39 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                     int tempValue = tempListData.get(i);
                     playerScoreList.add(tempValue);
                 }
+
+                //After finalizing player score, backup to shadow scores
+                /*if (shadowPlayerScoreList != null) {
+                    for (int i = 0; i < playerScoreList.size(); i++) {
+                        int tempValue = playerScoreList.get(i);
+                        //shadowPlayerScoreList.set(i, tempValue);
+                    }
+                }*/
+
+                if (shadowPlayerScoreList == null) {
+                    shadowPlayerScoreList = new ArrayList<>();
+
+                    for (int i = 0; i < playerScoreList.size(); i++) {
+                        int tempValue = playerScoreList.get(i);
+                        shadowPlayerScoreList.add(tempValue);
+                    }
+                }
+                else if (shadowPlayerScoreList != null) {
+                    int shadowSize = shadowPlayerScoreList.size();
+                    int theSizeDifference = userIntInput - shadowSize;
+                    if (userIntInput > shadowSize) {
+                        for (int i = 0; i < theSizeDifference; i++) {
+                            shadowPlayerScoreList.add(0);
+                        }
+                    }
+
+                    for (int i = 0; i < playerScoreList.size(); i++) {
+                        int tempValue = playerScoreList.get(i);
+                        shadowPlayerScoreList.set(i, tempValue);
+                    }
+
+                }
+
             }
 
         }
