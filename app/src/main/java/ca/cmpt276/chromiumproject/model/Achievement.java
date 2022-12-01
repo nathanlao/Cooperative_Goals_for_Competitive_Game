@@ -142,4 +142,12 @@ public class Achievement {
         return achievementLevel;
     }
 
+    public int getNextAchievementLevel() {
+        // Set restriction if achievementLevel reach the last position
+        if (achievementLevel < normalAchievePoints.length - 1) {
+            return achievementLevel + 1;
+        } else {
+            return achievementLevel;
+        }
+    }
 }
