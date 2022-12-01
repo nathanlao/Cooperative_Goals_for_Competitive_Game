@@ -171,6 +171,17 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     private void updatePlayerListData(int userIntInput) {
         List<Integer> tempListData = new ArrayList<>();
 
+        //Check shadow list first
+        //If it's actually big as user input, add if not
+        int shadowSize = shadowPlayerScoreList.size();
+        int theSizeDifference = userIntInput - shadowSize;
+        if (shadowSize < userIntInput) {
+            for (int i = 0; i < theSizeDifference; i++) {
+                shadowPlayerScoreList.add(0);
+            }
+        }
+
+        //Edit player list
         int curSize = playerScoreList.size();
         if (curSize > userIntInput) {
             for (int i = 0; i < userIntInput; i++) {
@@ -185,16 +196,12 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                 else {
                     //tempListData.add(0);
 
-                    if (shadowPlayerScoreList == null) {
-                        tempListData.add(0);
-                    }
-                    else {
-                        tempListData.add(shadowPlayerScoreList.get(i));
-                    }
+                    tempListData.add(shadowPlayerScoreList.get(i));
+
                 }
             }
         }
-
+        System.out.println("#1 " + shadowPlayerScoreList);
         if (curSize != userIntInput) {
             playerScoreList = new ArrayList<>();
             for (int i = 0; i < tempListData.size(); i++) {
@@ -204,19 +211,13 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
             //edit shadow list, either add or and copy values
             //from new set player list
-            int shadowSize = shadowPlayerScoreList.size();
-            int theSizeDifference = userIntInput - shadowSize;
-            if (userIntInput > shadowSize) {
-                for (int i = 0; i < theSizeDifference; i++) {
-                    shadowPlayerScoreList.add(0);
-                }
-            }
 
             for (int i = 0; i < playerScoreList.size(); i++) {
                 int tempValue = playerScoreList.get(i);
                 shadowPlayerScoreList.set(i, tempValue);
             }
 
+            System.out.println("#2 " + shadowPlayerScoreList);
         }
 
     }
@@ -284,6 +285,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                         int newUserInputPlayerScore = SetSinglePlayerScoreActivity.getPlayerResultMsg(data);
                         int userPosition = SetSinglePlayerScoreActivity.getPositionOfPlayer(data);
                         playerScoreList.set(userPosition, newUserInputPlayerScore);
+                        shadowPlayerScoreList.set(userPosition, newUserInputPlayerScore);
 
                         Log.i("PlayerListPart", "Activity SUCCESSFUL.");
                     }
