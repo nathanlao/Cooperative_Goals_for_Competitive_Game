@@ -67,7 +67,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     private Difficulty selectedDifficulty;
 
     private int gameConfigPosition;
-    private int GamePlayPosition;
+    private int gamePlayPosition;
 
     private TextView numPlayersInput;
     private TextView combinedScore;
@@ -391,11 +391,11 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         } else {
             try {
                 // Get current game record and edit it
-                gameRecord = gameConfigs.getGameRecordByIndex(GamePlayPosition);
+                gameRecord = gameConfigs.getGameRecordByIndex(gamePlayPosition);
                 gameRecord.editGameRecordValues(numberOfPlayersNum, combinedScoreNum, gameConfigs.getPoorScore(), gameConfigs.getGreatScore(), selectedDifficulty);
                 // Update playerScoreList after user editing the game
                 gameRecord.setPlayerScoreList(playerScoreList);
-                gameConfigs.setGameRecordByIndex(GamePlayPosition, gameRecord);
+                gameConfigs.setGameRecordByIndex(gamePlayPosition, gameRecord);
             } catch (IllegalArgumentException ex) {
                 Log.d(TAG_ILLEGAL_ARGUMENT_EXCEPTION, "IllegalArgumentException caught: number of players must be greater than 0");
             }
@@ -455,9 +455,9 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     private void extractPastGamePositionFromIntent() {
         Intent pastGameIntent = getIntent();
         gameConfigPosition = pastGameIntent.getIntExtra(EXTRA_RECORD_GAME_POSITION, 0);
-        GamePlayPosition = pastGameIntent.getIntExtra(EXTRA_PAST_GAME_POSITION, -1);
+        gamePlayPosition = pastGameIntent.getIntExtra(EXTRA_PAST_GAME_POSITION, -1);
 
-        if (GamePlayPosition == -1) {
+        if (gamePlayPosition == -1) {
             isNewGamePlay = true;
         } else {
             GameConfig currentGameConfigs = gameManager.getGameConfigByIndex(gameConfigPosition);
@@ -475,7 +475,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
         // Getting current gameConfigs and its associated gameRecord
         gameConfigs = gameManager.getGameConfigByIndex(gameConfigPosition);
-        GameRecord currentGamePlay = gameConfigs.getGameRecordByIndex(GamePlayPosition);
+        GameRecord currentGamePlay = gameConfigs.getGameRecordByIndex(gamePlayPosition);
         Difficulty currentSelectedDifficulty = currentGamePlay.getDifficulty();
 
         switch(currentSelectedDifficulty) {
