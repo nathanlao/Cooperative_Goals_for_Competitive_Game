@@ -125,6 +125,8 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     private void initializeAllPlayerList() {
         int theDefaultInteger = Integer.parseInt(numPlayersInput.getText().toString());
 
+
+
         if (isNewGamePlay) {
             playerScoreList = new ArrayList<>();
             shadowPlayerScoreList = new ArrayList<>();
@@ -134,8 +136,26 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                 shadowPlayerScoreList.add(0);
             }
         }
+        else {
+
+            shadowPlayerScoreList = new ArrayList<>();
+            for (int i = 0; i < theDefaultInteger; i++) {
+                shadowPlayerScoreList.add(0);
+            }
+        }
 
         renewPlayerList();
+
+        System.out.println(shadowPlayerScoreList);
+    }
+    private void initializeShadowPlayer() {
+        int theDefaultInteger = Integer.parseInt(numPlayersInput.getText().toString());
+        shadowPlayerScoreList = new ArrayList<>();
+        if (!isNewGamePlay) {
+            for (int i = 0; i < theDefaultInteger; i++) {
+                shadowPlayerScoreList.add(0);
+            }
+        }
     }
 
     private void setUpNumPlayerSetButton() {
@@ -171,6 +191,10 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     private void updatePlayerListData(int userIntInput) {
         List<Integer> tempListData = new ArrayList<>();
 
+
+        if (shadowPlayerScoreList == null) {
+            shadowPlayerScoreList = new ArrayList<>();
+        }
         //Check shadow list first
         //If it's actually big as user input, add if not
         int shadowSize = shadowPlayerScoreList.size();
@@ -544,6 +568,8 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
         // Get player score list from current gameRecord
         playerScoreList = currentGamePlay.getPlayerScoreList();
+
+        initializeShadowPlayer();
 
         // Update on playerScoreList based on input player count
         String userInputPlayerNumbers = numPlayersInput.getText().toString();
