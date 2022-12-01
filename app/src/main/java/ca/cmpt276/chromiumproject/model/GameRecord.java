@@ -2,14 +2,10 @@ package ca.cmpt276.chromiumproject.model;
 
 import static ca.cmpt276.chromiumproject.model.Achievement.makeScaledAchievement;
 
-import android.content.Context;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-
-import ca.cmpt276.chromiumproject.AchievementSettingsActivity;
 
 /**
  * GameRecord stores contains information about a game session that has been played
@@ -28,8 +24,6 @@ public class GameRecord {
     private Difficulty difficulty;
     private List<Integer> playerScoreList;
 
-    private String theme;
-
     private static final DateTimeFormatter DT_FORMAT = DateTimeFormatter.ofPattern("MMM d @ h:mm a");
 
     public GameRecord(int numPlayers, int combinedScore, int poorScore, int greatScore, Difficulty difficulty) {
@@ -47,7 +41,6 @@ public class GameRecord {
         this.achievementLevel  = theAchievement.getCurAchievementLevel();
     }
 
-    // TODO: If you want to get difficulty as a string, please refer to Difficulty class comments :]
     public Difficulty getDifficulty() {
         return difficulty;
     }
@@ -80,10 +73,6 @@ public class GameRecord {
 
     public int getAchievementLevel() {
         return achievementLevel;
-    }
-
-    public void setGameRecordTheme(String achievementSettingsTheme){
-        theme = achievementSettingsTheme;
     }
 
     public List<Integer> getPlayerScoreList() {

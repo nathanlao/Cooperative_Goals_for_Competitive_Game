@@ -1,5 +1,7 @@
 package ca.cmpt276.chromiumproject.model;
 
+import android.graphics.Bitmap;
+
 import java.util.ArrayList;
 import java.util.List;
 
