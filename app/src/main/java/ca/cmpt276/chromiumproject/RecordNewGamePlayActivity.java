@@ -56,7 +56,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
     private GameManager gameManager;
     private GameRecord gameRecord;
-    private GameConfig gameConfigs;
+    private GameConfig gameConfig;
 
     private Difficulty selectedDifficulty;
 
@@ -110,7 +110,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         ImageView gamePlayImage = findViewById(R.id.imgGamePlay);
 
         if (!isNewGamePlay) {
-            GameRecord currentGamePlay = gameConfigs.getGameRecordByIndex(gamePlayPosition);
+            GameRecord currentGamePlay = gameConfig.getGameRecordByIndex(gamePlayPosition);
             if (currentGamePlay.hasValidPhoto()) {
                 gamePlayImage.setImageBitmap(gameRecord.getPhoto());
             } else {
@@ -394,7 +394,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         // Take user input and get current gameConfig
         int numberOfPlayersNum = 0;
         int combinedScoreNum = 0;
-        gameConfigs = gameManager.getGameConfigByIndex(gameConfigPosition);
+        gameConfig = gameManager.getGameConfigByIndex(gameConfigPosition);
 
         String  numberOfPlayersStr = numPlayersInput.getText().toString();
         try {
@@ -413,13 +413,13 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         if (isNewGamePlay) {
             // Add new game record to the record list in gameConfig
             try {
-                gameRecord = new GameRecord(numberOfPlayersNum, combinedScoreNum, gameConfigs.getPoorScore(), gameConfigs.getGreatScore(), selectedDifficulty);
+                gameRecord = new GameRecord(numberOfPlayersNum, combinedScoreNum, gameConfig.getPoorScore(), gameConfig.getGreatScore(), selectedDifficulty);
 
                 // Copy over the player score list into gameRecord's playerScoreList
                 for (int playerScore : playerScoreList) {
                     gameRecord.addPlayerScore(playerScore);
                 }
-                gameConfigs.addGameRecord(gameRecord);
+                gameConfig.addGameRecord(gameRecord);
 
             } catch (IllegalArgumentException ex) {
                 Log.d(TAG_ILLEGAL_ARGUMENT_EXCEPTION, "IllegalArgumentException caught: number of players must be greater than 0");
@@ -427,11 +427,11 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         } else {
             try {
                 // Get current game record and edit it
-                gameRecord = gameConfigs.getGameRecordByIndex(gamePlayPosition);
-                gameRecord.editGameRecordValues(numberOfPlayersNum, combinedScoreNum, gameConfigs.getPoorScore(), gameConfigs.getGreatScore(), selectedDifficulty);
+                gameRecord = gameConfig.getGameRecordByIndex(gamePlayPosition);
+                gameRecord.editGameRecordValues(numberOfPlayersNum, combinedScoreNum, gameConfig.getPoorScore(), gameConfig.getGreatScore(), selectedDifficulty);
                 // Update playerScoreList after user editing the game
                 gameRecord.setPlayerScoreList(playerScoreList);
-                gameConfigs.setGameRecordByIndex(gamePlayPosition, gameRecord);
+                gameConfig.setGameRecordByIndex(gamePlayPosition, gameRecord);
             } catch (IllegalArgumentException ex) {
                 Log.d(TAG_ILLEGAL_ARGUMENT_EXCEPTION, "IllegalArgumentException caught: number of players must be greater than 0");
             }
@@ -510,8 +510,8 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         Button hardBtn = findViewById(R.id.btnSelectHard);
 
         // Getting current gameConfigs and its associated gameRecord
-        gameConfigs = gameManager.getGameConfigByIndex(gameConfigPosition);
-        GameRecord currentGamePlay = gameConfigs.getGameRecordByIndex(gamePlayPosition);
+        gameConfig = gameManager.getGameConfigByIndex(gameConfigPosition);
+        GameRecord currentGamePlay = gameConfig.getGameRecordByIndex(gamePlayPosition);
         Difficulty currentSelectedDifficulty = currentGamePlay.getDifficulty();
 
         setUpDefaultImage();
