@@ -140,7 +140,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
             shadowPlayerScoreList = new ArrayList<>();
             for (int i = 0; i < theDefaultInteger; i++) {
-                shadowPlayerScoreList.add(0);
+                shadowPlayerScoreList.add(playerScoreList.get(i));
             }
         }
 
@@ -153,7 +153,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         shadowPlayerScoreList = new ArrayList<>();
         if (!isNewGamePlay) {
             for (int i = 0; i < theDefaultInteger; i++) {
-                shadowPlayerScoreList.add(0);
+                shadowPlayerScoreList.add(playerScoreList.get(i));
             }
         }
     }
