@@ -28,7 +28,7 @@ import ca.cmpt276.chromiumproject.model.PhotoContainer;
 /**
  * PhotoHelper is a utility class that provides static methods for saving and loading Bitmap photos between UI and model
  * Bitmap is stored/loaded as Uri or File depending on Android version
- * Saves photos to Android camera roll
+ * Saved photos appear in Android external storage
  */
 
 public final class PhotoHelper {
@@ -136,7 +136,7 @@ public final class PhotoHelper {
             ImageDecoder.Source source = ImageDecoder.createSource(contentResolver, uri);
             bitmap = ImageDecoder.decodeBitmap(source);
         }  catch (IOException e) {
-            Log.d(TAG, "For some reason image decoder does not work lol");
+            Log.d(TAG, "Error decoding Bitmap from Uri: " + e.getMessage());
         }
         return bitmap;
     }
@@ -150,8 +150,7 @@ public final class PhotoHelper {
             bitmap = BitmapFactory.decodeStream(new FileInputStream((photoFile)));
             inputStream.close();
         } catch (FileNotFoundException e) {
-            Log.d(TAG, "For some reason BitmapFactory decodeStream does not work lol");
-            e.printStackTrace();
+            Log.d(TAG, "Error decoding Bitmap from File path: " + e.getMessage());
         } catch (IOException e) {
             e.printStackTrace();
         }
