@@ -376,17 +376,18 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                     return false;
                 }
 
-                // if API version 29 or below, need to request permissions to write to external storage
+                // if API version <29, need to request permissions to write to external storage
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
                     if(ContextCompat.checkSelfPermission(RecordNewGamePlayActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                        saveAction();
+                        saveGameRecordAndFinish();
                     } else {
                         requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                     }
                 }
                 else {
-                    saveAction();
+                    saveGameRecordAndFinish();
                 }
+
                 return true;
 
             case android.R.id.home:
@@ -398,17 +399,21 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         }
     }
 
-    private void saveAction() {
+    private void saveGameRecordAndFinish() {
         // Take user input
         setupGameRecordInput();
+
         // save photo as File
         savePictureTaken();
+
         // save updated gameConfigs list to SharedPrefs
         MainActivity.saveGameConfigs(this, gameManager);
-        Toast.makeText(this, R.string.toast_save_game_record, Toast.LENGTH_SHORT).show();
+
         if (isNewGamePlay) {
             setUpEarnedAchievement();
         }
+
+        Toast.makeText(this, R.string.toast_save_game_record, Toast.LENGTH_SHORT).show();
         finish();
     }
 
@@ -421,10 +426,10 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     private ActivityResultLauncher<String> requestPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                 if (isGranted) {
-                    saveAction();
-                } else {
-                    // TODO: Put a dialogue here explaining what happens if you deny
-                    saveAction();
+                    saveGameRecordAndFinish();
+                } else { // save fails until permissions are allowed
+                    String writeDeniedMsg = getString(R.string.write_access_denied_msg);
+                    Toast.makeText(RecordNewGamePlayActivity.this, writeDeniedMsg, Toast.LENGTH_LONG).show();
                 }
             });
 

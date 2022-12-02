@@ -28,7 +28,7 @@ import ca.cmpt276.chromiumproject.model.PhotoContainer;
 /**
  * PhotoHelper is a utility class that provides static methods for saving and loading Bitmap photos between UI and model
  * Bitmap is stored/loaded as Uri or File depending on Android version
- * Saved photos appear in Android external storage
+ * Saved photos appear in Android public external storage
  */
 
 public final class PhotoHelper {
