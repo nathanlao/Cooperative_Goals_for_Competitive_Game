@@ -59,6 +59,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     private GameConfig gameConfig;
 
     private Difficulty selectedDifficulty;
+    private Bitmap pictureTaken;
 
     private int gameConfigPosition;
     private int gamePlayPosition;
@@ -109,12 +110,15 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     private void setUpDefaultImage() {
         ImageView gamePlayImage = findViewById(R.id.imgGamePlay);
 
-        if (!isNewGamePlay) {
+        if (!isNewGamePlay) { // try loading existing image if it exists
             GameRecord currentGamePlay = gameConfig.getGameRecordByIndex(gamePlayPosition);
-            if (currentGamePlay.hasValidPhoto()) {
-                gamePlayImage.setImageBitmap(currentGamePlay.getPhoto());
-            } else {
+            Bitmap currentPhoto = PhotoHelper.loadBitmapPhotoFromModel(this, currentGamePlay);
+
+            if (currentPhoto == null) {
                 gamePlayImage.setImageResource(R.drawable.no_image_available);
+            } else {
+                gamePlayImage.setImageBitmap(currentPhoto);
+                pictureTaken = currentPhoto;
             }
         } else {
             gamePlayImage.setImageResource(R.drawable.no_image_available);
@@ -149,8 +153,8 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
                             if (resultCode == RESULT_OK && data != null) {
                                 ImageView gamePlayImage = findViewById(R.id.imgGamePlay);
-                                Bitmap image = (Bitmap) data.getExtras().get("data");
-                                gamePlayImage.setImageBitmap(image);
+                                pictureTaken = (Bitmap) data.getExtras().get("data");
+                                gamePlayImage.setImageBitmap(pictureTaken);
                             }
                         }
                     }
@@ -371,6 +375,9 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                 // Take user input
                 setupGameRecordInput();
 
+                // save photo as File
+                savePictureTaken();
+
                 // save updated gameConfigs list to SharedPrefs
                 MainActivity.saveGameConfigs(this, gameManager);
                 Toast.makeText(this, R.string.toast_save_game_record, Toast.LENGTH_SHORT).show();
@@ -387,6 +394,12 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void savePictureTaken() {
+        if (pictureTaken != null) {
+            PhotoHelper.savePhotoAndStoreInModel(RecordNewGamePlayActivity.this, gameRecord, pictureTaken);
         }
     }
 

@@ -46,7 +46,7 @@ public final class PhotoHelper {
         }
     }
 
-    public static Bitmap loadPhotoFromModel(Context context, PhotoContainer photoContainer) {
+    public static Bitmap loadBitmapPhotoFromModel(Context context, PhotoContainer photoContainer) {
         String photoDataString = photoContainer.getPhotoDataString();
         if (photoDataString == null) {
             return null;
