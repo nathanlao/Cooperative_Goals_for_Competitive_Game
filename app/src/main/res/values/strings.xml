@@ -96,6 +96,7 @@
     <string name="enchanted_forest">Enchanted Forest</string>
     <string name="select_theme">Select Theme:</string>
     <string name="save_achievement_settings">save achievement settings</string>
+    <string name="game_config_photo_user_input_check">Please enter all fields before taking a photo</string>
 
     <!-- Strings used for Achievement -->
     <string-array name="achievement_names">
