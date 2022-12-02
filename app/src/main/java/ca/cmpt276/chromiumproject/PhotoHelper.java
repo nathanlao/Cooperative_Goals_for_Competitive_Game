@@ -32,7 +32,7 @@ import ca.cmpt276.chromiumproject.model.PhotoContainer;
  */
 
 public final class PhotoHelper {
-    private static final String TAG = "Catch PhotoManager Exception";
+    private static final String TAG = "Catch PhotoHelper Exception";
     public static final String MIME_TYPE = "image/jpeg";
     public static final int BMP_COMPRESS_QUALITY = 90;
 
@@ -159,7 +159,7 @@ public final class PhotoHelper {
     }
 
     private static File getOutputPhotoFile(){
-        String photoPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString();
+        String photoPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString();
         String fileName = createPhotoFileName();
 
         return new File(photoPath, fileName);

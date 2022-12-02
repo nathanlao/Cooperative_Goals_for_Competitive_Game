@@ -9,12 +9,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -372,20 +376,17 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                     return false;
                 }
 
-                // Take user input
-                setupGameRecordInput();
-
-                // save photo as File
-                savePictureTaken();
-
-                // save updated gameConfigs list to SharedPrefs
-                MainActivity.saveGameConfigs(this, gameManager);
-                Toast.makeText(this, R.string.toast_save_game_record, Toast.LENGTH_SHORT).show();
-                if (isNewGamePlay) {
-                    setUpEarnedAchievement();
+                // if API version 29 or below, need to request permissions to write to external storage
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                    if(ContextCompat.checkSelfPermission(RecordNewGamePlayActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                        saveAction();
+                    } else {
+                        requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                    }
                 }
-                finish();
-
+                else {
+                    saveAction();
+                }
                 return true;
 
             case android.R.id.home:
@@ -397,11 +398,35 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         }
     }
 
+    private void saveAction() {
+        // Take user input
+        setupGameRecordInput();
+        // save photo as File
+        savePictureTaken();
+        // save updated gameConfigs list to SharedPrefs
+        MainActivity.saveGameConfigs(this, gameManager);
+        Toast.makeText(this, R.string.toast_save_game_record, Toast.LENGTH_SHORT).show();
+        if (isNewGamePlay) {
+            setUpEarnedAchievement();
+        }
+        finish();
+    }
+
     private void savePictureTaken() {
         if (pictureTaken != null) {
             PhotoHelper.savePhotoAndStoreInModel(RecordNewGamePlayActivity.this, gameRecord, pictureTaken);
         }
     }
+
+    private ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    saveAction();
+                } else {
+                    // TODO: Put a dialogue here explaining what happens if you deny
+                    saveAction();
+                }
+            });
 
     private void setupGameRecordInput() {
         // Take user input and get current gameConfig
