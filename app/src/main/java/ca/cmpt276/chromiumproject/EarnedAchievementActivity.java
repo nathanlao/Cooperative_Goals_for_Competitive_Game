@@ -220,7 +220,5 @@ public class EarnedAchievementActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         setText(gameConfigPosition);
-
-
     }
 }
