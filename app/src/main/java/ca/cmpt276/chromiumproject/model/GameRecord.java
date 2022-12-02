@@ -13,7 +13,7 @@ import java.util.List;
  * GameRecord's constructor needs to know poorScore and greatScore of the GameConfig that was played in order to calculate its achievement.
  * Contains Bitmap reference to a photo. Please use deletePhoto() to free up memory when deleting a GameRecord
  */
-public class GameRecord extends PhotoContainer{
+public class GameRecord extends PhotoContainer {
     private static final int MIN_PLAYERS = 1;
 
     private int numPlayers;
