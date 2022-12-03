@@ -11,32 +11,29 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import ca.cmpt276.chromiumproject.model.Difficulty;
@@ -56,9 +53,6 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     public static final String TAG_NUMBER_FORMAT_EXCEPTION = "Catch NumberFormatException";
     public static final String TAG_ILLEGAL_ARGUMENT_EXCEPTION = "Catch IllegalArgumentException";
     private static final int REQUEST_CODE_PLAYER_SCORE_INPUT = 101;
-
-    public static final String PREFS_NAME = "AppPrefs";
-    private static final String SAVED_PLAYER_SCORE_LIST = "Saved PlayerScoreList";
 
     private GameManager gameManager;
     private GameRecord gameRecord;
@@ -108,7 +102,49 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
         playerListClickSetUp();
 
+        setUpDefaultImage();
+        setUpTakePhotoFAB();
     }
+
+    private void setUpDefaultImage() {
+        ImageView gamePlayImage = findViewById(R.id.imgGamePlay);
+        gamePlayImage.setImageResource(R.drawable.no_image_available);
+    }
+
+    private void setUpTakePhotoFAB() {
+        FloatingActionButton takePhoto = findViewById(R.id.fabTakePhoto);
+        takePhoto.setOnClickListener(v -> {
+            String userInputPlayerNumbers = numPlayersInput.getText().toString();
+            String combinedScoreStr = combinedScore.getText().toString();
+
+            // Validate if user has enter number of players or has enter the score
+            if (TextUtils.isEmpty(userInputPlayerNumbers) || combinedScoreStr.matches(getString(R.string.default_combined_score))) {
+                Toast.makeText(this, R.string.toast_set_number_of_players, Toast.LENGTH_SHORT).show();
+            } else {
+                // Launch image capture action to take photo
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraActivityResultLauncher.launch(intent);
+            }
+        });
+    }
+
+    ActivityResultLauncher<Intent> cameraActivityResultLauncher =
+            registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    new ActivityResultCallback<ActivityResult>() {
+                        @Override
+                        public void onActivityResult(ActivityResult result) {
+                            Intent data = result.getData();
+                            int resultCode = result.getResultCode();
+
+                            if (resultCode == RESULT_OK && data != null) {
+                                ImageView gamePlayImage = findViewById(R.id.imgGamePlay);
+                                Bitmap image = (Bitmap) data.getExtras().get("data");
+                                gamePlayImage.setImageBitmap(image);
+                            }
+                        }
+                    }
+            );
 
     private void setUpNumPlayerSetButton() {
         Button numPlayerSetButton = findViewById(R.id.buttonNumPlayerSet);
@@ -303,7 +339,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
     private void setUpTextFields() {
         numPlayersInput = findViewById(R.id.numPlayersInput);
-        combinedScore = findViewById(R.id.textViewCombiendScore);
+        combinedScore = findViewById(R.id.textViewCombinedScore);
     }
 
     @Override

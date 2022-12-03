@@ -53,6 +53,7 @@
     <string name="player_id_info">Player #</string>
     <string name="set_button_label">Set</string>
     <string name="default_combined_score">-</string>
+    <string name="toast_set_number_of_players">Please set number of players and enter scores first</string>
 
     <!-- Strings used for View Achievement Screen -->
     <string name="achievement_level_title">Achievement Levels</string>
@@ -97,6 +98,7 @@
     <string name="enchanted_forest">Enchanted Forest</string>
     <string name="select_theme">Select Theme:</string>
     <string name="save_achievement_settings">save achievement settings</string>
+    <string name="theme_changed">Theme Changed</string>
 
     <!-- Strings used for Achievement -->
     <string-array name="achievement_names">
