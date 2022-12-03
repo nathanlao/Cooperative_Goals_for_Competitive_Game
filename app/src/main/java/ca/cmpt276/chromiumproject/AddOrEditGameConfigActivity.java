@@ -104,13 +104,8 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case R.id.action_save_game_config:
-
-                String gameConfigName = "";
-                int poorScoreNum = 0;
-                int greatScoreNum = 0;
-
                 // Take in user input
-                setupGameConfigFieldsInput(gameConfigName, poorScoreNum, greatScoreNum);
+                setupGameConfigFieldsInput();
 
                 // Validate empty input and display Toast message accordingly
                 if (checkEmptyInput()) {
@@ -165,7 +160,11 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
         }
     }
 
-    private void setupGameConfigFieldsInput(String gameConfigName, int poorScoreNum, int greatScoreNum) {
+    private void setupGameConfigFieldsInput() {
+        String gameConfigName = "";
+        int poorScoreNum = 0;
+        int greatScoreNum = 0;
+
         // Get the name from user input
         try {
             gameConfigName = this.gameConfigName.getText().toString();
