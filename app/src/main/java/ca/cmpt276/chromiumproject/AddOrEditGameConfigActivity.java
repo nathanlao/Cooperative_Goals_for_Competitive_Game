@@ -53,7 +53,8 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
 
     private int gameConfigPosition;
     private boolean isNewGame;
-    private ImageView gameConfigImage;
+
+    private Bitmap pictureTaken;
 
     // Intent for main activity to add new game config
     public static Intent makeAddIntent(Context context) {
@@ -243,7 +244,22 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
 
     private void setUpDefaultImage() {
         ImageView gameConfigImage = findViewById(R.id.gameConfigImage);
-        gameConfigImage.setImageResource(R.drawable.no_image_available);
+
+        if (!isNewGame) { // try loading existing image if it exists
+            GameConfig currentGameConfig = gameManager.getGameConfigByIndex(gameConfigPosition);
+            Bitmap currentPhoto = PhotoHelper.loadBitmapPhotoFromModel(this, currentGameConfig);
+
+            if (currentPhoto == null) {
+                gameConfigImage.setImageResource(R.drawable.no_image_available);
+            } else {
+                gameConfigImage.setImageBitmap(currentPhoto);
+                pictureTaken = currentPhoto;
+            }
+
+        } else {
+            gameConfigImage.setImageResource(R.drawable.no_image_available);
+        }
+
     }
 
     private void setUpTakeGameConfigPhotoFAB() {
@@ -267,8 +283,8 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
 
                             if (resultCode == RESULT_OK && data != null) {
                                 ImageView gameConfigImage = findViewById(R.id.gameConfigImage);
-                                Bitmap image = (Bitmap) data.getExtras().get("data");
-                                gameConfigImage.setImageBitmap(image);
+                                pictureTaken = (Bitmap) data.getExtras().get("data");
+                                gameConfigImage.setImageBitmap(pictureTaken);
                             }
                         }
                     }
