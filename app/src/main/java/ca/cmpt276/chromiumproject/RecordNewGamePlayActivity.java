@@ -471,7 +471,10 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     }
 
     public void setUpEarnedAchievement(){
-        Intent i = EarnedAchievementActivity.makeEarnedAchievementIntent(RecordNewGamePlayActivity.this, gameConfigPosition);
+        String combinedScoreStr = combinedScore.getText().toString();
+        int combinedScorePoints = Integer.parseInt(combinedScoreStr);
+
+        Intent i = EarnedAchievementActivity.makeEarnedAchievementIntent(RecordNewGamePlayActivity.this, gameConfigPosition, combinedScorePoints);
         startActivity(i);
     }
 
