@@ -24,6 +24,7 @@ public class GameRecord {
 
     private int achievementLevel;
     private int nextAchievementLevel;
+    private int nextLevelPoints;
     private String creationTime;
 
     private Difficulty difficulty;
@@ -47,9 +48,9 @@ public class GameRecord {
         Achievement theAchievement = makeScaledAchievement(numPlayers, combinedScore, poorScore, greatScore, difficulty);
         this.achievementLevel  = theAchievement.getCurAchievementLevel();
         this.nextAchievementLevel = theAchievement.getNextAchievementLevel();
+        this.nextLevelPoints = theAchievement.getNextLevelPoints();
     }
 
-    // TODO: If you want to get difficulty as a string, please refer to Difficulty class comments :]
     public Difficulty getDifficulty() {
         return difficulty;
     }
@@ -63,6 +64,7 @@ public class GameRecord {
         Achievement theAchievement = makeScaledAchievement(numPlayers, combinedScore, poorScore, greatScore, difficulty);
         this.achievementLevel = theAchievement.getCurAchievementLevel();
         this.nextAchievementLevel = theAchievement.getNextAchievementLevel();
+        this.nextLevelPoints = theAchievement.getNextLevelPoints();
     }
 
     public void setPlayerScoreList(List<Integer> playerScoreList) {
@@ -87,6 +89,10 @@ public class GameRecord {
 
     public int getNextAchievementLevel() {
         return nextAchievementLevel;
+    }
+
+    public int getNextLevelPoints() {
+        return  nextLevelPoints;
     }
 
     public void setGameRecordTheme(String achievementSettingsTheme){

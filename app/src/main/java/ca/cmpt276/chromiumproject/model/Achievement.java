@@ -151,4 +151,22 @@ public class Achievement {
             return SPECIAL_OVER_ACHIEVE;
         }
     }
+
+    private int getAchievementPointsByIndex(int index) {
+        int[] achievementPointsArray = getNormalAchievePoints();
+
+        // Set restriction if achievementLevel reach the last position
+        if (achievementLevel < achievementPointsArray.length - 1) {
+            return achievementPointsArray[index];
+        } else {
+            return achievementPointsArray[achievementPointsArray.length - 1];
+        }
+    }
+
+    public int getNextLevelPoints() {
+        int nextLevel = getNextAchievementLevel();
+        int nextLevelPoints = getAchievementPointsByIndex(nextLevel);
+
+        return nextLevelPoints;
+    }
 }
