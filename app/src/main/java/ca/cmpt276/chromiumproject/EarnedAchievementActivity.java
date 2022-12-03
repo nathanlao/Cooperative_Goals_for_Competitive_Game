@@ -72,7 +72,7 @@ public class EarnedAchievementActivity extends AppCompatActivity {
         setTitle(getString(R.string.earned_achievement));
 
         gameConfigPosition = extractDataFromIntent();
-        setText(gameConfigPosition);
+        setCelebrationMessageText(gameConfigPosition);
 
 
         ImageView fireworks1 = findViewById(R.id.fireworksAnimation);
@@ -107,7 +107,7 @@ public class EarnedAchievementActivity extends AppCompatActivity {
         });
     }
 
-    private void setText(int gameConfigPosition) {
+    private void setCelebrationMessageText(int gameConfigPosition) {
        earnedAchievementTxt = findViewById(R.id.earnedAchievementTxt);
        earnedAchievementTxt.setText(getResources().getString(R.string.achievement_level_congratulations_message, getAchievementLevel(gameConfigPosition)));
     }
@@ -219,6 +219,6 @@ public class EarnedAchievementActivity extends AppCompatActivity {
 
     protected void onResume() {
         super.onResume();
-        setText(gameConfigPosition);
+        setCelebrationMessageText(gameConfigPosition);
     }
 }
