@@ -42,6 +42,7 @@ public class EarnedAchievementActivity extends AppCompatActivity {
     public static final int FIREWORKS2_X_TRANSLATION = -600;
     public static final int FIREWORKS2_Y_TRANSLATION = -600;
     public static final String GAME_CONFIG_POSITION = "game config position";
+    public static final String COMBINED_SCORE = "combined score";
     public static final int DEFAULT_VALUE = 0;
     private static int SPLASH_TIME = 10*1000;
 
@@ -55,16 +56,19 @@ public class EarnedAchievementActivity extends AppCompatActivity {
     MediaPlayer cheeringAudio;
     private int gameConfigPosition;
 
-    public static Intent makeEarnedAchievementIntent(Context c, int gameConfigPosition) {
+    private int combinedScore;
+
+    public static Intent makeEarnedAchievementIntent(Context c, int gameConfigPosition, int combinedScore) {
         Intent intent = new Intent(c, EarnedAchievementActivity.class);
         intent.putExtra(GAME_CONFIG_POSITION, gameConfigPosition);
+        intent.putExtra(COMBINED_SCORE, combinedScore);
         return intent;
     }
 
-    private int extractDataFromIntent(){
+    private void extractDataFromIntent(){
         Intent intent = getIntent();
-        int position = intent.getIntExtra(GAME_CONFIG_POSITION, DEFAULT_VALUE);
-        return position;
+        gameConfigPosition = intent.getIntExtra(GAME_CONFIG_POSITION, DEFAULT_VALUE);
+        combinedScore = intent.getIntExtra(COMBINED_SCORE, DEFAULT_VALUE);
     }
 
     @Override
@@ -76,7 +80,7 @@ public class EarnedAchievementActivity extends AppCompatActivity {
 
         setTitle(getString(R.string.earned_achievement));
 
-        gameConfigPosition = extractDataFromIntent();
+        extractDataFromIntent();
         setCelebrationMessageText(gameConfigPosition);
         setNextAchievementLevelText(gameConfigPosition);
 
@@ -122,7 +126,7 @@ public class EarnedAchievementActivity extends AppCompatActivity {
             earnedNextAchievementTxt.setText(R.string.earned_highest_achievement_message);
         } else {
             earnedNextAchievementTxt.setText(getResources().getString(R.string.next_achievement_level_message,
-                    getNextAchievementLevel(gameConfigPosition)));
+                    getNextAchievementLevel(gameConfigPosition), getPointsToNextLevel(gameConfigPosition)));
          }
     }
 
@@ -152,6 +156,15 @@ public class EarnedAchievementActivity extends AppCompatActivity {
         int nextAchievementLevel = gameRecord.getNextAchievementLevel();
 
         return getAchievementTitle(theme, achievementNames, nextAchievementLevel);
+    }
+
+    private String getPointsToNextLevel(int gameConfigPosition) {
+        getCurrentGameRecord(gameConfigPosition);
+
+        int nextAchievementPoints = gameRecord.getNextLevelPoints();
+
+        int pointsToNextLevel = nextAchievementPoints - combinedScore;
+        return String.valueOf(pointsToNextLevel);
     }
 
     @Nullable
