@@ -300,23 +300,14 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
     private void setUpTakeGameConfigPhotoFAB() {
         FloatingActionButton fabCameraBtn = findViewById(R.id.fabCameraBtn);
         fabCameraBtn.setOnClickListener(v -> {
-            String gameConfigNameCheck = gameConfigName.getText().toString();
-            String poorScoreCheck = poorScore.getText().toString();
-            String greatScoreCheck = greatScore.getText().toString();
-
-            //validate the user input
-            if (TextUtils.isEmpty(gameConfigNameCheck) ||
-                    TextUtils.isEmpty(poorScoreCheck) ||
-                    TextUtils.isEmpty(greatScoreCheck)) {
-                Toast.makeText(this, R.string.game_config_photo_user_input_check, Toast.LENGTH_SHORT).show();
-            } else {
+            if (!checkUserInputIsEmpty()) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                launchGameConfigCamera.launch(intent);
+                cameraActivityResultLauncher.launch(intent);
             }
         });
     }
 
-    ActivityResultLauncher<Intent> launchGameConfigCamera =
+    ActivityResultLauncher<Intent> cameraActivityResultLauncher =
             registerForActivityResult(
                     new ActivityResultContracts.StartActivityForResult(),
                     new ActivityResultCallback<ActivityResult>() {
@@ -333,4 +324,20 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
                         }
                     }
             );
+
+    private boolean checkUserInputIsEmpty() {
+        String gameConfigNameCheck = gameConfigName.getText().toString();
+        String poorScoreCheck = poorScore.getText().toString();
+        String greatScoreCheck = greatScore.getText().toString();
+
+        //validate the user input
+        if (TextUtils.isEmpty(gameConfigNameCheck) ||
+                TextUtils.isEmpty(poorScoreCheck) ||
+                TextUtils.isEmpty(greatScoreCheck)) {
+            Toast.makeText(this, R.string.game_config_photo_user_input_check, Toast.LENGTH_SHORT).show();
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

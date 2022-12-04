@@ -27,6 +27,7 @@ public class AchievementSettingsActivity extends AppCompatActivity {
     private static final String THEME = "Theme";
     private RadioGroup settingsRadioGroup;
     private RadioButton checkedRadioButton;
+    private String savedTheme;
 
     public static Intent makeAchievementSettingsIntent(Context context) {
         Intent intent = new Intent(context, AchievementSettingsActivity.class);
@@ -86,8 +87,7 @@ public class AchievementSettingsActivity extends AppCompatActivity {
 
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(AchievementSettingsActivity.this, "Theme Changed", Toast.LENGTH_SHORT).show();
-                    saveTheme(themeName);
+                    savedTheme = themeName;
                 }
             });
             settingsRadioGroup.addView(radioThemeBtn);
@@ -102,9 +102,8 @@ public class AchievementSettingsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case R.id.action_save_achievement_settings:
-
-                String savedTheme = getTheme(AchievementSettingsActivity.this);
                 saveTheme(savedTheme);
+                Toast.makeText(AchievementSettingsActivity.this, R.string.theme_changed, Toast.LENGTH_SHORT).show();
                 finish();
                 return true;
 
