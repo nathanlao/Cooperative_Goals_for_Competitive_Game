@@ -98,6 +98,16 @@
     <string name="save_achievement_settings">save achievement settings</string>
     <string name="theme_changed">Theme Changed</string>
 
+    <!-- Strings used for AboutApplicationActivity -->
+    <string name="about_screen_title">About the Application</string>
+    <string name="team_name_title">Team Name:</string>
+    <string name="chromium_team_name">Chromium</string>
+    <string name="developers_title">Developers:</string>
+    <string name="developer_chel">Chel</string>
+    <string name="developer_jay">Jay</string>
+    <string name="developer_kayla">Kayla</string>
+    <string name="developer_nathan">Nathan</string>
+
     <!-- Strings used for Achievement -->
     <string-array name="achievement_names">
         <item>Walking Toddler</item>
@@ -109,7 +119,7 @@
         <item>World Conqueror</item>
         <item>Creator of the Game</item>
     </string-array>
-    
+
     <!-- Strings used for 2nd Achievement Theme-->
     <string-array name="enchanted_forest_achievement_names">
         <item>Young Sprout</item>

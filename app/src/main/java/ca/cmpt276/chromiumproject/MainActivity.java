@@ -24,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -68,6 +69,16 @@ public class MainActivity extends AppCompatActivity {
         gameConfigClickCallBack();
         isFirstLaunch = false;
         checkIsEmpty();
+
+        setUpAboutScreenFab();
+    }
+
+    private void setUpAboutScreenFab() {
+        FloatingActionButton aboutScreen = findViewById(R.id.fabAboutScreen);
+        aboutScreen.setOnClickListener(v -> {
+            Intent intent = AboutApplicationActivity.makeAboutScreenIntent(MainActivity.this);
+            startActivity(intent);
+        });
     }
 
     private void checkIsEmpty() {
