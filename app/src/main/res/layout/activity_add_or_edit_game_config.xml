@@ -8,98 +8,96 @@
     android:background="@drawable/gradient_bkg"
     tools:context=".AddOrEditGameConfigActivity">
 
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline24"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      app:layout_constraintGuide_percent="0.32" />
+
   <TextView
       android:id="@+id/txtAddName"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginStart="16dp"
-      android:layout_marginTop="128dp"
+      android:layout_marginTop="16dp"
       android:text="@string/name"
       android:textColor="#3F51B5"
       android:textStyle="bold"
-      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintBottom_toTopOf="@+id/guideline23"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintHorizontal_bias="0"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintVertical_bias="0" />
+      app:layout_constraintTop_toTopOf="@+id/guideline21" />
 
   <TextView
       android:id="@+id/txtAddPoorScore"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginStart="16dp"
-      android:layout_marginTop="64dp"
+      android:layout_marginTop="16dp"
       android:text="@string/poor_score"
       android:textColor="#3F51B5"
       android:textStyle="bold"
-      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintBottom_toTopOf="@+id/guideline24"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintHorizontal_bias="0.0"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/txtAddName"
-      app:layout_constraintVertical_bias="0.0" />
+      app:layout_constraintTop_toTopOf="@+id/guideline23" />
 
   <TextView
       android:id="@+id/txtAddGreatScore"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginStart="16dp"
-      android:layout_marginTop="64dp"
+      android:layout_marginTop="16dp"
       android:text="@string/great_score"
       android:textColor="#3F51B5"
       android:textStyle="bold"
-      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintBottom_toTopOf="@+id/guideline22"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintHorizontal_bias="0.0"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/txtAddPoorScore"
-      app:layout_constraintVertical_bias="0.0" />
+      app:layout_constraintTop_toTopOf="@+id/guideline24" />
 
   <EditText
       android:id="@+id/editAddPoorScore"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginStart="4dp"
-      android:layout_marginTop="32dp"
       android:ems="10"
       android:inputType="numberSigned"
       android:textAlignment="center"
-      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintBottom_toTopOf="@+id/guideline24"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toEndOf="@+id/txtAddPoorScore"
-      app:layout_constraintTop_toBottomOf="@+id/editAddName"
-      app:layout_constraintVertical_bias="0"
+      app:layout_constraintStart_toStartOf="@+id/guideline25"
+      app:layout_constraintTop_toTopOf="@+id/guideline23"
       tools:ignore="Autofill,LabelFor" />
 
   <EditText
       android:id="@+id/editAddName"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="110dp"
       android:ems="10"
       android:inputType="textPersonName"
       android:textAlignment="center"
-      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintBottom_toTopOf="@+id/guideline23"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toEndOf="@+id/txtAddPoorScore"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintVertical_bias="0.0" />
+      app:layout_constraintStart_toStartOf="@+id/guideline25"
+      app:layout_constraintTop_toTopOf="@+id/guideline21"
+      tools:ignore="Autofill,LabelFor" />
 
   <EditText
       android:id="@+id/editAddGreatScore"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginStart="4dp"
-      android:layout_marginTop="40dp"
       android:ems="10"
       android:inputType="numberSigned"
       android:textAlignment="center"
-      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintBottom_toTopOf="@+id/guideline22"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toEndOf="@+id/txtAddGreatScore"
-      app:layout_constraintTop_toBottomOf="@+id/editAddPoorScore"
-      app:layout_constraintVertical_bias="0" />
+      app:layout_constraintStart_toStartOf="@+id/guideline25"
+      app:layout_constraintTop_toTopOf="@+id/guideline24"
+      tools:ignore="Autofill,LabelFor" />
 
   <com.google.android.material.floatingactionbutton.FloatingActionButton
       android:id="@+id/fabCameraBtn"
@@ -112,7 +110,8 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintVertical_bias="0.914"
-      app:srcCompat="@android:drawable/ic_menu_camera" />
+      app:srcCompat="@android:drawable/ic_menu_camera"
+      tools:ignore="ContentDescription" />
 
   <ImageView
       android:id="@+id/gameConfigImage"
@@ -122,10 +121,47 @@
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintHeight_percent="0.45"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/editAddGreatScore"
-      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintTop_toTopOf="@+id/guideline22"
       app:layout_constraintVertical_bias="1.0"
       app:layout_constraintWidth_percent="0.45"
-      tools:srcCompat="@drawable/no_image_available" />
+      tools:srcCompat="@drawable/no_image_available"
+      tools:ignore="ContentDescription" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline20"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintGuide_percent="30"
+      app:layout_constraintTop_toTopOf="parent" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline21"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      app:layout_constraintGuide_percent="0.12" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline23"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      app:layout_constraintGuide_percent="0.22" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline22"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      app:layout_constraintGuide_percent="0.42" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline25"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      app:layout_constraintGuide_percent="0.27" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
