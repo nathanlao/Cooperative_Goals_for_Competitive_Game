@@ -32,9 +32,11 @@ public class StatisticsActivity extends AppCompatActivity {
         //Populate list of PieEntries
         List<PieEntry> pieEntries = new ArrayList<>();
 
-        int chartSize = curAchievement.length;
-        for (int i = 0; i < chartSize; i++) {
-            pieEntries.add(new PieEntry(curAchievementScoreCollections.get(i), curAchievement[i]));
+        int achieveSize = curAchievement.length;
+        for (int i = 0; i < achieveSize; i++) {
+            pieEntries.add(new PieEntry(
+                    curAchievementScoreCollections.get(i),
+                    curAchievement[i]));
         }
 
         PieDataSet dataSet = new PieDataSet(pieEntries, "Achievement Statistics");
