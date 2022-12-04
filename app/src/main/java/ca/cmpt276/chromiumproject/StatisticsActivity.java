@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
@@ -31,8 +33,6 @@ public class StatisticsActivity extends AppCompatActivity {
     private GameManager gameManager = GameManager.getInstance();
     private GameConfig gameConfigs;
 
-    //private List<String> curAchievement;
-    private String[] curAchievement;
     private List<Integer> curAchievementScoreCollections;
 
     private List<GameRecord> gameRecords = new ArrayList<>();
@@ -43,8 +43,6 @@ public class StatisticsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_statistics);
 
         setUpBackButton();
-
-        curAchievement = getResources().getStringArray(R.array.achievement_dark_tribe);
 
         extractDataFromIntent();
 
@@ -63,7 +61,10 @@ public class StatisticsActivity extends AppCompatActivity {
     private void collectDataFromGameRecordsList() {
         int gameRecordSize = gameRecords.size();
 
-        //TODO : Don't let user do it if gameRecord = 0, null
+        if (gameRecordSize == 0) {
+            Toast.makeText(this, getString(R.string.add_game_warn), Toast.LENGTH_LONG).show();
+            getWindow().getDecorView().setBackgroundColor(Color.RED);
+        }
 
         int curAchievementLevel = 0;
         int curCollectedPoint = 0;

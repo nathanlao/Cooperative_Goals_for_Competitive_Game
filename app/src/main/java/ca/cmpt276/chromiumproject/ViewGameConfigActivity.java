@@ -141,8 +141,14 @@ public class ViewGameConfigActivity extends AppCompatActivity {
     }
 
     private void registerStatsBtnClick() {
-        Intent intent = StatisticsActivity.makeIntent(this, gameConfigPosition);
-        startActivity(intent);
+        int curGameRecSize = gameRecords.size();
+        if (curGameRecSize == 0) {
+            Toast.makeText(this, getString(R.string.add_game_warn), Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Intent intent = StatisticsActivity.makeIntent(this, gameConfigPosition);
+            startActivity(intent);
+        }
     }
 
     private void populateGamesRecordListView() {
