@@ -53,9 +53,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     public static final String TAG_NUMBER_FORMAT_EXCEPTION = "Catch NumberFormatException";
     public static final String TAG_ILLEGAL_ARGUMENT_EXCEPTION = "Catch IllegalArgumentException";
     private static final int REQUEST_CODE_PLAYER_SCORE_INPUT = 101;
-
-    public static final String PREFS_NAME = "AppPrefs";
-    private static final String SAVED_PLAYER_SCORE_LIST = "Saved PlayerScoreList";
+    
     public static final int DEFAULT_PLAYER_COUNT = 2;
 
     private GameManager gameManager;
