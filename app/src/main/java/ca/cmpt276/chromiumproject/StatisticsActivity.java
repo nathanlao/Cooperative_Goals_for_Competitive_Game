@@ -6,11 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -49,8 +45,7 @@ public class StatisticsActivity extends AppCompatActivity {
 
         initializeScoreCollection();
         collectDataFromGameRecordsList();
-        //setUpChart();
-        setUpBarChart();
+        setUpChart();
     }
 
     private void initializeScoreCollection() {
@@ -101,31 +96,7 @@ public class StatisticsActivity extends AppCompatActivity {
         //Get chart
         PieChart chart = findViewById(R.id.chartView);
         chart.setData(data);
-        chart.animateY(3000);
-        chart.invalidate();
-    }
-    private void setUpBarChart() {
-        //Populate list of PieEntries
-        List<BarEntry> barEntries = new ArrayList<>();
-
-        //int achieveSize = curAchievement.length;
-        for (int i = 0; i < MAX_NUM_OF_ACHIEVEMENTS; i++) {
-            barEntries.add(new BarEntry(
-                    curAchievementScoreCollections.get(i),
-                    i));
-        }
-
-        BarDataSet dataSet = new BarDataSet(barEntries, "Achievement Statistics");
-
-
-        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
-
-        BarData data = new BarData(dataSet);
-
-        //Get chart
-        BarChart chart = findViewById(R.id.chartView);
-        chart.setData(data);
-        chart.animateY(3000);
+        chart.animateY(2000);
         chart.invalidate();
     }
 
