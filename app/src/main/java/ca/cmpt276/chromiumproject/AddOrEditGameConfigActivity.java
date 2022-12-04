@@ -1,5 +1,9 @@
 package ca.cmpt276.chromiumproject;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,12 +11,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import ca.cmpt276.chromiumproject.model.GameConfig;
 import ca.cmpt276.chromiumproject.model.GameManager;
@@ -43,6 +53,7 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
 
     private int gameConfigPosition;
     private boolean isNewGame;
+    private ImageView gameConfigImage;
 
     // Intent for main activity to add new game config
     public static Intent makeAddIntent(Context context) {
@@ -70,6 +81,9 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
 
         // Extract position from makeEditIntent()
         extractPositionFromIntent();
+
+        setUpTakeGameConfigPhotoFAB();
+        setUpDefaultImage();
     }
 
     private void setUpBackButton() {
@@ -225,5 +239,54 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
         gameConfigName.setText(currentGame.getName());
         poorScore.setText(String.valueOf(currentGame.getPoorScore()));
         greatScore.setText(String.valueOf(currentGame.getGreatScore()));
+    }
+
+    private void setUpDefaultImage() {
+        ImageView gameConfigImage = findViewById(R.id.gameConfigImage);
+        gameConfigImage.setImageResource(R.drawable.no_image_available);
+    }
+
+    private void setUpTakeGameConfigPhotoFAB() {
+        FloatingActionButton fabCameraBtn = findViewById(R.id.fabCameraBtn);
+        fabCameraBtn.setOnClickListener(v -> {
+            if (!checkUserInputIsEmpty()) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraActivityResultLauncher.launch(intent);
+            }
+        });
+    }
+
+    ActivityResultLauncher<Intent> cameraActivityResultLauncher =
+            registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    new ActivityResultCallback<ActivityResult>() {
+                        @Override
+                        public void onActivityResult(ActivityResult result) {
+                            Intent data = result.getData();
+                            int resultCode = result.getResultCode();
+
+                            if (resultCode == RESULT_OK && data != null) {
+                                ImageView gameConfigImage = findViewById(R.id.gameConfigImage);
+                                Bitmap image = (Bitmap) data.getExtras().get("data");
+                                gameConfigImage.setImageBitmap(image);
+                            }
+                        }
+                    }
+            );
+
+    private boolean checkUserInputIsEmpty() {
+        String gameConfigNameCheck = gameConfigName.getText().toString();
+        String poorScoreCheck = poorScore.getText().toString();
+        String greatScoreCheck = greatScore.getText().toString();
+
+        //validate the user input
+        if (TextUtils.isEmpty(gameConfigNameCheck) ||
+                TextUtils.isEmpty(poorScoreCheck) ||
+                TextUtils.isEmpty(greatScoreCheck)) {
+            Toast.makeText(this, R.string.game_config_photo_user_input_check, Toast.LENGTH_SHORT).show();
+            return true;
+        } else {
+            return false;
+        }
     }
 }
