@@ -1,10 +1,13 @@
 package ca.cmpt276.chromiumproject;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
@@ -39,6 +42,8 @@ public class StatisticsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
 
+        setUpBackButton();
+
         curAchievement = getResources().getStringArray(R.array.achievement_dark_tribe);
 
         extractDataFromIntent();
@@ -66,8 +71,6 @@ public class StatisticsActivity extends AppCompatActivity {
             GameRecord currentRecord = gameRecords.get(i);
             curAchievementLevel = currentRecord.getAchievementLevel() + 1;
 
-            System.out.println("THE LEVEL IS: " + curAchievementLevel);
-
             curCollectedPoint =
                     curAchievementScoreCollections.get(curAchievementLevel) + 1;
 
@@ -84,15 +87,16 @@ public class StatisticsActivity extends AppCompatActivity {
             if (curAchievementScoreCollections.get(i) > 0) {
                 pieEntries.add(new PieEntry(
                         curAchievementScoreCollections.get(i),
-                        "Achievement #" + i));
+                        getString(R.string.word_achieve) +
+                                " #" + i));
             }
         }
 
-        PieDataSet dataSet = new PieDataSet(pieEntries, "Achievement Statistics");
+        PieDataSet dataSet = new PieDataSet(pieEntries, getString(R.string.word_achieves));
 
 
         dataSet.setColors(ColorTemplate.PASTEL_COLORS);
-        dataSet.setValueTextSize(12f);
+        dataSet.setValueTextSize(13f);
 
         PieData data = new PieData(dataSet);
 
@@ -111,12 +115,27 @@ public class StatisticsActivity extends AppCompatActivity {
 
         return intent;
     }
-
     private void extractDataFromIntent() {
         Intent intent = getIntent();
         gameConfigPosition = intent.getIntExtra(GAME_CONFIG_POSITION, 0);
 
         gameConfigs = gameManager.getGameConfigByIndex(gameConfigPosition);
         gameRecords = gameConfigs.getGameRecords();
+    }
+
+    private void setUpBackButton() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
