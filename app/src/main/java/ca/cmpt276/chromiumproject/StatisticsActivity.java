@@ -45,6 +45,7 @@ public class StatisticsActivity extends AppCompatActivity {
         setUpBackButton();
 
         extractDataFromIntent();
+        checkPotentialError();
 
         initializeScoreCollection();
         collectDataFromGameRecordsList();
@@ -58,13 +59,15 @@ public class StatisticsActivity extends AppCompatActivity {
         }
     }
 
-    private void collectDataFromGameRecordsList() {
-        int gameRecordSize = gameRecords.size();
-
-        if (gameRecordSize == 0) {
+    private void checkPotentialError() {
+        if (gameRecords.size() == 0) {
             Toast.makeText(this, getString(R.string.add_game_warn), Toast.LENGTH_LONG).show();
             getWindow().getDecorView().setBackgroundColor(Color.RED);
         }
+    }
+
+    private void collectDataFromGameRecordsList() {
+        int gameRecordSize = gameRecords.size();
 
         int curAchievementLevel = 0;
         int curCollectedPoint = 0;
@@ -83,7 +86,6 @@ public class StatisticsActivity extends AppCompatActivity {
         //Populate list of PieEntries
         List<PieEntry> pieEntries = new ArrayList<>();
 
-        //int achieveSize = curAchievement.length;
         for (int i = 0; i < MAX_NUM_OF_ACHIEVEMENTS; i++) {
             if (curAchievementScoreCollections.get(i) > 0) {
                 pieEntries.add(new PieEntry(
