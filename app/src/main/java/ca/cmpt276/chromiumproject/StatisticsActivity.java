@@ -81,9 +81,11 @@ public class StatisticsActivity extends AppCompatActivity {
 
         //int achieveSize = curAchievement.length;
         for (int i = 0; i < MAX_NUM_OF_ACHIEVEMENTS; i++) {
-            pieEntries.add(new PieEntry(
-                    curAchievementScoreCollections.get(i),
-                    "Achievement #" + i));
+            if (curAchievementScoreCollections.get(i) > 0) {
+                pieEntries.add(new PieEntry(
+                        curAchievementScoreCollections.get(i),
+                        "Achievement #" + i));
+            }
         }
 
         PieDataSet dataSet = new PieDataSet(pieEntries, "Achievement Statistics");
