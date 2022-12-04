@@ -83,20 +83,22 @@ public class StatisticsActivity extends AppCompatActivity {
         for (int i = 0; i < MAX_NUM_OF_ACHIEVEMENTS; i++) {
             pieEntries.add(new PieEntry(
                     curAchievementScoreCollections.get(i),
-                    "#" + i));
+                    "Achievement #" + i));
         }
 
         PieDataSet dataSet = new PieDataSet(pieEntries, "Achievement Statistics");
 
 
-        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        dataSet.setColors(ColorTemplate.PASTEL_COLORS);
+        dataSet.setValueTextSize(12f);
 
         PieData data = new PieData(dataSet);
 
         //Get chart
         PieChart chart = findViewById(R.id.chartView);
         chart.setData(data);
-        chart.animateY(2000);
+        chart.animateY(1000);
+
         chart.invalidate();
     }
 
