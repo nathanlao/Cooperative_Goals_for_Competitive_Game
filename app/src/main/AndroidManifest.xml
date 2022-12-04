@@ -14,6 +14,10 @@
         android:theme="@style/Theme.Chromiumproject"
         tools:targetApi="31">
         <activity
+            android:name=".AboutApplicationActivity"
+            android:label="@string/about_screen_title"
+            android:exported="false" />
+        <activity
             android:name=".SetSinglePlayerScoreActivity"
             android:exported="false"
             android:label="@string/single_player_title">
