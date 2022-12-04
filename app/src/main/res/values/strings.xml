@@ -98,6 +98,7 @@
     <string name="save_achievement_settings">save achievement settings</string>
     <string name="replay">Replay</string>
     <string name="finish">Finish</string>
+    <string name="theme_changed">Theme Changed</string>
 
     <!-- Strings used for Achievement -->
     <string-array name="achievement_names">
