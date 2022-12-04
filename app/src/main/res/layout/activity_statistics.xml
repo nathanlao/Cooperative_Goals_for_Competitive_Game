@@ -7,7 +7,7 @@
     tools:context=".StatisticsActivity">
 
     
-    <com.github.mikephil.charting.charts.PieChart
+    <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/chartView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

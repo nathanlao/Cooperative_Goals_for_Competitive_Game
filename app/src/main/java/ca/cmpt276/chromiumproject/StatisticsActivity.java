@@ -6,7 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -17,10 +21,12 @@ import java.util.List;
 
 import ca.cmpt276.chromiumproject.model.GameConfig;
 import ca.cmpt276.chromiumproject.model.GameManager;
+import ca.cmpt276.chromiumproject.model.GameRecord;
 
 public class StatisticsActivity extends AppCompatActivity {
     private static final String GAME_CONFIG_POSITION =
             "ca.cmpt276.chromiumproject - Selected particular Game Config position";
+    private static final int MAX_NUM_OF_ACHIEVEMENTS = 9;
 
     private int gameConfigPosition;
     private GameManager gameManager = GameManager.getInstance();
@@ -29,6 +35,8 @@ public class StatisticsActivity extends AppCompatActivity {
     //private List<String> curAchievement;
     private String[] curAchievement;
     private List<Integer> curAchievementScoreCollections;
+
+    private List<GameRecord> gameRecords = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,21 +47,52 @@ public class StatisticsActivity extends AppCompatActivity {
 
         extractDataFromIntent();
 
-        setUpChart();
+        initializeScoreCollection();
+        collectDataFromGameRecordsList();
+        //setUpChart();
+        setUpBarChart();
+    }
+
+    private void initializeScoreCollection() {
+        curAchievementScoreCollections = new ArrayList<>();
+        for (int i = 0; i < MAX_NUM_OF_ACHIEVEMENTS; i++) {
+            curAchievementScoreCollections.add(0);
+        }
+    }
+
+    private void collectDataFromGameRecordsList() {
+        int gameRecordSize = gameRecords.size();
+
+        //TODO : Don't let user do it if gameRecord = 0, null
+
+        int curAchievementLevel = 0;
+        int curCollectedPoint = 0;
+        for (int i = 0; i < gameRecordSize; i++) {
+            GameRecord currentRecord = gameRecords.get(i);
+            curAchievementLevel = currentRecord.getAchievementLevel() + 1;
+
+            System.out.println("THE LEVEL IS: " + curAchievementLevel);
+
+            curCollectedPoint =
+                    curAchievementScoreCollections.get(curAchievementLevel) + 1;
+
+            curAchievementScoreCollections.set(curAchievementLevel, curCollectedPoint);
+        }
     }
 
     private void setUpChart() {
         //Populate list of PieEntries
         List<PieEntry> pieEntries = new ArrayList<>();
 
-        int achieveSize = curAchievement.length;
-        for (int i = 0; i < achieveSize; i++) {
+        //int achieveSize = curAchievement.length;
+        for (int i = 0; i < MAX_NUM_OF_ACHIEVEMENTS; i++) {
             pieEntries.add(new PieEntry(
                     curAchievementScoreCollections.get(i),
-                    curAchievement[i]));
+                    "#" + i));
         }
 
         PieDataSet dataSet = new PieDataSet(pieEntries, "Achievement Statistics");
+
 
         dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
 
@@ -65,9 +104,33 @@ public class StatisticsActivity extends AppCompatActivity {
         chart.animateY(3000);
         chart.invalidate();
     }
+    private void setUpBarChart() {
+        //Populate list of PieEntries
+        List<BarEntry> barEntries = new ArrayList<>();
+
+        //int achieveSize = curAchievement.length;
+        for (int i = 0; i < MAX_NUM_OF_ACHIEVEMENTS; i++) {
+            barEntries.add(new BarEntry(
+                    curAchievementScoreCollections.get(i),
+                    i));
+        }
+
+        BarDataSet dataSet = new BarDataSet(barEntries, "Achievement Statistics");
+
+
+        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+
+        BarData data = new BarData(dataSet);
+
+        //Get chart
+        BarChart chart = findViewById(R.id.chartView);
+        chart.setData(data);
+        chart.animateY(3000);
+        chart.invalidate();
+    }
 
     public static Intent makeIntent (Context context, int gameConfigPos) {
-        Intent intent = new Intent(context, ViewAchievementActivity.class);
+        Intent intent = new Intent(context, StatisticsActivity.class);
 
         intent.putExtra(GAME_CONFIG_POSITION, gameConfigPos);
 
@@ -79,5 +142,6 @@ public class StatisticsActivity extends AppCompatActivity {
         gameConfigPosition = intent.getIntExtra(GAME_CONFIG_POSITION, 0);
 
         gameConfigs = gameManager.getGameConfigByIndex(gameConfigPosition);
+        gameRecords = gameConfigs.getGameRecords();
     }
 }
