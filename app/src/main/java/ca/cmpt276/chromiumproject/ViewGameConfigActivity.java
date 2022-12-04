@@ -74,6 +74,7 @@ public class ViewGameConfigActivity extends AppCompatActivity {
         setUpRecordNewGame();
         setUpDeleteConfig();
         setUpViewAchievement();
+        setUpStatistics();
 
         // populate list of game records
         setupGamesRecordList();
@@ -131,6 +132,16 @@ public class ViewGameConfigActivity extends AppCompatActivity {
 
     private void registerAchievementBtnClick() {
         Intent intent = ViewAchievementActivity.makeIntent(this, gameConfigPosition);
+        startActivity(intent);
+    }
+
+    private void setUpStatistics(){
+        Button statsBtn = findViewById(R.id.statisticsBtn);
+        statsBtn.setOnClickListener( v -> registerStatsBtnClick());
+    }
+
+    private void registerStatsBtnClick() {
+        Intent intent = StatisticsActivity.makeIntent(this, gameConfigPosition);
         startActivity(intent);
     }
 

@@ -2,6 +2,8 @@ package ca.cmpt276.chromiumproject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -13,7 +15,17 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.cmpt276.chromiumproject.model.GameConfig;
+import ca.cmpt276.chromiumproject.model.GameManager;
+
 public class StatisticsActivity extends AppCompatActivity {
+    private static final String GAME_CONFIG_POSITION =
+            "ca.cmpt276.chromiumproject - Selected particular Game Config position";
+
+    private int gameConfigPosition;
+    private GameManager gameManager = GameManager.getInstance();
+    private GameConfig gameConfigs;
+
     //private List<String> curAchievement;
     private String[] curAchievement;
     private List<Integer> curAchievementScoreCollections;
@@ -24,6 +36,8 @@ public class StatisticsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_statistics);
 
         curAchievement = getResources().getStringArray(R.array.achievement_dark_tribe);
+
+        extractDataFromIntent();
 
         setUpChart();
     }
@@ -50,5 +64,20 @@ public class StatisticsActivity extends AppCompatActivity {
         chart.setData(data);
         chart.animateY(3000);
         chart.invalidate();
+    }
+
+    public static Intent makeIntent (Context context, int gameConfigPos) {
+        Intent intent = new Intent(context, ViewAchievementActivity.class);
+
+        intent.putExtra(GAME_CONFIG_POSITION, gameConfigPos);
+
+        return intent;
+    }
+
+    private void extractDataFromIntent() {
+        Intent intent = getIntent();
+        gameConfigPosition = intent.getIntExtra(GAME_CONFIG_POSITION, 0);
+
+        gameConfigs = gameManager.getGameConfigByIndex(gameConfigPosition);
     }
 }
