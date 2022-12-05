@@ -24,6 +24,10 @@ import ca.cmpt276.chromiumproject.model.GameConfig;
 import ca.cmpt276.chromiumproject.model.GameManager;
 import ca.cmpt276.chromiumproject.model.GameRecord;
 
+/** StatisticsActivity retrieves existing individual achievement data from game records that
+ * reside inside a single game config. It generates pie chart showing users
+ * how much of each level of achievement is earned in each slice of pie.
+ */
 public class StatisticsActivity extends AppCompatActivity {
     private static final String GAME_CONFIG_POSITION =
             "ca.cmpt276.chromiumproject - Selected particular Game Config position";
@@ -31,7 +35,7 @@ public class StatisticsActivity extends AppCompatActivity {
 
     private int gameConfigPosition;
     private GameManager gameManager = GameManager.getInstance();
-    private GameConfig gameConfigs;
+    private GameConfig gameConfig;
 
     private List<Integer> curAchievementScoreCollections;
 
@@ -127,8 +131,8 @@ public class StatisticsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         gameConfigPosition = intent.getIntExtra(GAME_CONFIG_POSITION, 0);
 
-        gameConfigs = gameManager.getGameConfigByIndex(gameConfigPosition);
-        gameRecords = gameConfigs.getGameRecords();
+        gameConfig = gameManager.getGameConfigByIndex(gameConfigPosition);
+        gameRecords = gameConfig.getGameRecords();
     }
 
     private void setUpBackButton() {
