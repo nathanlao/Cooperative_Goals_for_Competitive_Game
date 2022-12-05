@@ -28,11 +28,11 @@ import ca.cmpt276.chromiumproject.model.GameRecord;
 /**EarnedAchievementActivity is displayed after a user saves a new game record and earns an achievement level. A congratulatory message appears alongside a
  * sound effect, image, animation, and the achievement level earned.
  * Background photo from https://unsplash.com/photos/xplrF8WMitE, firework animation from cupids@aphrodite.global
- * Sound from https://pixabay.com/sound-effects/pleased-crowdflac-14484/
+ * Sound from https://pixabay.com/sound-effects/short-crowd-cheer-6713/
  */
 public class EarnedAchievementActivity extends AppCompatActivity {
 
-    public static final int ANIMATION_DURATION = 5000;
+    public static final int ANIMATION_DURATION = 6000;
     public static final int FIREWORKS1_X_TRANSLATION = 600;
     public static final int FIREWORKS1_Y_TRANSLATION = -600;
     public static final int FIREWORKS2_X_TRANSLATION = -600;
@@ -81,7 +81,7 @@ public class EarnedAchievementActivity extends AppCompatActivity {
 
         runAnimation(fireworks1, FIREWORKS1_X_TRANSLATION, FIREWORKS1_Y_TRANSLATION);
         runAnimation(fireworks2, FIREWORKS2_X_TRANSLATION, FIREWORKS2_Y_TRANSLATION);
-        cheeringAudio = MediaPlayer.create(EarnedAchievementActivity.this, R.raw.cheering_audio);
+        cheeringAudio = MediaPlayer.create(EarnedAchievementActivity.this, R.raw.celebration_audio);
         cheeringAudio.start();
 
 
@@ -98,6 +98,8 @@ public class EarnedAchievementActivity extends AppCompatActivity {
             public void onClick(View view) {
                 runAnimation(fireworks1, FIREWORKS1_X_TRANSLATION, FIREWORKS1_Y_TRANSLATION);
                 runAnimation(fireworks2, FIREWORKS2_X_TRANSLATION, FIREWORKS2_Y_TRANSLATION);
+                cheeringAudio = MediaPlayer.create(EarnedAchievementActivity.this, R.raw.celebration_audio);
+                cheeringAudio.start();
             }
         });
     }
