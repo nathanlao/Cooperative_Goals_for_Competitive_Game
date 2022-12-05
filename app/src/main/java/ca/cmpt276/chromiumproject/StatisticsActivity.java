@@ -105,6 +105,11 @@ public class StatisticsActivity extends AppCompatActivity {
 
         //Get chart
         PieChart chart = findViewById(R.id.chartView);
+
+        //Disable description label and legends
+        chart.getLegend().setEnabled(false);
+        chart.setDescription(null);
+
         chart.setData(data);
         chart.animateY(1000);
 
