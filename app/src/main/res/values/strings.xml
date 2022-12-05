@@ -213,4 +213,10 @@
         <item>Demon Master</item>
     </string-array>
 
+    <!-- Strings used for Statistics -->
+    <string name="stats_head">Achievement Statistics</string>
+    <string name="word_achieve">Achievement</string>
+    <string name="word_achieves">Achievements</string>
+    <string name="add_game_warn">Please RECORD some Games first !</string>
+
 </resources>
