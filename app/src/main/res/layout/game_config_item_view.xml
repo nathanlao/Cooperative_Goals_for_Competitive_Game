@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
 android:layout_height="match_parent" >
@@ -12,6 +13,7 @@ android:layout_height="match_parent" >
         android:layout_rowSpan="2"
         android:layout_column="0"
         android:scaleType="fitXY"
+        app:srcCompat="@drawable/no_image_available"
         tools:ignore="ContentDescription" />
 
     <TextView
@@ -21,7 +23,7 @@ android:layout_height="match_parent" >
         android:layout_row="0"
         android:layout_column="1"
         android:layout_columnWeight="1"
-        android:layout_marginStart="0dp"
+        android:layout_marginStart="16dp"
         android:textColor="#1E90FF"
         android:textSize="24sp" />
 
@@ -32,7 +34,7 @@ android:layout_height="match_parent" >
         android:layout_row="1"
         android:layout_column="1"
         android:layout_columnWeight="1"
-        android:layout_marginStart="0dp"
+        android:layout_marginStart="16dp"
         android:textColor="#4B0082"
         android:textSize="16sp"
         tools:text="@string/string_poor_score" />
