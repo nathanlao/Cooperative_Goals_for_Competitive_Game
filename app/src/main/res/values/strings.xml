@@ -140,10 +140,16 @@
         \n\nAnimation:\n
         <a href="https://aphrodite.global/">
             https://aphrodite.global/
+        </a>\n\n
+        <a href="https://stackoverflow.com/questions/12983681/translateanimation-on-imageview-android">
+            https://stackoverflow.com/questions/12983681/translateanimation-on-imageview-android
+        </a>\n\n
+        <a href="https://stackoverflow.com/questions/20608073/how-to-rotate-imageview-from-its-centre-position">
+            https://stackoverflow.com/questions/20608073/how-to-rotate-imageview-from-its-centre-position
         </a>
         \n\nSound:\n
-        <a href="https://pixabay.com/sound-effects/pleased-crowdflac-14484/">
-            https://pixabay.com/sound-effects/pleased-crowdflac-14484/
+        <a href="https://www.youtube.com/watch?v=h3QMnHw0fi8">
+            https://www.youtube.com/watch?v=h3QMnHw0fi8
         </a>
         \n\nResources:\n
         <a href="https://medium.com/@vishrut.goyani9/scoped-storage-in-android-writing-deleting-media-files-ee6235d3011">
@@ -166,6 +172,9 @@
         </a>\n\n
         <a href="https://github.com/hdodenhof/CircleImageView">
             https://github.com/hdodenhof/CircleImageView
+        </a>\n\n
+        <a href="https://github.com/PhilJay/MPAndroidChart">
+            https://github.com/PhilJay/MPAndroidChart
         </a>
     </string>
 
