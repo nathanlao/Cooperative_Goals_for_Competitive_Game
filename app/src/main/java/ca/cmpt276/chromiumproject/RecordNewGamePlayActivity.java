@@ -4,17 +4,21 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import static ca.cmpt276.chromiumproject.model.Difficulty.NORMAL;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -54,11 +58,14 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     public static final String TAG_ILLEGAL_ARGUMENT_EXCEPTION = "Catch IllegalArgumentException";
     private static final int REQUEST_CODE_PLAYER_SCORE_INPUT = 101;
 
+    public static final int DEFAULT_PLAYER_COUNT = 2;
+
     private GameManager gameManager;
     private GameRecord gameRecord;
-    private GameConfig gameConfigs;
+    private GameConfig gameConfig;
 
     private Difficulty selectedDifficulty;
+    private Bitmap pictureTaken;
 
     private int gameConfigPosition;
     private int gamePlayPosition;
@@ -67,6 +74,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     private TextView combinedScore;
 
     private List<Integer> playerScoreList;
+    private List<Integer> shadowPlayerScoreList;
 
     private boolean isNewGamePlay;
 
@@ -104,11 +112,62 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
         setUpDefaultImage();
         setUpTakePhotoFAB();
+
+        initializeNewGameNumPlayer();
+        initializeAllPlayerList();
+    }
+
+    private void initializeNewGameNumPlayer() {
+        String theDefaultPlayerCount = Integer.toString(DEFAULT_PLAYER_COUNT);
+
+        if (isNewGamePlay) {
+            numPlayersInput.setText(theDefaultPlayerCount);
+        }
+    }
+    private void initializeAllPlayerList() {
+        int theDefaultInteger = Integer.parseInt(numPlayersInput.getText().toString());
+
+        if (isNewGamePlay) {
+            playerScoreList = new ArrayList<>();
+            shadowPlayerScoreList = new ArrayList<>();
+
+            for (int i = 0; i < theDefaultInteger; i++) {
+                playerScoreList.add(0);
+                shadowPlayerScoreList.add(0);
+            }
+        }
+
+        renewPlayerList();
+    }
+    private void initializeShadowPlayer() {
+        int theDefaultInteger = Integer.parseInt(numPlayersInput.getText().toString());
+
+        shadowPlayerScoreList = new ArrayList<>();
+
+        if (!isNewGamePlay) {
+            for (int i = 0; i < theDefaultInteger; i++) {
+                shadowPlayerScoreList.add(playerScoreList.get(i));
+            }
+        }
+
     }
 
     private void setUpDefaultImage() {
         ImageView gamePlayImage = findViewById(R.id.imgGamePlay);
-        gamePlayImage.setImageResource(R.drawable.no_image_available);
+
+        if (!isNewGamePlay) { // try loading existing image if it exists
+            GameRecord currentGamePlay = gameConfig.getGameRecordByIndex(gamePlayPosition);
+            Bitmap currentPhoto = PhotoHelper.loadBitmapPhotoFromModel(this, currentGamePlay);
+
+            if (currentPhoto == null) {
+                gamePlayImage.setImageResource(R.drawable.no_image_available);
+            } else {
+                gamePlayImage.setImageBitmap(currentPhoto);
+                pictureTaken = currentPhoto;
+            }
+        } else {
+            gamePlayImage.setImageResource(R.drawable.no_image_available);
+        }
     }
 
     private void setUpTakePhotoFAB() {
@@ -139,8 +198,8 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
                             if (resultCode == RESULT_OK && data != null) {
                                 ImageView gamePlayImage = findViewById(R.id.imgGamePlay);
-                                Bitmap image = (Bitmap) data.getExtras().get("data");
-                                gamePlayImage.setImageBitmap(image);
+                                pictureTaken = (Bitmap) data.getExtras().get("data");
+                                gamePlayImage.setImageBitmap(pictureTaken);
                             }
                         }
                     }
@@ -148,9 +207,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
     private void setUpNumPlayerSetButton() {
         Button numPlayerSetButton = findViewById(R.id.buttonNumPlayerSet);
-        numPlayerSetButton.setOnClickListener(view -> {
-            renewPlayerList();
-        });
+        numPlayerSetButton.setOnClickListener(view -> renewPlayerList());
     }
 
     private void renewPlayerList() {
@@ -179,41 +236,50 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     private void updatePlayerListData(int userIntInput) {
         List<Integer> tempListData = new ArrayList<>();
 
-        //modified to preserve data once Player size changes
-        if (playerScoreList == null) {
-            playerScoreList = new ArrayList<>();
-
-            for (int i = 0; i < userIntInput; i++) {
-                playerScoreList.add(0);
+        //Check shadow list first
+        //If it's actually big as user input, add if not
+        int shadowSize = shadowPlayerScoreList.size();
+        int theSizeDifference = userIntInput - shadowSize;
+        if (shadowSize < userIntInput) {
+            for (int i = 0; i < theSizeDifference; i++) {
+                shadowPlayerScoreList.add(0);
             }
         }
-        else if (playerScoreList != null) {
-            int curSize = playerScoreList.size();
-            if (curSize > userIntInput) {
-                for (int i = 0; i < userIntInput; i++) {
+
+        //Edit player list
+        int curSize = playerScoreList.size();
+        if (curSize > userIntInput) {
+            for (int i = 0; i < userIntInput; i++) {
+                tempListData.add(playerScoreList.get(i));
+            }
+        }
+        if (curSize < userIntInput) {
+            for (int i = 0; i < userIntInput; i++) {
+                if (i < curSize) {
                     tempListData.add(playerScoreList.get(i));
                 }
-            }
-            if (curSize < userIntInput) {
-                for (int i = 0; i < userIntInput; i++) {
-                    if (i < curSize) {
-                        tempListData.add(playerScoreList.get(i));
-                    }
-                    else {
-                        tempListData.add(0);
-                    }
+                else {
+                    tempListData.add(shadowPlayerScoreList.get(i));
                 }
             }
-
-            if (curSize != userIntInput) {
-                playerScoreList = new ArrayList<>();
-                for (int i = 0; i < tempListData.size(); i++) {
-                    int tempValue = tempListData.get(i);
-                    playerScoreList.add(tempValue);
-                }
-            }
-
         }
+
+        if (curSize != userIntInput) {
+            playerScoreList = new ArrayList<>();
+            for (int i = 0; i < tempListData.size(); i++) {
+                int tempValue = tempListData.get(i);
+                playerScoreList.add(tempValue);
+            }
+
+            //edit shadow list, either add or and copy values
+            //from new set player list
+
+            for (int i = 0; i < playerScoreList.size(); i++) {
+                int tempValue = playerScoreList.get(i);
+                shadowPlayerScoreList.set(i, tempValue);
+            }
+        }
+
     }
 
     private void populatePlayersListView() {
@@ -237,7 +303,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
             }
 
             String curPlayerName = getString(R.string.player_id_info)
-                    + Integer.toString(position + 1);
+                    + (position + 1);
 
             TextView curPlayerNameText = itemView.findViewById(R.id.item_player_name);
             curPlayerNameText.setText(curPlayerName);
@@ -256,11 +322,10 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     private void playerListClickSetUp() {
         ListView playersViewList = findViewById(R.id.listViewSinglePlayer);
         playersViewList.setOnItemClickListener((parent, viewClicked, position, id) -> {
-            int clickedPos = position;
             int theSinglePlayerScore = playerScoreList.get(position);
 
             Intent intent = SetSinglePlayerScoreActivity.makeIntent(RecordNewGamePlayActivity.this,
-                    clickedPos,
+                    position,
                     theSinglePlayerScore);
             playerActivityResultLauncher.launch(intent);
 
@@ -279,6 +344,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
                         int newUserInputPlayerScore = SetSinglePlayerScoreActivity.getPlayerResultMsg(data);
                         int userPosition = SetSinglePlayerScoreActivity.getPositionOfPlayer(data);
                         playerScoreList.set(userPosition, newUserInputPlayerScore);
+                        shadowPlayerScoreList.set(userPosition, newUserInputPlayerScore);
 
                         Log.i("PlayerListPart", "Activity SUCCESSFUL.");
                     }
@@ -304,7 +370,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         setDifficultyButtonsGray();
 
         normalBtn.setOnClickListener(v -> {
-            selectedDifficulty = NORMAL;
+            selectedDifficulty = Difficulty.NORMAL;
             setDifficultyButtonsGray();
             normalBtn.setBackgroundColor(Color.BLUE);
         });
@@ -334,7 +400,9 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
     private void setUpBackButton() {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     private void setUpTextFields() {
@@ -349,35 +417,27 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         return true;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case R.id.action_save:
-                // Validate difficulty buttons. Display error if no difficulty is selected.
-                if (checkNullSelectedDifficulty()) {
+                // Validate difficulty buttons, validate non-empty input, validate set button (playerScoreList must be not null)
+                if (checkNullSelectedDifficulty() || checkEmptyInput() || checkInvalidInput() || checkNullPlayerScoreList()) {
                     return false;
                 }
 
-                // Validate empty input and display Toast message accordingly
-                if (checkEmptyInput() || checkInvalidInput()) {
-                    return false;
+                // if API version <29, need to request permissions to write to external storage
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                    if(ContextCompat.checkSelfPermission(RecordNewGamePlayActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                        saveGameRecordAndFinish();
+                    } else {
+                        requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                    }
                 }
-
-                // Validate set button (PlayerScoreList must be not null)
-                if (checkNullPlayerScoreList()) {
-                    return false;
+                else {
+                    saveGameRecordAndFinish();
                 }
-
-                // Take user input
-                setupGameRecordInput();
-
-                // save updated gameConfigs list to SharedPrefs
-                MainActivity.saveGameConfigs(this, gameManager);
-                Toast.makeText(this, R.string.toast_save_game_record, Toast.LENGTH_SHORT).show();
-                if (isNewGamePlay) {
-                    setUpEarnedAchievement();
-                }
-                finish();
 
                 return true;
 
@@ -390,11 +450,45 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         }
     }
 
+    private void saveGameRecordAndFinish() {
+        // Take user input
+        setupGameRecordInput();
+
+        // save photo as File
+        savePictureTaken();
+
+        // save updated gameConfigs list to SharedPrefs
+        MainActivity.saveGameConfigs(this, gameManager);
+
+        if (isNewGamePlay) {
+            setUpEarnedAchievement();
+        }
+
+        Toast.makeText(this, R.string.toast_save_game_record, Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    private void savePictureTaken() {
+        if (pictureTaken != null) {
+            PhotoHelper.savePhotoAndStoreInModel(RecordNewGamePlayActivity.this, gameRecord, pictureTaken);
+        }
+    }
+
+    private ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    saveGameRecordAndFinish();
+                } else { // save fails until permissions are allowed
+                    String writeDeniedMsg = getString(R.string.write_access_denied_msg);
+                    Toast.makeText(RecordNewGamePlayActivity.this, writeDeniedMsg, Toast.LENGTH_LONG).show();
+                }
+            });
+
     private void setupGameRecordInput() {
         // Take user input and get current gameConfig
         int numberOfPlayersNum = 0;
         int combinedScoreNum = 0;
-        gameConfigs = gameManager.getGameConfigByIndex(gameConfigPosition);
+        gameConfig = gameManager.getGameConfigByIndex(gameConfigPosition);
 
         String  numberOfPlayersStr = numPlayersInput.getText().toString();
         try {
@@ -413,13 +507,13 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         if (isNewGamePlay) {
             // Add new game record to the record list in gameConfig
             try {
-                gameRecord = new GameRecord(numberOfPlayersNum, combinedScoreNum, gameConfigs.getPoorScore(), gameConfigs.getGreatScore(), selectedDifficulty);
+                gameRecord = new GameRecord(numberOfPlayersNum, combinedScoreNum, gameConfig.getPoorScore(), gameConfig.getGreatScore(), selectedDifficulty);
 
                 // Copy over the player score list into gameRecord's playerScoreList
                 for (int playerScore : playerScoreList) {
                     gameRecord.addPlayerScore(playerScore);
                 }
-                gameConfigs.addGameRecord(gameRecord);
+                gameConfig.addGameRecord(gameRecord);
 
             } catch (IllegalArgumentException ex) {
                 Log.d(TAG_ILLEGAL_ARGUMENT_EXCEPTION, "IllegalArgumentException caught: number of players must be greater than 0");
@@ -427,11 +521,11 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         } else {
             try {
                 // Get current game record and edit it
-                gameRecord = gameConfigs.getGameRecordByIndex(gamePlayPosition);
-                gameRecord.editGameRecordValues(numberOfPlayersNum, combinedScoreNum, gameConfigs.getPoorScore(), gameConfigs.getGreatScore(), selectedDifficulty);
+                gameRecord = gameConfig.getGameRecordByIndex(gamePlayPosition);
+                gameRecord.editGameRecordValues(numberOfPlayersNum, combinedScoreNum, gameConfig.getPoorScore(), gameConfig.getGreatScore(), selectedDifficulty);
                 // Update playerScoreList after user editing the game
                 gameRecord.setPlayerScoreList(playerScoreList);
-                gameConfigs.setGameRecordByIndex(gamePlayPosition, gameRecord);
+                gameConfig.setGameRecordByIndex(gamePlayPosition, gameRecord);
             } catch (IllegalArgumentException ex) {
                 Log.d(TAG_ILLEGAL_ARGUMENT_EXCEPTION, "IllegalArgumentException caught: number of players must be greater than 0");
             }
@@ -513,9 +607,11 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         Button hardBtn = findViewById(R.id.btnSelectHard);
 
         // Getting current gameConfigs and its associated gameRecord
-        gameConfigs = gameManager.getGameConfigByIndex(gameConfigPosition);
-        GameRecord currentGamePlay = gameConfigs.getGameRecordByIndex(gamePlayPosition);
+        gameConfig = gameManager.getGameConfigByIndex(gameConfigPosition);
+        GameRecord currentGamePlay = gameConfig.getGameRecordByIndex(gamePlayPosition);
         Difficulty currentSelectedDifficulty = currentGamePlay.getDifficulty();
+
+        setUpDefaultImage();
 
         switch(currentSelectedDifficulty) {
             case NORMAL:
@@ -541,6 +637,8 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         // Get player score list from current gameRecord
         playerScoreList = currentGamePlay.getPlayerScoreList();
 
+        initializeShadowPlayer();
+
         // Update on playerScoreList based on input player count
         String userInputPlayerNumbers = numPlayersInput.getText().toString();
         int intConvertedUserInput = Integer.parseInt(userInputPlayerNumbers);
@@ -551,11 +649,8 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
         if (playerScoreList != null) {
-
             populatePlayersListView();
         }
-
     }
 }

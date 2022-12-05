@@ -1,18 +1,32 @@
 package ca.cmpt276.chromiumproject;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import ca.cmpt276.chromiumproject.model.GameConfig;
 import ca.cmpt276.chromiumproject.model.GameManager;
@@ -44,6 +58,8 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
     private int gameConfigPosition;
     private boolean isNewGame;
 
+    private Bitmap pictureTaken;
+
     // Intent for main activity to add new game config
     public static Intent makeAddIntent(Context context) {
         return new Intent(context, AddOrEditGameConfigActivity.class);
@@ -70,6 +86,9 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
 
         // Extract position from makeEditIntent()
         extractPositionFromIntent();
+
+        setUpTakeGameConfigPhotoFAB();
+        setUpDefaultImage();
     }
 
     private void setUpBackButton() {
@@ -89,30 +108,26 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case R.id.action_save_game_config:
-
-                String gameConfigName = "";
-                int poorScoreNum = 0;
-                int greatScoreNum = 0;
-
                 // Take in user input
-                setupGameConfigFieldsInput(gameConfigName, poorScoreNum, greatScoreNum);
+                setupGameConfigFieldsInput();
 
                 // Validate empty input and display Toast message accordingly
                 if (checkEmptyInput()) {
                     return false;
                 }
 
-                if (isNewGame) {
-                    gameManager.addNewGameConfig(newGameConfig);
-                } else {
-                    // Replace the current game config by an edited game
-                    gameManager.setGameConfigByIndex(gameConfigPosition, editedGameConfig);
+                // if API version <29, need to request permissions to write photo to external storage
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                    if(ContextCompat.checkSelfPermission(AddOrEditGameConfigActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                        saveGameConfigAndFinish();
+                    } else {
+                        requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                    }
+                }
+                else {
+                    saveGameConfigAndFinish();
                 }
 
-                Toast.makeText(this, R.string.toast_game_config_saved, Toast.LENGTH_SHORT).show();
-                // save new/edited gameConfigs to SharedPrefs
-                MainActivity.saveGameConfigs(this, gameManager);
-                finish();
                 return true;
 
             case android.R.id.home:
@@ -124,6 +139,37 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    private void saveGameConfigAndFinish() {
+        GameConfig gameConfig;
+        if (isNewGame) {
+            gameConfig = newGameConfig;
+            gameManager.addNewGameConfig(gameConfig);
+        } else {
+            // Replace the current game config by an edited game
+            gameConfig = editedGameConfig;
+            gameManager.setGameConfigByIndex(gameConfigPosition, gameConfig);
+        }
+
+        if (pictureTaken != null) {
+            PhotoHelper.savePhotoAndStoreInModel(AddOrEditGameConfigActivity.this, gameConfig, pictureTaken);
+        }
+
+        Toast.makeText(this, R.string.toast_game_config_saved, Toast.LENGTH_SHORT).show();
+        // save new/edited gameConfigs to SharedPrefs
+        MainActivity.saveGameConfigs(this, gameManager);
+        finish();
+    }
+
+    private ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    saveGameConfigAndFinish();
+                } else { // save fails until permissions are allowed
+                    String writeDeniedMsg = getString(R.string.write_access_denied_msg);
+                    Toast.makeText(AddOrEditGameConfigActivity.this, writeDeniedMsg, Toast.LENGTH_LONG).show();
+                }
+            });
 
     private void initializeEditTextFields() {
         gameConfigName = findViewById(R.id.editAddName);
@@ -150,7 +196,11 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
         }
     }
 
-    private void setupGameConfigFieldsInput(String gameConfigName, int poorScoreNum, int greatScoreNum) {
+    private void setupGameConfigFieldsInput() {
+        String gameConfigName = "";
+        int poorScoreNum = 0;
+        int greatScoreNum = 0;
+
         // Get the name from user input
         try {
             gameConfigName = this.gameConfigName.getText().toString();
@@ -225,5 +275,69 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
         gameConfigName.setText(currentGame.getName());
         poorScore.setText(String.valueOf(currentGame.getPoorScore()));
         greatScore.setText(String.valueOf(currentGame.getGreatScore()));
+    }
+
+    private void setUpDefaultImage() {
+        ImageView gameConfigImage = findViewById(R.id.gameConfigImage);
+
+        if (!isNewGame) { // try loading existing image if it exists
+            GameConfig currentGameConfig = gameManager.getGameConfigByIndex(gameConfigPosition);
+            Bitmap currentPhoto = PhotoHelper.loadBitmapPhotoFromModel(this, currentGameConfig);
+
+            if (currentPhoto == null) {
+                gameConfigImage.setImageResource(R.drawable.no_image_available);
+            } else {
+                gameConfigImage.setImageBitmap(currentPhoto);
+                pictureTaken = currentPhoto;
+            }
+
+        } else {
+            gameConfigImage.setImageResource(R.drawable.no_image_available);
+        }
+
+    }
+
+    private void setUpTakeGameConfigPhotoFAB() {
+        FloatingActionButton fabCameraBtn = findViewById(R.id.fabCameraBtn);
+        fabCameraBtn.setOnClickListener(v -> {
+            if (!checkUserInputIsEmpty()) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraActivityResultLauncher.launch(intent);
+            }
+        });
+    }
+
+    ActivityResultLauncher<Intent> cameraActivityResultLauncher =
+            registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    new ActivityResultCallback<ActivityResult>() {
+                        @Override
+                        public void onActivityResult(ActivityResult result) {
+                            Intent data = result.getData();
+                            int resultCode = result.getResultCode();
+
+                            if (resultCode == RESULT_OK && data != null) {
+                                ImageView gameConfigImage = findViewById(R.id.gameConfigImage);
+                                pictureTaken = (Bitmap) data.getExtras().get("data");
+                                gameConfigImage.setImageBitmap(pictureTaken);
+                            }
+                        }
+                    }
+            );
+
+    private boolean checkUserInputIsEmpty() {
+        String gameConfigNameCheck = gameConfigName.getText().toString();
+        String poorScoreCheck = poorScore.getText().toString();
+        String greatScoreCheck = greatScore.getText().toString();
+
+        //validate the user input
+        if (TextUtils.isEmpty(gameConfigNameCheck) ||
+                TextUtils.isEmpty(poorScoreCheck) ||
+                TextUtils.isEmpty(greatScoreCheck)) {
+            Toast.makeText(this, R.string.game_config_photo_user_input_check, Toast.LENGTH_SHORT).show();
+            return true;
+        } else {
+            return false;
+        }
     }
 }
