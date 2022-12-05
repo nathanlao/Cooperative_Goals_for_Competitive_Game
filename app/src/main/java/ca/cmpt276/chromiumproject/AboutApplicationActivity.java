@@ -9,6 +9,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+/*
+* AboutApplicationActivity is a class that contains information about the development team name,
+* developers' name, basic introduction of the application and hyperlink of resources. Actual layout
+* and implementation in activity_about_application.xml
+ */
+
 public class AboutApplicationActivity extends AppCompatActivity {
 
     public static Intent makeAboutScreenIntent(Context context) {
