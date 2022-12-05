@@ -241,6 +241,7 @@
             android:layout_height="wrap_content"
             android:text="@string/links"
             android:textColorLink="#03A9F4"
+            android:autoLink="web"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
