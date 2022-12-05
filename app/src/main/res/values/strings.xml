@@ -115,7 +115,7 @@
         <item>World Conqueror</item>
         <item>Creator of the Game</item>
     </string-array>
-    
+
     <!-- Strings used for 2nd Achievement Theme-->
     <string-array name="enchanted_forest_achievement_names">
         <item>Young Sprout</item>
@@ -138,5 +138,11 @@
         <item>Twisted Dragon Lord</item>
         <item>Demon Master</item>
     </string-array>
+
+    <!-- Strings used for Statistics -->
+    <string name="stats_head">Achievement Statistics</string>
+    <string name="word_achieve">Achievement</string>
+    <string name="word_achieves">Achievements</string>
+    <string name="add_game_warn">Please RECORD some Games first !</string>
 
 </resources>
