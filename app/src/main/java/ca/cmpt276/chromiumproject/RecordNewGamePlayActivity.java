@@ -57,7 +57,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     public static final String TAG_NUMBER_FORMAT_EXCEPTION = "Catch NumberFormatException";
     public static final String TAG_ILLEGAL_ARGUMENT_EXCEPTION = "Catch IllegalArgumentException";
     private static final int REQUEST_CODE_PLAYER_SCORE_INPUT = 101;
-    
+
     public static final int DEFAULT_PLAYER_COUNT = 2;
 
     private GameManager gameManager;
@@ -422,6 +422,9 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case R.id.action_save:
+                //Fix if player count set in Textview and actual count mismatch
+                checkPlayerCountMismatch();
+
                 // Validate difficulty buttons, validate non-empty input, validate set button (playerScoreList must be not null)
                 if (checkNullSelectedDifficulty() || checkEmptyInput() || checkInvalidInput() || checkNullPlayerScoreList()) {
                     return false;
@@ -448,6 +451,19 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void checkPlayerCountMismatch() {
+        int curTextViewPlayerInteger = Integer.parseInt(numPlayersInput.getText().toString());
+        int curSetPlayerListDataSize = playerScoreList.size();
+
+        //Fix if textview value mismatch to actual player score list size
+        //Caused by player not setting after changing textview value
+        if (curTextViewPlayerInteger != curSetPlayerListDataSize) {
+            curTextViewPlayerInteger = curSetPlayerListDataSize;
+        }
+
+        numPlayersInput.setText("" + curTextViewPlayerInteger);
     }
 
     private void saveGameRecordAndFinish() {
@@ -565,7 +581,10 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     }
 
     public void setUpEarnedAchievement(){
-        Intent i = EarnedAchievementActivity.makeEarnedAchievementIntent(RecordNewGamePlayActivity.this, gameConfigPosition);
+        String combinedScoreStr = combinedScore.getText().toString();
+        int combinedScorePoints = Integer.parseInt(combinedScoreStr);
+
+        Intent i = EarnedAchievementActivity.makeEarnedAchievementIntent(RecordNewGamePlayActivity.this, gameConfigPosition, combinedScorePoints);
         startActivity(i);
     }
 

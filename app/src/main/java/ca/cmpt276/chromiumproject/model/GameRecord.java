@@ -11,7 +11,6 @@ import java.util.List;
  * GameRecord stores contains information about a game session that has been played
  * Knows number of players, their combined score, what achievement they earned, difficulty of the game, and the date/time it was created
  * GameRecord's constructor needs to know poorScore and greatScore of the GameConfig that was played in order to calculate its achievement.
- * Contains Bitmap reference to a photo. Please use deletePhoto() to free up memory when deleting a GameRecord
  */
 public class GameRecord extends PhotoContainer {
     private static final int MIN_PLAYERS = 1;
@@ -20,6 +19,8 @@ public class GameRecord extends PhotoContainer {
     private int combinedScore;
 
     private int achievementLevel;
+    private int nextAchievementLevel;
+    private int nextLevelPoints;
     private String creationTime;
 
     private Difficulty difficulty;
@@ -40,6 +41,8 @@ public class GameRecord extends PhotoContainer {
         creationTime = LocalDateTime.now().format(DT_FORMAT);
         Achievement theAchievement = makeScaledAchievement(numPlayers, combinedScore, poorScore, greatScore, difficulty);
         this.achievementLevel  = theAchievement.getCurAchievementLevel();
+        this.nextAchievementLevel = theAchievement.getNextAchievementLevel();
+        this.nextLevelPoints = theAchievement.getNextLevelPoints();
     }
 
     public Difficulty getDifficulty() {
@@ -54,6 +57,8 @@ public class GameRecord extends PhotoContainer {
         // recalculate the achievement level based on the new difficulty
         Achievement theAchievement = makeScaledAchievement(numPlayers, combinedScore, poorScore, greatScore, difficulty);
         this.achievementLevel = theAchievement.getCurAchievementLevel();
+        this.nextAchievementLevel = theAchievement.getNextAchievementLevel();
+        this.nextLevelPoints = theAchievement.getNextLevelPoints();
     }
 
     public void setPlayerScoreList(List<Integer> playerScoreList) {
@@ -74,6 +79,14 @@ public class GameRecord extends PhotoContainer {
 
     public int getAchievementLevel() {
         return achievementLevel;
+    }
+
+    public int getNextAchievementLevel() {
+        return nextAchievementLevel;
+    }
+
+    public int getNextLevelPoints() {
+        return  nextLevelPoints;
     }
 
     public List<Integer> getPlayerScoreList() {
