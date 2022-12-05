@@ -28,7 +28,7 @@ import ca.cmpt276.chromiumproject.model.GameRecord;
 /**EarnedAchievementActivity is displayed after a user saves a new game record and earns an achievement level. A congratulatory message appears alongside a
  * sound effect, image, animation, and the achievement level earned.
  * Background photo from https://unsplash.com/photos/xplrF8WMitE, firework animation from cupids@aphrodite.global
- * Sound from https://pixabay.com/sound-effects/short-crowd-cheer-6713/
+ * Sound from https://www.youtube.com/watch?v=h3QMnHw0fi8
  */
 public class EarnedAchievementActivity extends AppCompatActivity {
 
