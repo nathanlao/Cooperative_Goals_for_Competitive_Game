@@ -32,11 +32,11 @@ import ca.cmpt276.chromiumproject.model.GameRecord;
 /**EarnedAchievementActivity is displayed after a user saves a new game record and earns an achievement level. A congratulatory message appears alongside a
  * sound effect, image, animation, and the achievement level earned.
  * Background photo from https://unsplash.com/photos/xplrF8WMitE, firework animation from cupids@aphrodite.global
- * Sound from https://pixabay.com/sound-effects/pleased-crowdflac-14484/
+ * Sound from https://www.youtube.com/watch?v=h3QMnHw0fi8
  */
 public class EarnedAchievementActivity extends AppCompatActivity {
 
-    public static final int ANIMATION_DURATION = 5000;
+    public static final int ANIMATION_DURATION = 6000;
     public static final int FIREWORKS1_X_TRANSLATION = 600;
     public static final int FIREWORKS1_Y_TRANSLATION = -600;
     public static final int FIREWORKS2_X_TRANSLATION = -600;
@@ -57,6 +57,8 @@ public class EarnedAchievementActivity extends AppCompatActivity {
     private int gameConfigPosition;
 
     private int combinedScore;
+    ImageView fireworks1;
+    ImageView fireworks2;
 
     public static Intent makeEarnedAchievementIntent(Context c, int gameConfigPosition, int combinedScore) {
         Intent intent = new Intent(c, EarnedAchievementActivity.class);
@@ -84,32 +86,43 @@ public class EarnedAchievementActivity extends AppCompatActivity {
         setCelebrationMessageText(gameConfigPosition);
         setNextAchievementLevelText(gameConfigPosition);
 
-        ImageView fireworks1 = findViewById(R.id.fireworksAnimation);
-        ImageView fireworks2 = findViewById(R.id.fireworksAnimation2);
+        fireworks1 = findViewById(R.id.fireworksAnimation);
+        fireworks2 = findViewById(R.id.fireworksAnimation2);
 
         runAnimation(fireworks1, FIREWORKS1_X_TRANSLATION, FIREWORKS1_Y_TRANSLATION);
         runAnimation(fireworks2, FIREWORKS2_X_TRANSLATION, FIREWORKS2_Y_TRANSLATION);
-        cheeringAudio = MediaPlayer.create(EarnedAchievementActivity.this, R.raw.cheering_audio);
+        cheeringAudio = MediaPlayer.create(EarnedAchievementActivity.this, R.raw.celebration_audio);
         cheeringAudio.start();
 
-        setUpSkipBtn();
+
+        setUpEndBtn();
+        setUpReplayBtn();
 
     }
 
-    private void setUpTimeLimit() {
-        new Handler().postDelayed(new Runnable() {
+    private void setUpReplayBtn() {
+        Button replayBtn = (Button) findViewById(R.id.replayBtn);
+        replayBtn.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void run() {
+            public void onClick(View view) {
+                runAnimation(fireworks1, FIREWORKS1_X_TRANSLATION, FIREWORKS1_Y_TRANSLATION);
+                runAnimation(fireworks2, FIREWORKS2_X_TRANSLATION, FIREWORKS2_Y_TRANSLATION);
+                cheeringAudio = MediaPlayer.create(EarnedAchievementActivity.this, R.raw.celebration_audio);
+                cheeringAudio.start();
+            }
+        });
+    }
+
+
+    private void setUpEndBtn() {
+        Button endBtn = (Button)findViewById(R.id.skipBtn);
+        endBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cheeringAudio.stop();
                 finish();
             }
-        }, SPLASH_TIME);
-    }
-
-    private void setUpSkipBtn() {
-        Button skipBtn = findViewById(R.id.skipBtn);
-        skipBtn.setOnClickListener(view -> {
-            cheeringAudio.stop();
-            finish();
         });
     }
 
@@ -170,7 +183,6 @@ public class EarnedAchievementActivity extends AppCompatActivity {
     @Nullable
     private String getAchievementTitle(String theme, String[] achievementNames, int nextAchievementLevel) {
         String achievementTitle = null;
-
         // check if Special Worst Achievement
         if (nextAchievementLevel == Achievement.SPECIAL_WORST_ACHIEVE) {
 
@@ -212,15 +224,16 @@ public class EarnedAchievementActivity extends AppCompatActivity {
         //animation tutorial: https://stackoverflow.com/questions/12983681/translateanimation-on-imageview-android
         //and https://stackoverflow.com/questions/20608073/how-to-rotate-imageview-from-its-centre-position
 
-        int xPosition = fireworks.getLeft();
-        int yPosition = fireworks.getTop();
+
+        int xPosition = 0;
+        int yPosition = 0;
 
         AnimationSet animationSet = new AnimationSet(false);
 
         //translation animation
         Animation translateAnimation = new TranslateAnimation(xPosition, xPosition+ xTranslation, yPosition, yPosition+ yTranslation);
         translateAnimation.setDuration(ANIMATION_DURATION);
-        translateAnimation.setFillAfter(true);
+        translateAnimation.setFillAfter(false);
         translateAnimation.setFillEnabled(true);
         translateAnimation.setAnimationListener(new Animation.AnimationListener() {
 
@@ -267,6 +280,5 @@ public class EarnedAchievementActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         setCelebrationMessageText(gameConfigPosition);
-        setNextAchievementLevelText(gameConfigPosition);
     }
 }
