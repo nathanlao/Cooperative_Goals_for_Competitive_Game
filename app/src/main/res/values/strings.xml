@@ -54,6 +54,7 @@
     <string name="set_button_label">Set</string>
     <string name="default_combined_score">-</string>
     <string name="toast_set_number_of_players">Please set number of players and enter scores first</string>
+    <string name="write_access_denied_msg">Please allow file permissions for photo saving/loading functionality.</string>
 
     <!-- Strings used for View Achievement Screen -->
     <string name="achievement_level_title">Achievement Levels</string>
@@ -87,6 +88,8 @@
 
     <!-- Strings used for EarnedAchievementActivity -->
     <string name="achievement_level_congratulations_message">Congratulations! Your team has earned achievement level: %1$s! Woohoo!</string>
+    <string name="next_achievement_level_message">Keep going for the next level: %1$s! Earn %2$s more points to unlock it!</string>
+    <string name="earned_highest_achievement_message">Yay! You have reached the highest level</string>
     <string name="earned_achievement">Earned Achievement</string>
     <string name="toast_set_single_player_score">Must set individual player score. Please press set button</string>
     <string name="skip">Skip</string>
