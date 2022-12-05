@@ -42,7 +42,7 @@ public class GameRecord extends PhotoContainer {
         Achievement theAchievement = makeScaledAchievement(numPlayers, combinedScore, poorScore, greatScore, difficulty);
         this.achievementLevel  = theAchievement.getCurAchievementLevel();
         this.nextAchievementLevel = theAchievement.getNextAchievementLevel();
-        this.nextLevelPoints = theAchievement.getNextLevelPoints();
+        this.nextLevelPoints = theAchievement.getNextLevelPoints(difficulty);
     }
 
     public Difficulty getDifficulty() {
@@ -58,7 +58,7 @@ public class GameRecord extends PhotoContainer {
         Achievement theAchievement = makeScaledAchievement(numPlayers, combinedScore, poorScore, greatScore, difficulty);
         this.achievementLevel = theAchievement.getCurAchievementLevel();
         this.nextAchievementLevel = theAchievement.getNextAchievementLevel();
-        this.nextLevelPoints = theAchievement.getNextLevelPoints();
+        this.nextLevelPoints = theAchievement.getNextLevelPoints(difficulty);
     }
 
     public void setPlayerScoreList(List<Integer> playerScoreList) {

@@ -1,5 +1,9 @@
 package ca.cmpt276.chromiumproject.model;
 
+import android.util.Log;
+
+import java.util.Arrays;
+
 /**
  * Achievement contains list of possible achievements you can achieve,
  * as well as potential points for each achievement.
@@ -152,21 +156,24 @@ public class Achievement {
         }
     }
 
-    private int getAchievementPointsByIndex(int index) {
-        int[] achievementPointsArray = getNormalAchievePoints();
+    private int[] getScaledAchievementPoints(Difficulty difficulty) {
+        int[] normalAchievementPointsArray = getNormalAchievePoints();
+        return scaleAchievePointsToDifficulty(normalAchievementPointsArray, difficulty);
+    }
+
+    private int getAchievementPointsByIndex(int index, Difficulty difficulty) {
+        int[] scaledAchievementPoints = getScaledAchievementPoints(difficulty);
 
         // Set restriction if achievementLevel reach the last position
-        if (achievementLevel < achievementPointsArray.length - 1) {
-            return achievementPointsArray[index];
+        if (achievementLevel < scaledAchievementPoints.length - 1) {
+            return scaledAchievementPoints[index];
         } else {
-            return achievementPointsArray[achievementPointsArray.length - 1];
+            return scaledAchievementPoints[scaledAchievementPoints.length - 1];
         }
     }
 
-    public int getNextLevelPoints() {
+    public int getNextLevelPoints(Difficulty difficulty) {
         int nextLevel = getNextAchievementLevel();
-        int nextLevelPoints = getAchievementPointsByIndex(nextLevel);
-
-        return nextLevelPoints;
+        return getAchievementPointsByIndex(nextLevel, difficulty);
     }
 }
