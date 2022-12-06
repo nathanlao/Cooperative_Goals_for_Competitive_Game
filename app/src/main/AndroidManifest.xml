@@ -18,6 +18,18 @@
         android:requestLegacyExternalStorage="true">
 
         <activity
+            android:name=".AboutApplicationActivity"
+            android:label="@string/about_screen_title"
+            android:exported="false" />
+        <activity
+            android:name=".StatisticsActivity"
+            android:exported="false"
+            android:label="@string/stats_head">>
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".SetSinglePlayerScoreActivity"
             android:exported="false"
             android:label="@string/single_player_title">
