@@ -104,6 +104,80 @@
     <string name="game_config_photo_user_input_check">Please enter all fields before taking a photo</string>
     <string name="theme_changed">Theme Changed</string>
 
+    <!-- Strings used for AboutApplicationActivity -->
+    <string name="about_screen_title">Help</string>
+    <string name="team_name_title">Team Name:</string>
+    <string name="chromium_team_name">Chromium</string>
+    <string name="developers_title">Developers:</string>
+    <string name="developer_chel">Chel</string>
+    <string name="developer_jay">Jay</string>
+    <string name="developer_kayla">Kayla</string>
+    <string name="developer_nathan">Nathan</string>
+    <string name="about_the_application_title">About the Application:</string>
+    <string name="about_the_application_content">
+        \t\tThis application is bringing Co-operative Goals for Competitive Games.
+        The idea is to provide achievement goals to turn some competitive board games into a more co-operative experience.
+        \n\t\tStart by creating a game configuration for your game board! Set the score range and take a memorable picture if you want!
+        Now it is time to record a game play! We have three difficulty levels for you to choose, record the game score for you and your friends and remember to take a selfie! Let\'s get the game rolling and win an achievement title for your team!
+        \n\t\tNot sure how many scores are needed to earn an achievement? Check out the View Achievement Levels!
+        Want to see how many achievement title you have earned? Check out the Achievement Statistics!
+        Realize an error in your game configurations? Go to edit game configuration and modify it!
+        Want a different theme for achievements? Go to settings in View Achievement Levels!
+        Have fun playing with it!
+    </string>
+    <string name="resources_links_title">Resources links:</string>
+    <string name="links">
+        Images:\n
+        <a href="https://unsplash.com/photos/xplrF8WMitE">
+            https://unsplash.com/photos/xplrF8WMitE
+        </a>\n\n
+        <a href="https://sg.aphrodite.global/">
+            https://sg.aphrodite.global/
+        </a>\n\n
+        <a href="https://www.vectorstock.com/royalty-free-vector/no-image-symbol-missing-available-icon-gallery-vector-43193649">
+            https://www.vectorstock.com/royalty-free-vector/no-image-symbol-missing-available-icon-gallery-vector-43193649
+        </a>
+        \n\nAnimation:\n
+        <a href="https://aphrodite.global/">
+            https://aphrodite.global/
+        </a>\n\n
+        <a href="https://stackoverflow.com/questions/12983681/translateanimation-on-imageview-android">
+            https://stackoverflow.com/questions/12983681/translateanimation-on-imageview-android
+        </a>\n\n
+        <a href="https://stackoverflow.com/questions/20608073/how-to-rotate-imageview-from-its-centre-position">
+            https://stackoverflow.com/questions/20608073/how-to-rotate-imageview-from-its-centre-position
+        </a>
+        \n\nSound:\n
+        <a href="https://www.youtube.com/watch?v=h3QMnHw0fi8">
+            https://www.youtube.com/watch?v=h3QMnHw0fi8
+        </a>
+        \n\nResources:\n
+        <a href="https://medium.com/@vishrut.goyani9/scoped-storage-in-android-writing-deleting-media-files-ee6235d3011">
+            https://medium.com/@vishrut.goyani9/scoped-storage-in-android-writing-deleting-media-files-ee6235d3011
+        </a>\n\n
+        <a href="https://stackoverflow.com/questions/56904485/how-to-save-an-image-in-android-q-using-mediastore">
+            https://stackoverflow.com/questions/56904485/how-to-save-an-image-in-android-q-using-mediastore
+        </a>\n\n
+        <a href="https://stackoverflow.com/questions/15662258/how-to-save-a-bitmap-on-internal-storage">
+            https://stackoverflow.com/questions/15662258/how-to-save-a-bitmap-on-internal-storage
+        </a>\n\n
+        <a href="https://stackoverflow.com/questions/65210522/how-to-get-bitmap-from-imageuri-in-api-level-30">
+            https://stackoverflow.com/questions/65210522/how-to-get-bitmap-from-imageuri-in-api-level-30
+        </a>\n\n
+        <a href="https://stackoverflow.com/questions/17674634/saving-and-reading-bitmaps-images-from-internal-memory-in-android">
+            https://stackoverflow.com/questions/17674634/saving-and-reading-bitmaps-images-from-internal-memory-in-android
+        </a>\n\n
+        <a href="https://stackoverflow.com/questions/17674634/saving-and-reading-bitmaps-images-from-internal-memory-in-android">
+            https://stackoverflow.com/questions/17674634/saving-and-reading-bitmaps-images-from-internal-memory-in-android
+        </a>\n\n
+        <a href="https://github.com/hdodenhof/CircleImageView">
+            https://github.com/hdodenhof/CircleImageView
+        </a>\n\n
+        <a href="https://github.com/PhilJay/MPAndroidChart">
+            https://github.com/PhilJay/MPAndroidChart
+        </a>
+    </string>
+
     <!-- Strings used for Achievement -->
     <string-array name="achievement_names">
         <item>Walking Toddler</item>
