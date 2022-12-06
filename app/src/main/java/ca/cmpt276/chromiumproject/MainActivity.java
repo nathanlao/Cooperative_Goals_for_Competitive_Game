@@ -1,11 +1,5 @@
 package ca.cmpt276.chromiumproject;
-/**
- * MainActivity class allows user to start by adding a new game config
- * Use ArrayAdapter displays the listView of GameConfig list handle by GameManager
- * Each GameConfig view displays name on top, followed by poor score and great score on bottom
- * Add button on toolbar directs users to AddOrEditGameConfigActivity by using intent
- * On start and when there are no game configurations a text will appear telling the user how to start adding games.
- */
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +8,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -24,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +35,13 @@ import java.util.List;
 import ca.cmpt276.chromiumproject.model.GameConfig;
 import ca.cmpt276.chromiumproject.model.GameManager;
 
-
+/**
+ * MainActivity class allows user to start by adding a new game config
+ * Use ArrayAdapter displays the listView of GameConfig list handle by GameManager
+ * Each GameConfig view displays name on top, followed by poor score and great score on bottom
+ * Add button on toolbar directs users to AddOrEditGameConfigActivity by using intent
+ * On start and when there are no game configurations a text will appear telling the user how to start adding games.
+ */
 
 public class MainActivity extends AppCompatActivity {
 
@@ -186,6 +188,13 @@ public class MainActivity extends AppCompatActivity {
 
             TextView greatScoreView = gameView.findViewById(R.id.txtGreatScore);
             greatScoreView.setText(greatScoreMsg);
+
+            // set icon, if photo exists
+            Bitmap configPhoto = PhotoHelper.loadBitmapPhotoFromModel(MainActivity.this, currentGame);
+            if (configPhoto != null) {
+                ImageView icon = gameView.findViewById(R.id.imageIcon);
+                icon.setImageBitmap(configPhoto);
+            }
 
             return gameView;
         }
