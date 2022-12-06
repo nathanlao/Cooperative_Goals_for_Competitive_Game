@@ -87,7 +87,9 @@ public class EarnedAchievementActivity extends AppCompatActivity {
         setNextAchievementLevelText(gameConfigPosition);
 
         fireworks1 = findViewById(R.id.fireworksAnimation);
+        fireworks1.bringToFront();
         fireworks2 = findViewById(R.id.fireworksAnimation2);
+        fireworks2.bringToFront();
 
         runAnimation(fireworks1, FIREWORKS1_X_TRANSLATION, FIREWORKS1_Y_TRANSLATION);
         runAnimation(fireworks2, FIREWORKS2_X_TRANSLATION, FIREWORKS2_Y_TRANSLATION);
