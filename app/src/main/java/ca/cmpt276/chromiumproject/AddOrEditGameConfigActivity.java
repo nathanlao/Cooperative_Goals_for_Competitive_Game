@@ -7,11 +7,15 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -53,7 +57,8 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
 
     private int gameConfigPosition;
     private boolean isNewGame;
-    private ImageView gameConfigImage;
+
+    private Bitmap pictureTaken;
 
     // Intent for main activity to add new game config
     public static Intent makeAddIntent(Context context) {
@@ -103,30 +108,26 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case R.id.action_save_game_config:
-
-                String gameConfigName = "";
-                int poorScoreNum = 0;
-                int greatScoreNum = 0;
-
                 // Take in user input
-                setupGameConfigFieldsInput(gameConfigName, poorScoreNum, greatScoreNum);
+                setupGameConfigFieldsInput();
 
                 // Validate empty input and display Toast message accordingly
                 if (checkEmptyInput()) {
                     return false;
                 }
 
-                if (isNewGame) {
-                    gameManager.addNewGameConfig(newGameConfig);
-                } else {
-                    // Replace the current game config by an edited game
-                    gameManager.setGameConfigByIndex(gameConfigPosition, editedGameConfig);
+                // if API version <29, need to request permissions to write photo to external storage
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                    if(ContextCompat.checkSelfPermission(AddOrEditGameConfigActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                        saveGameConfigAndFinish();
+                    } else {
+                        requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                    }
+                }
+                else {
+                    saveGameConfigAndFinish();
                 }
 
-                Toast.makeText(this, R.string.toast_game_config_saved, Toast.LENGTH_SHORT).show();
-                // save new/edited gameConfigs to SharedPrefs
-                MainActivity.saveGameConfigs(this, gameManager);
-                finish();
                 return true;
 
             case android.R.id.home:
@@ -138,6 +139,37 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    private void saveGameConfigAndFinish() {
+        GameConfig gameConfig;
+        if (isNewGame) {
+            gameConfig = newGameConfig;
+            gameManager.addNewGameConfig(gameConfig);
+        } else {
+            // Replace the current game config by an edited game
+            gameConfig = editedGameConfig;
+            gameManager.setGameConfigByIndex(gameConfigPosition, gameConfig);
+        }
+
+        if (pictureTaken != null) {
+            PhotoHelper.savePhotoAndStoreInModel(AddOrEditGameConfigActivity.this, gameConfig, pictureTaken);
+        }
+
+        Toast.makeText(this, R.string.toast_game_config_saved, Toast.LENGTH_SHORT).show();
+        // save new/edited gameConfigs to SharedPrefs
+        MainActivity.saveGameConfigs(this, gameManager);
+        finish();
+    }
+
+    private ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    saveGameConfigAndFinish();
+                } else { // save fails until permissions are allowed
+                    String writeDeniedMsg = getString(R.string.write_access_denied_msg);
+                    Toast.makeText(AddOrEditGameConfigActivity.this, writeDeniedMsg, Toast.LENGTH_LONG).show();
+                }
+            });
 
     private void initializeEditTextFields() {
         gameConfigName = findViewById(R.id.editAddName);
@@ -164,7 +196,11 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
         }
     }
 
-    private void setupGameConfigFieldsInput(String gameConfigName, int poorScoreNum, int greatScoreNum) {
+    private void setupGameConfigFieldsInput() {
+        String gameConfigName = "";
+        int poorScoreNum = 0;
+        int greatScoreNum = 0;
+
         // Get the name from user input
         try {
             gameConfigName = this.gameConfigName.getText().toString();
@@ -243,7 +279,22 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
 
     private void setUpDefaultImage() {
         ImageView gameConfigImage = findViewById(R.id.gameConfigImage);
-        gameConfigImage.setImageResource(R.drawable.no_image_available);
+
+        if (!isNewGame) { // try loading existing image if it exists
+            GameConfig currentGameConfig = gameManager.getGameConfigByIndex(gameConfigPosition);
+            Bitmap currentPhoto = PhotoHelper.loadBitmapPhotoFromModel(this, currentGameConfig);
+
+            if (currentPhoto == null) {
+                gameConfigImage.setImageResource(R.drawable.no_image_available);
+            } else {
+                gameConfigImage.setImageBitmap(currentPhoto);
+                pictureTaken = currentPhoto;
+            }
+
+        } else {
+            gameConfigImage.setImageResource(R.drawable.no_image_available);
+        }
+
     }
 
     private void setUpTakeGameConfigPhotoFAB() {
@@ -267,8 +318,8 @@ public class AddOrEditGameConfigActivity extends AppCompatActivity {
 
                             if (resultCode == RESULT_OK && data != null) {
                                 ImageView gameConfigImage = findViewById(R.id.gameConfigImage);
-                                Bitmap image = (Bitmap) data.getExtras().get("data");
-                                gameConfigImage.setImageBitmap(image);
+                                pictureTaken = (Bitmap) data.getExtras().get("data");
+                                gameConfigImage.setImageBitmap(pictureTaken);
                             }
                         }
                     }

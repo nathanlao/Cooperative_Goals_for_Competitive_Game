@@ -10,7 +10,7 @@ import java.util.List;
  *  Use setConfigValues() to set its fields
  */
 
-public class GameConfig {
+public class GameConfig extends PhotoContainer {
     private String name;
     private int poorScore;
     private int greatScore;
