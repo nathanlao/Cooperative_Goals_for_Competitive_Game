@@ -370,21 +370,18 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         setDifficultyButtonsGray();
 
         normalBtn.setOnClickListener(v -> {
-            selectedDifficulty = Difficulty.NORMAL;
             setDifficultyButtonsGray();
-            normalBtn.setBackgroundColor(Color.BLUE);
+            updateDifficultyButtons(Difficulty.NORMAL);
         });
 
         easyBtn.setOnClickListener(v -> {
-            selectedDifficulty = Difficulty.EASY;
             setDifficultyButtonsGray();
-            easyBtn.setBackgroundColor(Color.GREEN);
+            updateDifficultyButtons(Difficulty.EASY);
         });
 
         hardBtn.setOnClickListener(v -> {
-            selectedDifficulty = Difficulty.HARD;
             setDifficultyButtonsGray();
-            hardBtn.setBackgroundColor(Color.RED);
+            updateDifficultyButtons(Difficulty.HARD);
         });
     }
 
@@ -618,10 +615,6 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
     }
 
     private void displayCurrentGamePlay() {
-        Button normalBtn = findViewById(R.id.btnSelectNormal);
-        Button easyBtn = findViewById(R.id.btnSelectEasy);
-        Button hardBtn = findViewById(R.id.btnSelectHard);
-
         // Getting current gameConfigs and its associated gameRecord
         gameConfig = gameManager.getGameConfigByIndex(gameConfigPosition);
         GameRecord currentGamePlay = gameConfig.getGameRecordByIndex(gamePlayPosition);
@@ -629,23 +622,7 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
 
         setUpDefaultImage();
 
-        switch(currentSelectedDifficulty) {
-            case NORMAL:
-                // Assign values to global selectedDifficulty, to avoid gameRecord working on null selectedDifficulty
-                selectedDifficulty = Difficulty.NORMAL;
-                normalBtn.setBackgroundColor(Color.BLUE);
-                break;
-            case EASY:
-                selectedDifficulty = Difficulty.EASY;
-                easyBtn.setBackgroundColor(Color.GREEN);
-                break;
-            case HARD:
-                selectedDifficulty = Difficulty.HARD;
-                hardBtn.setBackgroundColor(Color.RED);
-                break;
-            default:
-                setDifficultyButtonsGray();
-        }
+        updateDifficultyButtons(currentSelectedDifficulty);
 
         numPlayersInput.setText(String.valueOf(currentGamePlay.getNumPlayers()));
         combinedScore.setText(String.valueOf(currentGamePlay.getCombinedScore()));
@@ -660,6 +637,30 @@ public class RecordNewGamePlayActivity extends AppCompatActivity {
         int intConvertedUserInput = Integer.parseInt(userInputPlayerNumbers);
         updatePlayerListData(intConvertedUserInput);
         populatePlayersListView();
+    }
+
+    private void updateDifficultyButtons(Difficulty difficulty) {
+        Button normalBtn = findViewById(R.id.btnSelectNormal);
+        Button easyBtn = findViewById(R.id.btnSelectEasy);
+        Button hardBtn = findViewById(R.id.btnSelectHard);
+
+        switch(difficulty) {
+            case NORMAL:
+                // Assign values to global selectedDifficulty, to avoid gameRecord working on null selectedDifficulty
+                selectedDifficulty = difficulty;
+                normalBtn.setBackgroundColor(Color.BLUE);
+                break;
+            case EASY:
+                selectedDifficulty = difficulty;
+                easyBtn.setBackgroundColor(Color.GREEN);
+                break;
+            case HARD:
+                selectedDifficulty = difficulty;
+                hardBtn.setBackgroundColor(Color.RED);
+                break;
+            default:
+                setDifficultyButtonsGray();
+        }
     }
 
     @Override

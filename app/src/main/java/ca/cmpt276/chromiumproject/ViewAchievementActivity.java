@@ -242,25 +242,41 @@ public class ViewAchievementActivity extends AppCompatActivity {
 
     private void registerDifficultyButtonsOnClick() {
         normalBtn.setOnClickListener(v -> {
-            selectedDifficulty = Difficulty.NORMAL;
             resetDifficultyButtonColor();
-            normalBtn.setBackgroundColor(Color.BLUE);
+            updateDifficultyButtons(Difficulty.NORMAL);
             updateAchievementListView();
         });
 
         easyBtn.setOnClickListener(v -> {
-            selectedDifficulty = Difficulty.EASY;
             resetDifficultyButtonColor();
-            easyBtn.setBackgroundColor(Color.GREEN);
+            updateDifficultyButtons(Difficulty.EASY);
             updateAchievementListView();
         });
 
         hardBtn.setOnClickListener(v -> {
-            selectedDifficulty = Difficulty.HARD;
             resetDifficultyButtonColor();
-            hardBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
+            updateDifficultyButtons(Difficulty.HARD);
             updateAchievementListView();
         });
+    }
+
+    private void updateDifficultyButtons(Difficulty difficulty) {
+        switch(difficulty) {
+            case NORMAL:
+                selectedDifficulty = difficulty;
+                normalBtn.setBackgroundColor(Color.BLUE);
+                break;
+            case EASY:
+                selectedDifficulty = difficulty;
+                easyBtn.setBackgroundColor(Color.GREEN);
+                break;
+            case HARD:
+                selectedDifficulty = difficulty;
+                hardBtn.setBackgroundColor(Color.RED);
+                break;
+            default:
+                resetDifficultyButtonColor();
+        }
     }
 
     private void populateAchievements() {
@@ -327,7 +343,9 @@ public class ViewAchievementActivity extends AppCompatActivity {
         setUpDifficultyButtons();
         setUpBackButton();
 
-        registerDifficultyButtonsOnClick();
+        if (selectedDifficulty!=null) {
+            updateDifficultyButtons(selectedDifficulty);
+        }
         extractDataFromIntent();
         setUpNumPlayersTextWatcher();
         updateAchievementListView();
