@@ -282,5 +282,6 @@ public class EarnedAchievementActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         setCelebrationMessageText(gameConfigPosition);
+        setNextAchievementLevelText(gameConfigPosition);
     }
 }
