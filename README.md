@@ -3,8 +3,7 @@ Scrum team project: An Android app to provide achievement goals to turn some com
 
 ## Demo
 
-
-![demo](https://user-images.githubusercontent.com/75557717/210161499-64b3ec29-7827-4ec0-a6df-89405763f3b8.gif)
+![demo](https://user-images.githubusercontent.com/75557717/210161859-f5b19b28-1d6e-451d-a3bc-4d7298d12cfe.gif)
 
 ## Contributors
 - Kayla
